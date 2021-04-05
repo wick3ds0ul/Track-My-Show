@@ -17,7 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 
 The main objective of doing this project is Learning and working with: 1.[Flutter](https://flutter.dev/) 2.[Dart](https://dart.dev/) 3.[Firebase](https://firebase.google.com/)
 
-#####Contributing
+##Contributing
 
 1. Fork this repository (https://github.com/wick3ds0ul/Track-My-Show/fork)
 1. Clone to your machine
