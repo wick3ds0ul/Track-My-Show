@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:track_my_show/Screens/Registration_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Track My Show',
       theme: ThemeData(
         // Define the default brightness and colors.
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         primaryColor: Colors.lightBlue[800],
         accentColor: Colors.cyan[600],
 
@@ -37,7 +38,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Track My Show'),
+        child: Text("Hello"),
       ),
     );
   }
