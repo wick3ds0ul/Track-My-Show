@@ -2,6 +2,7 @@ import 'package:track_my_show/Screens/LoginScreen/login_screen.dart';
 import 'utils/theme.dart';
 import 'utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:track_my_show/Screens/Registration_screen.dart';
 
 void main() {
   runApp(MyApp());
