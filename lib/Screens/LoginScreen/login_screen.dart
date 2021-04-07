@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'file:///G:/Development/Projects/track_my_show/lib/utils/constants.dart';
 import 'package:track_my_show/utils/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:track_my_show/widgets/custom_button.dart';
+import 'form_validation.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -40,17 +43,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Email',
-                        labelStyle: GoogleFonts.roboto(
-                            textStyle: Theme.of(context).textTheme.headline4,
-                            fontSize: 18,
-                            // fontWeight: FontWeight.w200,
-                            color: Colors.white),
+                        labelStyle: kLabelStyle,
                         hintText: 'youremail@example.com',
-                        hintStyle: GoogleFonts.roboto(
-                          textStyle: Theme.of(context).textTheme.headline4,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w200,
-                        ),
+                        hintStyle: kHintTextStyle,
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors.redAccent, width: 2.0)),
@@ -68,17 +63,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        labelStyle: GoogleFonts.roboto(
-                            textStyle: Theme.of(context).textTheme.headline4,
-                            fontSize: 18,
-                            // fontWeight: FontWeight.w200,
-                            color: Colors.white),
+                        labelStyle: kLabelStyle,
                         hintText: 'Your Password',
-                        hintStyle: GoogleFonts.roboto(
-                          textStyle: Theme.of(context).textTheme.headline4,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w200,
-                        ),
+                        hintStyle: kHintTextStyle,
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors.redAccent, width: 2.0)),
@@ -185,61 +172,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     ));
-  }
-
-//Form validation-Email
-  String validateEmail(String value) {
-    Pattern pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?)*$";
-    RegExp regex = new RegExp(pattern);
-
-    //Check for empty string
-    if (value == null || value.isEmpty) {
-      return 'Email cannot be empty';
-    }
-    if (!regex.hasMatch(value) || value == null)
-      return 'Enter a valid email address';
-    else
-      return null;
-  }
-}
-
-//Form validation-Email
-String validatePassword(String value) {
-  if (value == null || value.isEmpty) {
-    return 'Password cannot be empty';
-  } else if (value.length < 6) {
-    return 'Password must be greater than 6 character';
-  } else
-    return null;
-}
-
-class CustomButton extends StatelessWidget {
-  final String name;
-  final Function onPressed;
-  final Color color;
-  CustomButton({this.name, this.onPressed, this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: AspectRatio(
-        aspectRatio: 343 / 52,
-        child: Container(
-          child: MaterialButton(
-            color: color,
-            child: new Text(
-              name,
-            ),
-            onPressed: onPressed,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          ),
-        ),
-      ),
-    );
   }
 }
