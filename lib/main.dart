@@ -1,8 +1,7 @@
-import 'package:track_my_show/Screens/LoginScreen/login_screen.dart';
+import 'file:///G:/Development/Projects/track_my_show/lib/router/routenames.dart';
 import 'utils/theme.dart';
-import 'utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:track_my_show/Screens/Registration_screen.dart';
+import 'router/router.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,22 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Track My Show',
       theme: themeData,
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    return Scaffold(
-      body: LoginScreen(),
+      initialRoute: wrapper,
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
