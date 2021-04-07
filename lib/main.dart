@@ -31,9 +31,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      // body: Center(
-      //   child: Text('Track My Show'),
-      // ),
       body: LoginScreen(),
     );
   }
