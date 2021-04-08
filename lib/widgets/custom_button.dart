@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: AspectRatio(
-        aspectRatio: 343 / 52,
+        aspectRatio: 17 / 2,
         child: Container(
           child: MaterialButton(
             color: color,

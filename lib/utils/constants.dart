@@ -8,6 +8,4 @@ final kHintTextStyle = GoogleFonts.roboto(
 );
 
 final kButtonTextStyle = GoogleFonts.roboto(
-  fontSize: 20,
-  fontWeight: FontWeight.w300,
-);
+    textStyle: TextStyle(fontSize: 14), fontWeight: FontWeight.bold);

@@ -1,4 +1,4 @@
-import 'file:///G:/Development/Projects/track_my_show/lib/router/routenames.dart';
+import './router/routenames.dart';
 import 'utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'router/router.dart';
