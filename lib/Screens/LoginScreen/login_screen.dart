@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:track_my_show/router/routenames.dart';
+import 'package:track_my_show/services/api.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
 import '../../utils/constants.dart';
 import 'package:track_my_show/utils/size_config.dart';
@@ -186,11 +187,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           buildSocialButtons(
-                              FontAwesomeIcons.facebook, Colors.blue),
+                              FontAwesomeIcons.facebook, Colors.blue, () {
+                            Api a = Api();
+                            a.getGenreList();
+                            a.getMovieInfo(14);
+                          }),
                           buildSocialButtons(
-                              FontAwesomeIcons.google, Colors.red),
+                              FontAwesomeIcons.google, Colors.red, () {}),
                           buildSocialButtons(
-                              FontAwesomeIcons.spotify, Colors.green),
+                              FontAwesomeIcons.spotify, Colors.green, () {}),
                         ],
                       )
                     ],
@@ -205,31 +210,29 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Container buildSocialButtons(IconData icon, Color color) {
+  Container buildSocialButtons(IconData icon, Color color, Function f) {
     return Container(
-      padding: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.09),
-              blurRadius: 10.0,
-              spreadRadius: 2,
-              offset: Offset(0, 6),
-            )
-          ]),
-      child: IconButton(
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.09),
+                blurRadius: 10.0,
+                spreadRadius: 2,
+                offset: Offset(0, 6),
+              )
+            ]),
+        child: IconButton(
           alignment: Alignment.center,
           padding: EdgeInsets.only(bottom: 5),
           iconSize: 50,
           color: color,
           // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
           icon: FaIcon(icon),
-          onPressed: () {
-            print("Pressed");
-          }),
-    );
+          onPressed: f,
+        ));
   }
 
   Future<bool> _onWillPop() {

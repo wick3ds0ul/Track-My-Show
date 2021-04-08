@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Track My Show',
         theme: themeData,
-        initialRoute: wrapper,
+        initialRoute: homeScreen,
         onGenerateRoute: RouteGenerator.generateRoute,
         onUnknownRoute: (settings) {
           return MaterialPageRoute(builder: (ctx) => ErrorRoute());

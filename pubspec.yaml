@@ -26,6 +26,7 @@ dependencies:
   #Icons and fonts
   font_awesome_flutter: ^9.0.0
   google_fonts: ^2.0.0
+  http: ^0.13.1
 
 #Firebase related plugins
   firebase_auth: ^1.0.2
