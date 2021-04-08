@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:track_my_show/Screens/homeScreen/home.dart';
-//
 import 'package:track_my_show/Screens/wrapper.dart';
 import 'package:track_my_show/Screens/LoginScreen/login_screen.dart';
-import 'package:track_my_show/Screens/Registration_screen.dart';
+import 'package:track_my_show/Screens/registration/Registration_screen.dart';
 import 'routenames.dart';
 
 class RouteGenerator {

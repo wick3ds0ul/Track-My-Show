@@ -17,7 +17,7 @@ const MaterialColor primaryBlack = MaterialColor(
 );
 const int _blackPrimaryValue = 0xFF000000;
 
-final ThemeData themeData =  ThemeData(
+final ThemeData themeData = ThemeData(
   // Define the default brightness and colors.
   brightness: Brightness.dark,
   //Primary Color Gives color to AppBar
