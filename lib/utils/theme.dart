@@ -19,11 +19,12 @@ const int _blackPrimaryValue = 0xFF000000;
 
 final ThemeData themeData = ThemeData(
   // Define the default brightness and colors.
-  brightness: Brightness.dark,
+  brightness: Brightness.light,
   //Primary Color Gives color to AppBar
-  primaryColor: primaryBlack,
+  primaryColor: Colors.redAccent,
   accentColor: Colors.cyan[600],
   // Define the default font family.
+  primaryTextTheme: TextTheme(headline1: TextStyle(color: Colors.black)),
   fontFamily: 'Georgia',
 
   // Define the default TextTheme. Use this to specify the default

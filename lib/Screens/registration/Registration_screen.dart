@@ -29,68 +29,101 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                padding: EdgeInsets.only(top: 50, bottom: 15, left: 15),
-                child: Text('SignUp',
-                    style: TextStyle(
-                        fontFamily: 'Comfortaa',
-                        fontSize: 35,
-                        fontWeight: FontWeight.w500,
-                        shadows: [
-                          Shadow(
-                              color: Colors.black.withOpacity(0.3),
-                              offset: Offset(0, 5),
-                              blurRadius: 7)
-                        ]))),
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10, left: 10),
-                child: Column(
-                  children: [
-                    buildEmailTextFormField(),
-                    buildPasswordTextFormField(),
-                    Container(
-                      height: 43,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
-                        ),
-                        onPressed: () async {
-                          print(_emailController.text);
-                          print(_passwordController.text);
-                          if (_formKey.currentState.validate()) {
-                            try {
-                              dynamic res =
-                                  await _auth.registerWithEmailAndPassword(
-                                      _emailController.text,
-                                      _passwordController.text);
-                              if (res != null) {
-                                Navigator.pushNamed(context, loginScreen);
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        new TextEditingController().clear();
+      },
+      child: Scaffold(
+        // appBar: AppBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  padding: EdgeInsets.only(top: 50, bottom: 15, left: 15),
+                  child: Text('SignUp',
+                      style: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 35,
+                          fontWeight: FontWeight.w500,
+                          shadows: [
+                            Shadow(
+                                color: Colors.black.withOpacity(0.3),
+                                offset: Offset(0, 5),
+                                blurRadius: 7)
+                          ]))),
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10, left: 10),
+                  child: Column(
+                    children: [
+                      buildEmailTextFormField(),
+                      buildPasswordTextFormField(),
+                      buildRePasswordTextFormField(),
+                      Container(
+                        height: 43,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.redAccent,
+                          ),
+                          onPressed: () async {
+                            print(_emailController.text);
+                            print(_passwordController.text);
+                            if (_formKey.currentState.validate()) {
+                              try {
+                                dynamic res =
+                                    await _auth.registerWithEmailAndPassword(
+                                        _emailController.text,
+                                        _passwordController.text);
+                                if (res != null) {
+                                  Navigator.pushNamed(context, loginScreen);
+                                }
+                              } catch (e) {
+                                print(e);
                               }
-                            } catch (e) {
-                              print(e);
                             }
-                          }
-                        },
-                        child: Text("NEXT",
-                            style: GoogleFonts.roboto(
-                                textStyle: TextStyle(fontSize: 13),
-                                fontWeight: FontWeight.bold)),
+                          },
+                          child: Text("NEXT",
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(fontSize: 13),
+                                  fontWeight: FontWeight.bold)),
+                        ),
                       ),
-                    )
-                  ],
+                      Container(
+                        padding: EdgeInsets.only(top: 15),
+                        alignment: Alignment.bottomLeft,
+                        child: TextButton.icon(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.black.withOpacity(0.7),
+                                onSurface: Colors.grey,
+                                primary: Colors.white),
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
+                              Navigator.pushReplacementNamed(
+                                  context, loginScreen);
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios_rounded,
+                              color: Colors.white,
+                            ),
+                            label: Text(
+                              'Go Back',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  fontFamily: 'comfortaa',
+                                  fontSize: 15),
+                            )),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -105,16 +138,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           decoration: InputDecoration(
             isDense: true,
             contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
-            hintText: 'Email',
-            // hintStyle: TextStyle(fontSize: 13),
-            hintStyle: GoogleFonts.roboto(fontSize: 13),
-            border: InputBorder.none,
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.purple, width: 2.0),
-                borderRadius: BorderRadius.zero),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 2.0),
+            hintText: 'example@email.com',
+            hintStyle: GoogleFonts.roboto(
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+            ),
+            labelText: 'Email',
+            labelStyle: GoogleFonts.roboto(fontSize: 16),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(
+                  color: Colors.purpleAccent,
+                  width: 2.0,
+                )),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
             ),
           ),
           validator: validateEmail),
@@ -131,16 +176,60 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           decoration: InputDecoration(
             isDense: true,
             contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
-            hintText: 'Password',
-            // hintStyle: TextStyle(fontSize: 13),
-            hintStyle: GoogleFonts.roboto(fontSize: 13),
-            border: InputBorder.none,
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.purple, width: 2.0),
-                borderRadius: BorderRadius.zero),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 2.0),
+            hintText: "A-Ba-b1-9@#\$%^&*",
+            hintStyle: GoogleFonts.roboto(
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+            ),
+            labelText: 'Password',
+            labelStyle: GoogleFonts.roboto(fontSize: 16),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
+            ),
+          ),
+          validator: validatePassword),
+    );
+  }
+
+  Widget buildRePasswordTextFormField() {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 8, top: 6),
+      child: TextFormField(
+          controller: _passwordController,
+          cursorColor: Colors.black,
+          obscureText: true,
+          decoration: InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+            hintText: "A-Ba-b1-9@#\$%^&*",
+            hintStyle: GoogleFonts.roboto(
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+            ),
+            labelText: 'Re-Enter Password',
+            labelStyle: GoogleFonts.roboto(fontSize: 16),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
             ),
           ),
           validator: validatePassword),

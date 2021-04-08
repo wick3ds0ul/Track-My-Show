@@ -19,18 +19,7 @@ class RouteGenerator {
       case homeScreen:
         return MaterialPageRoute(builder: (_) => HomeScreen());
       default:
-        return _errorRoute();
+        return null;
     }
-  }
-
-  static Route<dynamic> _errorRoute() {
-    return MaterialPageRoute(builder: (context) {
-      return Scaffold(
-        //Add 404 Image
-        body: Center(
-          child: Text('404.Page not found'),
-        ),
-      );
-    });
   }
 }
