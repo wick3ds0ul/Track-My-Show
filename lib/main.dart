@@ -2,22 +2,30 @@ import 'file:///G:/Development/Projects/track_my_show/lib/router/routenames.dart
 import 'utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'router/router.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'services/auth_service.dart';
+import 'package:provider/provider.dart';
+import 'models/user.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final String title;
-  MyApp({this.title});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Track My Show',
-      theme: themeData,
-      initialRoute: wrapper,
-      onGenerateRoute: RouteGenerator.generateRoute,
+    return StreamProvider<AppUser>.value(
+      value: AuthService().user,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Track My Show',
+        theme: themeData,
+        initialRoute: wrapper,
+        onGenerateRoute: RouteGenerator.generateRoute,
+      ),
     );
   }
 }
