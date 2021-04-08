@@ -44,11 +44,6 @@ class AuthService {
     print("User Sign Out");
   }
 
-  //Email users forgot Password
-  Future<void> resetPassword(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
-  }
-
   //Firebase User to App User
   AppUser _userFromFirebaseUser(User user) {
     return user != null ? AppUser(uid: user.uid) : null;
@@ -87,11 +82,16 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
+      //Send email verification
+      // await user.sendEmailVerification();
 
-      ///Convert user From Firebase to UserData Object
+      //TODO:Implement email verification
+
       UserData userData = _makeUserDataFromAuthUser(user);
       await DatabaseService(uid: user.uid).updateUserData(userData);
       return _userFromFirebaseUser(user);
+
+      ///Convert user From Firebase to UserData Object
     } on FirebaseAuthException catch (e) {
       print(e.toString());
       String errorMessage = firebaseErrors(e.code);
@@ -106,9 +106,10 @@ class AuthService {
           email: email, password: password);
       User user = result.user;
       return _userFromFirebaseUser(user);
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       print(e.toString());
-      return null;
+      String errorMessage = firebaseErrors(e.code);
+      return Future.error(errorMessage);
     }
   }
 
@@ -122,8 +123,31 @@ class AuthService {
       return Future.error(errorMessage);
     }
   }
-//TODO:Implement forgot password
+
+//TODO:Implement forgot/reset password
   //Forgot password
+  Future<void> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+      String errorMessage = firebaseErrors(e.code);
+      return Future.error(errorMessage);
+    }
+  }
+
+  //TODO:Check if email is already registered
+
+  Future checkEmail(String email) async {
+    try {
+      dynamic res = await _auth.fetchSignInMethodsForEmail(email);
+      return res;
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+      String errorMessage = firebaseErrors(e.code);
+      return Future.error(errorMessage);
+    }
+  }
 
 //TODO:Implement verify email
   //Verify email

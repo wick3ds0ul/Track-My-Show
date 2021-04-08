@@ -15,6 +15,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // current value of the TextField.
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _resetPasswordController = TextEditingController();
 
   final AuthService _auth = AuthService();
 
@@ -24,6 +25,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     // widget tree.
     _emailController.dispose();
     _passwordController.dispose();
+    _resetPasswordController.dispose();
     super.dispose();
   }
 
@@ -35,7 +37,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         new TextEditingController().clear();
       },
       child: Scaffold(
-        // appBar: AppBar(),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,8 +60,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   padding: const EdgeInsets.only(right: 10, left: 10),
                   child: Column(
                     children: [
-                      buildPasswordTextFormField(_emailController),
-                      buildRePasswordTextFormField(_passwordController),
+                      buildEmailTextFormField(_emailController),
+                      buildPasswordTextFormField(_passwordController),
+                      buildRePasswordTextFormField(_resetPasswordController),
                       Container(
                         height: 43,
                         width: double.infinity,

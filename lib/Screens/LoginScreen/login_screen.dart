@@ -119,7 +119,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, forgotPasswordScreen);
+                            },
                             child: Text(
                               "Forgot Password?",
                               style: TextStyle(
@@ -131,14 +134,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       CustomButton(
                           name: 'LOGIN',
-                          onPressed: () {
+                          onPressed: () async {
                             FocusScope.of(context).unfocus();
                             if (_formKey.currentState.validate()) {
                               print("OK");
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst);
-                              Navigator.pushReplacementNamed(
-                                  context, homeScreen);
+                              FocusScope.of(context).unfocus();
+                              try {
+                                dynamic res = await _authService
+                                    .signInWithEmailAndPassword(
+                                        _emailController.text,
+                                        _passwordController.text);
+                                if (res != null) {
+                                  Navigator.of(context)
+                                      .popUntil((route) => route.isFirst);
+                                  Navigator.pushReplacementNamed(
+                                      context, homeScreen);
+                                }
+                              } catch (e) {
+                                print("Got Error:$e");
+                              }
                             }
                           },
                           color: Colors.redAccent),
@@ -149,28 +163,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       // SizedBox(
                       //   height: getProportionateScreenHeight(20),
                       // ),
-
-                      CustomButton(
-                        name: 'LOGIN',
-                        onPressed: () async {
-                          FocusScope.of(context).unfocus();
-                          if (_formKey.currentState.validate()) {
-                            try {
-                              dynamic res =
-                                  await _authService.signInWithEmailAndPassword(
-                                      _emailController.text,
-                                      _passwordController.text);
-                              if (res != null) {
-                                Navigator.pushNamed(context, homeScreen);
-                              }
-                            } catch (e) {
-                              print("Got Error:$e");
-                            }
-                          }
-                        },
-                      ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, registerScreen);
+                        },
                         child: Text(
                           'Sign Up',
                           style: GoogleFonts.roboto(

@@ -7,6 +7,7 @@ Widget buildEmailTextFormField(TextEditingController controller) {
   return Container(
     padding: const EdgeInsets.only(bottom: 8, top: 6),
     child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
         controller: controller,
         cursorColor: Colors.black,
         decoration: InputDecoration(
