@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:track_my_show/router/routenames.dart';
+import 'package:track_my_show/services/auth_service.dart';
 import '../../utils/constants.dart';
 import 'package:track_my_show/utils/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
   // Create a text controller. Later, use it to retrieve the
   // current value of the TextField.
@@ -127,11 +129,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     CustomButton(
                         name: 'LOGIN',
-                        onPressed: () {
+                        onPressed: () async {
                           FocusScope.of(context).unfocus();
                           if (_formKey.currentState.validate()) {
-                            print("OK");
-                            Navigator.pushNamed(context, homeScreen);
+                            try {
+                              dynamic res =
+                                  await _authService.signInWithEmailAndPassword(
+                                      _emailController.text,
+                                      _passwordController.text);
+                              if (res != null) {
+                                Navigator.pushNamed(context, homeScreen);
+                              }
+                            } catch (e) {
+                              print("Got Error:$e");
+                            }
                           }
                         },
                         color: Colors.redAccent),
@@ -181,10 +192,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         buildSocialButtons(
-                            FontAwesomeIcons.facebook, Colors.blue),
-                        buildSocialButtons(FontAwesomeIcons.google, Colors.red),
+                            FontAwesomeIcons.facebook, Colors.blue, () {}),
+                        buildSocialButtons(FontAwesomeIcons.google, Colors.red,
+                            () async {
+                          try {
+                            dynamic res = await _authService.googleSignIn();
+                            if (res != null) {
+                              Navigator.pushNamed(context, homeScreen);
+                            }
+                          } catch (e) {
+                            print("Got Error:$e");
+                          }
+                        }),
                         buildSocialButtons(
-                            FontAwesomeIcons.spotify, Colors.green),
+                            FontAwesomeIcons.spotify, Colors.green, () {}),
                       ],
                     )
                   ],
@@ -197,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Container buildSocialButtons(IconData icon, Color color) {
+  Container buildSocialButtons(IconData icon, Color color, Function signIn) {
     return Container(
       padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -210,6 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
           icon: FaIcon(icon),
           onPressed: () {
+            signIn();
             print("Pressed");
           }),
     );
