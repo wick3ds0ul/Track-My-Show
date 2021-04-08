@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "544765897226",
+    "project_id": "trackmyshow-85849",
+    "storage_bucket": "trackmyshow-85849.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544765897226:android:f8ddf34560cbc8b6018df3",
+        "android_client_info": {
+          "package_name": "com.example.track_my_show"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544765897226-vntu2d1n2sn25e5253itrrfo0j27bofd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.track_my_show",
+            "certificate_hash": "cc159e1f2635148a2ecbd8f4527d5bd897c68f8e"
+          }
+        },
+        {
+          "client_id": "544765897226-ddjvuj60lfsfml27uhhpq9lq96cvq7ff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGS5D3p9btTMUdAs_prcWNYpskeLGSXtE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544765897226-ddjvuj60lfsfml27uhhpq9lq96cvq7ff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

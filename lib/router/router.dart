@@ -9,8 +9,7 @@ import 'routenames.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //Pass the arguments if needed
-    final args = settings.arguments;
-
+    // final args = settings.arguments;
     switch (settings.name) {
       case wrapper:
         return MaterialPageRoute(builder: (_) => Wrapper());
