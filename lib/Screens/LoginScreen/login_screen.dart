@@ -211,6 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           buildSocialButtons(
                               FontAwesomeIcons.google, Colors.red, () async {
                             try {
+                              //TODO:Allow to login with different google account
                               dynamic res = await _authService.googleSignIn();
                               if (res != null) {
                                 Navigator.pushNamed(context, homeScreen);
