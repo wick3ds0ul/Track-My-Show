@@ -44,6 +44,11 @@ class AuthService {
     print("User Sign Out");
   }
 
+  //Email users forgot Password
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
   //Firebase User to App User
   AppUser _userFromFirebaseUser(User user) {
     return user != null ? AppUser(uid: user.uid) : null;
