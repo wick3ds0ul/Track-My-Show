@@ -1,3 +1,5 @@
+import 'package:track_my_show/router/errorRoute.dart';
+
 import './router/routenames.dart';
 import 'utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +21,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<AppUser>.value(
       value: AuthService().user,
+
+      ///
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Track My Show',
         theme: themeData,
         initialRoute: wrapper,
         onGenerateRoute: RouteGenerator.generateRoute,
+        onUnknownRoute: (settings) {
+          return MaterialPageRoute(builder: (ctx) => ErrorRoute());
+        },
       ),
     );
   }

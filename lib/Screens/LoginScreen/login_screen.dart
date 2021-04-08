@@ -131,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           FocusScope.of(context).unfocus();
                           if (_formKey.currentState.validate()) {
                             print("OK");
-                            Navigator.pushNamed(context, homeScreen);
+                            Navigator.of(context)
+                                .popUntil((route) => route.isFirst);
+                            Navigator.pushReplacementNamed(context, homeScreen);
                           }
                         },
                         color: Colors.redAccent),
