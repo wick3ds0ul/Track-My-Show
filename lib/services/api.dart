@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:track_my_show/models/action_movies_model.dart';
 import 'package:track_my_show/models/featured_movie_model.dart';
 import 'package:track_my_show/models/genre_model.dart';
 import 'package:track_my_show/models/movie_model.dart';
@@ -52,6 +53,23 @@ class Api {
       return MovieModel.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load Movie Information');
+    }
+  }
+
+  Future<List<ActionMovieModel>> getActionMovies() async {
+    Uri actionMovieUri = Uri.parse(
+        '$url/discover/movie?api_key=$apiKey&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=28&with_original_language=en');
+    final response = await http.get(actionMovieUri);
+    print(response.body);
+    if (response.statusCode == 200) {
+      final parsed =
+          json.decode(response.body)['results'].cast<Map<String, dynamic>>();
+      print(parsed);
+      return parsed
+          .map<ActionMovieModel>((json) => ActionMovieModel.fromJson(json))
+          .toList();
+    } else {
+      throw Exception('Failed to load action movies');
     }
   }
 }

@@ -1,11 +1,11 @@
 import 'package:track_my_show/models/movie_model.dart';
 
-class FeaturedMovieModel extends MovieModel {
+class ActionMovieModel extends MovieModel {
   final String original_title, overview, poster_path, country, release_date;
   final int id, run_time;
   final double rating;
   final List genre;
-  FeaturedMovieModel(
+  ActionMovieModel(
       {this.country,
       this.rating,
       this.genre,
@@ -15,8 +15,8 @@ class FeaturedMovieModel extends MovieModel {
       this.overview,
       this.poster_path,
       this.id});
-  factory FeaturedMovieModel.fromJson(Map<String, dynamic> json) {
-    return FeaturedMovieModel(
+  factory ActionMovieModel.fromJson(Map<String, dynamic> json) {
+    return ActionMovieModel(
         original_title: json['original_title'],
         overview: json['overview'],
         poster_path: json['poster_path'],
