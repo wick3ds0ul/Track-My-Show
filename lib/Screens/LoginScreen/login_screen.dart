@@ -37,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
-          new TextEditingController().clear();
         },
         child: Scaffold(
           body: SingleChildScrollView(
@@ -61,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: getProportionateScreenHeight(60),
                       ),
                       TextFormField(
+                        controller: _emailController,
                         autofocus: false,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -91,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: getProportionateScreenHeight(20),
                       ),
                       TextFormField(
+                        controller: _passwordController,
                         autofocus: false,
                         obscureText: true,
                         decoration: InputDecoration(
@@ -119,31 +120,34 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, forgotPasswordScreen);
-                            },
-                            child: Text(
-                              "Forgot Password?",
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13),
-                            )),
+                          onPressed: () {
+                            Navigator.pushNamed(context, forgotPasswordScreen);
+                          },
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13),
+                          ),
+                        ),
                       ),
-
                       CustomButton(
                           name: 'LOGIN',
                           onPressed: () async {
                             FocusScope.of(context).unfocus();
                             if (_formKey.currentState.validate()) {
                               print("OK");
-                              FocusScope.of(context).unfocus();
+                              print(_passwordController.text);
+                              print(_emailController.text);
                               try {
+                                print(_passwordController.text);
+                                print(_emailController.text);
                                 dynamic res = await _authService
                                     .signInWithEmailAndPassword(
                                         _emailController.text,
                                         _passwordController.text);
+                                FocusScope.of(context).unfocus();
                                 if (res != null) {
                                   Navigator.of(context)
                                       .popUntil((route) => route.isFirst);

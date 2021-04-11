@@ -89,13 +89,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           //Check if email already exist
                           List<String> res =
                               await _auth.checkEmail(_emailController.text);
-                          print(res);
+                          print(res.toString());
                           if (res != null) {
                             await _auth.resetPassword(_emailController.text);
                             showInSnackBar(
                                 'Email sent.Check your mail', context);
-                          } else {
-                            showInSnackBar('Email is not registered', context);
                           }
                         } catch (e) {
                           showInSnackBar(e, context);

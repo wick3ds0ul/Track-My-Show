@@ -43,37 +43,46 @@ Widget buildEmailTextFormField(TextEditingController controller) {
 
 //PASSWORD
 Widget buildPasswordTextFormField(TextEditingController controller) {
+  // Toggles the password show status
+  // Initially password is obscure
   return Container(
     padding: const EdgeInsets.only(bottom: 8, top: 6),
-    child: TextFormField(
-        controller: controller,
-        cursorColor: Colors.black,
-        obscureText: true,
-        decoration: InputDecoration(
-          isDense: true,
-          contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
-          hintText: "A-Ba-b1-9@#\$%^&*",
-          hintStyle: GoogleFonts.roboto(
-            fontSize: 20,
-            fontWeight: FontWeight.w200,
-          ),
-          labelText: 'Password',
-          labelStyle: GoogleFonts.roboto(fontSize: 16),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.zero,
-            borderSide: BorderSide(color: Colors.black, width: 2.0),
-          ),
-        ),
-        validator: validatePassword),
+    child: Row(
+      children: [
+        TextFormField(
+            controller: controller,
+            cursorColor: Colors.black,
+            obscureText: true,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+              hintText: "A-Ba-b1-9@#\$%^&*",
+              hintStyle: GoogleFonts.roboto(
+                fontSize: 20,
+                fontWeight: FontWeight.w200,
+              ),
+              labelText: 'Password',
+              labelStyle: GoogleFonts.roboto(fontSize: 16),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.zero,
+                  borderSide:
+                      BorderSide(color: Colors.purpleAccent, width: 2.0)),
+              errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.zero,
+                  borderSide:
+                      BorderSide(color: Colors.purpleAccent, width: 2.0)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.zero,
+                  borderSide:
+                      BorderSide(color: Colors.purpleAccent, width: 2.0)),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.black, width: 2.0),
+              ),
+            ),
+            validator: validatePassword)
+      ],
+    ),
   );
 }
 

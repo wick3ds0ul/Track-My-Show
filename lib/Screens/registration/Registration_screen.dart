@@ -62,7 +62,53 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     children: [
                       buildEmailTextFormField(_emailController),
                       buildPasswordTextFormField(_passwordController),
-                      buildRePasswordTextFormField(_resetPasswordController),
+                      // buildRePasswordTextFormField(_resetPasswordController),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 8, top: 6),
+                        child: TextFormField(
+                            controller: _resetPasswordController,
+                            cursorColor: Colors.black,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(13, 13, 10, 13),
+                              hintText: "A-Ba-b1-9@#\$%^&*",
+                              hintStyle: GoogleFonts.roboto(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w200,
+                              ),
+                              labelText: 'Re-Enter Password',
+                              labelStyle: GoogleFonts.roboto(fontSize: 16),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.zero,
+                                  borderSide: BorderSide(
+                                      color: Colors.purpleAccent, width: 2.0)),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.zero,
+                                  borderSide: BorderSide(
+                                      color: Colors.purpleAccent, width: 2.0)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.zero,
+                                  borderSide: BorderSide(
+                                      color: Colors.purpleAccent, width: 2.0)),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.zero,
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: 2.0),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Password cannot be empty';
+                              } else if (value.length < 6) {
+                                return 'Password must be greater than 6 character';
+                              } else if (value != _passwordController.text) {
+                                return 'Password does not match';
+                              } else
+                                return null;
+                            }),
+                      ),
                       Container(
                         height: 43,
                         width: double.infinity,

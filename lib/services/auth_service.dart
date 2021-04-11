@@ -84,9 +84,7 @@ class AuthService {
       User user = result.user;
       //Send email verification
       // await user.sendEmailVerification();
-
       //TODO:Implement email verification
-
       UserData userData = _makeUserDataFromAuthUser(user);
       await DatabaseService(uid: user.uid).updateUserData(userData);
       return _userFromFirebaseUser(user);
