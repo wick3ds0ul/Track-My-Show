@@ -24,11 +24,12 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
 
       ///
+      initialData: null,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Track My Show',
         theme: themeData,
-        initialRoute: wrapper,
+        initialRoute: homeScreen,
         onGenerateRoute: RouteGenerator.generateRoute,
         onUnknownRoute: (settings) {
           return MaterialPageRoute(builder: (ctx) => ErrorRoute());

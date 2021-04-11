@@ -21,7 +21,7 @@ final ThemeData themeData = ThemeData(
   // Define the default brightness and colors.
   brightness: Brightness.light,
   //Primary Color Gives color to AppBar
-  primaryColor: Colors.redAccent,
+  primaryColor: Colors.black,
   accentColor: Colors.cyan[600],
   // Define the default font family.
   primaryTextTheme: TextTheme(headline1: TextStyle(color: Colors.black)),
