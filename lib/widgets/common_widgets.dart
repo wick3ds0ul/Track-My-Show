@@ -114,3 +114,17 @@ Widget buildRePasswordTextFormField(TextEditingController controller) {
         validator: validatePassword),
   );
 }
+
+//SnackBar
+void showInSnackBar(String message, BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(message),
+    duration: const Duration(seconds: 5),
+    action: SnackBarAction(
+      label: 'OKAY',
+      onPressed: () {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      },
+    ),
+  ));
+}

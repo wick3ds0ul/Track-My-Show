@@ -1,5 +1,4 @@
 import 'package:track_my_show/router/errorRoute.dart';
-
 import './router/routenames.dart';
 import 'utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +21,6 @@ class MyApp extends StatelessWidget {
     return StreamProvider<AppUser>.value(
       // initialData: null,
       value: AuthService().user,
-
-      ///
       initialData: null,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

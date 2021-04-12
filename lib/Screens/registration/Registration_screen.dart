@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
+import 'package:track_my_show/widgets/common_widgets.dart';
 import '../LoginScreen/form_validation.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // current value of the TextField.
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _repasswordController = TextEditingController();
 
   final AuthService _auth = AuthService();
 
@@ -24,6 +26,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     // widget tree.
     _emailController.dispose();
     _passwordController.dispose();
+    _repasswordController.dispose();
     super.dispose();
   }
 
@@ -79,9 +82,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         _emailController.text,
                                         _passwordController.text);
                                 if (res != null) {
+                                  showInSnackBar('You can now login', context);
                                   Navigator.pushNamed(context, loginScreen);
                                 }
                               } catch (e) {
+                                showInSnackBar(e.toString(), context);
                                 print(e);
                               }
                             }
@@ -197,7 +202,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               borderSide: BorderSide(color: Colors.black, width: 2.0),
             ),
           ),
-          validator: validatePassword),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Password cannot be empty';
+            } else if (value != _repasswordController.text) {
+              return 'Password does not match';
+            } else if (value.length < 6) {
+              return 'Password must be greater than 6 character';
+            } else
+              return null;
+          }),
     );
   }
 
@@ -205,7 +219,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Container(
       padding: const EdgeInsets.only(bottom: 8, top: 6),
       child: TextFormField(
-          controller: _passwordController,
+          controller: _repasswordController,
           cursorColor: Colors.black,
           obscureText: true,
           decoration: InputDecoration(
@@ -232,7 +246,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               borderSide: BorderSide(color: Colors.black, width: 2.0),
             ),
           ),
-          validator: validatePassword),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Password cannot be empty';
+            } else if (value != _passwordController.text) {
+              return 'Password does not match';
+            } else if (value.length < 6) {
+              return 'Password must be greater than 6 character';
+            } else
+              return null;
+          }),
     );
   }
 }

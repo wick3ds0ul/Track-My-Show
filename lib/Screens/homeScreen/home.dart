@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:track_my_show/models/action_movies_model.dart';
+import 'package:track_my_show/models/adventure_movies_model.dart';
+import 'package:track_my_show/models/animation_movie_model.dart';
 import 'package:track_my_show/models/featured_movie_model.dart';
 import 'package:track_my_show/models/genre_model.dart';
+import 'package:track_my_show/models/genre_movies_model.dart';
 import 'package:track_my_show/models/movie.dart';
 import 'package:track_my_show/services/api.dart';
 import 'package:track_my_show/widgets/movie_item.dart';
@@ -21,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<List<FeaturedMovieModel>> featuredMovies;
   Future<List<GenreModel>> genreList;
   Future<List<ActionMovieModel>> actionMovies;
+  Future<List<AdventureMovieModel>> adventureMovies;
+  Future<List<AnimationMovieModel>> animationMovies;
 
   Api _api;
   @override
@@ -29,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _api = Api();
     featuredMovies = _api.getFeaturedMovies();
     actionMovies = _api.getActionMovies();
+    adventureMovies = _api.getAdventureMovies();
+    animationMovies = _api.getAnimationMovies();
     genreList = _api.getGenreList();
   }
 
@@ -37,10 +44,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return WillPopScope(
         child: SafeArea(
           child: DefaultTabController(
-            length: 2,
+            length: 4,
             child: Scaffold(
+              // drawer: ,
               appBar: AppBar(
-                leading: SizedBox.shrink(),
+                title: Text(
+                  'Homepage',
+                  style:
+                      TextStyle(fontFamily: 'Comfortaa', color: Colors.black),
+                ),
+                backgroundColor: Color(0xFFFFFFFF),
+                leading: Icon(
+                  Icons.home_outlined,
+                  color: Colors.black,
+                ),
                 actions: [
                   TextButton(
                       onPressed: () async {
@@ -51,27 +68,36 @@ class _HomeScreenState extends State<HomeScreen> {
                           print(error);
                         });
                       },
-                      child: Text('Logout'))
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(
+                            fontFamily: 'Comfortaa', color: Colors.blue),
+                      ))
                 ],
                 bottom: TabBar(
+                  indicatorColor: Color(0xFFFF2929),
                   isScrollable: true,
                   tabs: [
-                    // Tab(
-                    //   icon: Icon(Icons.featured_play_list_outlined),
-                    //   text: "Featured",
-                    // ),
-                    // Tab(
-                    //   icon: Icon(Icons.movie),
-                    //   text: "Action",
-                    // ),
-                    TabNames(name: "Action"),
-                    TabNames(name: "Thriller"),
+                    TabBarWidget(
+                      name: "Featured",
+                    ),
+                    TabBarWidget(
+                      name: "Action",
+                    ),
+                    TabBarWidget(
+                      name: "Adventure",
+                    ),
+                    TabBarWidget(
+                      name: "Animation",
+                    ),
                   ],
                 ),
               ),
               body: TabBarView(children: [
-                FeatureTabContent(featuredMovies: featuredMovies),
-                ActionTabContent(actionMovies: actionMovies)
+                FeaturedTabContent(featuredMovies: featuredMovies),
+                ActionTabContent(actionMovies: actionMovies),
+                AdventureTabContent(adventureMovies: adventureMovies),
+                AnimationTabContent(animationMovies: animationMovies),
               ]),
               backgroundColor: Color(0xFFFFFFFF),
             ),
@@ -90,8 +116,45 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class FeatureTabContent extends StatelessWidget {
-  const FeatureTabContent({
+class TabBarWidget extends StatelessWidget {
+  final String name;
+  TabBarWidget({Key key, this.name}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: Colors.red,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.red,
+            blurRadius: 2.5,
+          )
+        ],
+      ),
+      // width: MediaQuery.of(context).size.width / 2.5,
+      constraints: BoxConstraints(minWidth: 80),
+      alignment: Alignment.center,
+      margin: EdgeInsets.symmetric(
+        horizontal: 1,
+        vertical: 5.0,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
+      child: FittedBox(
+        child: Text(
+          name,
+          style: TextStyle(
+            fontFamily: 'Comfortaa',
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FeaturedTabContent extends StatelessWidget {
+  const FeaturedTabContent({
     Key key,
     @required this.featuredMovies,
   }) : super(key: key);
@@ -184,34 +247,95 @@ class ActionTabContent extends StatelessWidget {
   }
 }
 
-class TabNames extends StatelessWidget {
-  final String name;
-  const TabNames({Key key, this.name}) : super(key: key);
+class AdventureTabContent extends StatelessWidget {
+  const AdventureTabContent({
+    Key key,
+    @required this.adventureMovies,
+  }) : super(key: key);
+
+  final Future<List<AdventureMovieModel>> adventureMovies;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.red,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.red,
-            blurRadius: 2.5,
-          )
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: FutureBuilder<List<AdventureMovieModel>>(
+              future: adventureMovies,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return GridView.builder(
+                    itemBuilder: (ctx, id) {
+                      return MovieItem(
+                        snapshot: snapshot.data[id],
+                      );
+                    },
+                    itemCount: snapshot.data.length,
+                    padding: const EdgeInsets.all(5),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 4 / 5,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5),
+                  );
+                } else {
+                  return Center(
+                    child: Text("Loading..."),
+                  );
+                }
+              },
+            ),
+          ),
         ],
       ),
-      // width: MediaQuery.of(context).size.width / 2.5,
-      constraints: BoxConstraints(minWidth: 150),
-      alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(
-        horizontal: 7,
-        vertical: 5.0,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: Text(
-        "${name}",
-        style: Theme.of(context).textTheme.headline.apply(color: Colors.white),
+    );
+  }
+}
+
+class AnimationTabContent extends StatelessWidget {
+  const AnimationTabContent({
+    Key key,
+    @required this.animationMovies,
+  }) : super(key: key);
+
+  final Future<List<AnimationMovieModel>> animationMovies;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: FutureBuilder<List<AnimationMovieModel>>(
+              future: animationMovies,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return GridView.builder(
+                    itemBuilder: (ctx, id) {
+                      return MovieItem(
+                        snapshot: snapshot.data[id],
+                      );
+                    },
+                    itemCount: snapshot.data.length,
+                    padding: const EdgeInsets.all(5),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 4 / 5,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5),
+                  );
+                } else {
+                  return Center(
+                    child: Text("Loading..."),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

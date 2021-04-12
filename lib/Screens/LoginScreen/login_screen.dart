@@ -9,6 +9,7 @@ import 'package:track_my_show/utils/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_show/widgets/custom_button.dart';
 import 'form_validation.dart';
+import 'package:track_my_show/widgets/common_widgets.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -156,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context, homeScreen);
                                 }
                               } catch (e) {
+                                showInSnackBar(e.toString(), context);
                                 print("Got Error:$e");
                               }
                             }
@@ -218,6 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.pushNamed(context, homeScreen);
                               }
                             } catch (e) {
+                              showInSnackBar(e.toString(), context);
                               print("Got Error:$e");
                             }
                           }),
