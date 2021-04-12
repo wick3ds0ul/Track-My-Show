@@ -2,6 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:track_my_show/models/action_movies_model.dart';
+import 'package:track_my_show/models/adventure_movies_model.dart';
+import 'package:track_my_show/models/animation_movie_model.dart';
+import 'package:track_my_show/models/genre_movies_model.dart';
+import 'package:track_my_show/models/genre_movies_model.dart';
 import 'package:track_my_show/models/featured_movie_model.dart';
 import 'package:track_my_show/models/genre_model.dart';
 import 'package:track_my_show/models/movie_model.dart';
@@ -57,9 +61,10 @@ class Api {
   }
 
   Future<List<ActionMovieModel>> getActionMovies() async {
-    Uri actionMovieUri = Uri.parse(
-        '$url/discover/movie?api_key=$apiKey&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=28&with_original_language=en');
-    final response = await http.get(actionMovieUri);
+    String id = '28';
+    Uri genreMovieUri = Uri.parse(
+        '$url/discover/movie?api_key=$apiKey&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=$id&with_original_language=en');
+    final response = await http.get(genreMovieUri);
     print(response.body);
     if (response.statusCode == 200) {
       final parsed =
@@ -69,7 +74,45 @@ class Api {
           .map<ActionMovieModel>((json) => ActionMovieModel.fromJson(json))
           .toList();
     } else {
-      throw Exception('Failed to load action movies');
+      throw Exception('Failed to load this genre\'s movie movies');
+    }
+  }
+
+  Future<List<AdventureMovieModel>> getAdventureMovies() async {
+    String id = '12';
+    Uri genreMovieUri = Uri.parse(
+        '$url/discover/movie?api_key=$apiKey&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=$id&with_original_language=en');
+    final response = await http.get(genreMovieUri);
+    print(response.body);
+    if (response.statusCode == 200) {
+      final parsed =
+          json.decode(response.body)['results'].cast<Map<String, dynamic>>();
+      print(parsed);
+      return parsed
+          .map<AdventureMovieModel>(
+              (json) => AdventureMovieModel.fromJson(json))
+          .toList();
+    } else {
+      throw Exception('Failed to load this genre\'s movie movies');
+    }
+  }
+
+  Future<List<AnimationMovieModel>> getAnimationMovies() async {
+    String id = '16';
+    Uri genreMovieUri = Uri.parse(
+        '$url/discover/movie?api_key=$apiKey&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=$id&with_original_language=en');
+    final response = await http.get(genreMovieUri);
+    print(response.body);
+    if (response.statusCode == 200) {
+      final parsed =
+          json.decode(response.body)['results'].cast<Map<String, dynamic>>();
+      print(parsed);
+      return parsed
+          .map<AnimationMovieModel>(
+              (json) => AnimationMovieModel.fromJson(json))
+          .toList();
+    } else {
+      throw Exception('Failed to load this genre\'s movie movies');
     }
   }
 }
