@@ -8,6 +8,15 @@ String validatePassword(String value) {
     return null;
 }
 
+String revalidatePassword(String value) {
+  if (value == null || value.isEmpty) {
+    return 'Password cannot be empty';
+  } else if (value.length < 6) {
+    return 'Password must be greater than 6 character';
+  } else
+    return null;
+}
+
 String validateEmail(String value) {
   Pattern pattern =
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"

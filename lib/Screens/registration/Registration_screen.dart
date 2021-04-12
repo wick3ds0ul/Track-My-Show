@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
-import '../../widgets/common_widgets.dart';
+import 'package:track_my_show/widgets/common_widgets.dart';
+import '../LoginScreen/form_validation.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // current value of the TextField.
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _resetPasswordController = TextEditingController();
+  final _repasswordController = TextEditingController();
 
   final AuthService _auth = AuthService();
 
@@ -25,7 +26,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     // widget tree.
     _emailController.dispose();
     _passwordController.dispose();
-    _resetPasswordController.dispose();
+    _repasswordController.dispose();
     super.dispose();
   }
 
@@ -37,6 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         new TextEditingController().clear();
       },
       child: Scaffold(
+        // appBar: AppBar(),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,55 +62,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   padding: const EdgeInsets.only(right: 10, left: 10),
                   child: Column(
                     children: [
-                      buildEmailTextFormField(_emailController),
-                      buildPasswordTextFormField(_passwordController),
-                      // buildRePasswordTextFormField(_resetPasswordController),
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 8, top: 6),
-                        child: TextFormField(
-                            controller: _resetPasswordController,
-                            cursorColor: Colors.black,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(13, 13, 10, 13),
-                              hintText: "A-Ba-b1-9@#\$%^&*",
-                              hintStyle: GoogleFonts.roboto(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w200,
-                              ),
-                              labelText: 'Re-Enter Password',
-                              labelStyle: GoogleFonts.roboto(fontSize: 16),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.zero,
-                                  borderSide: BorderSide(
-                                      color: Colors.purpleAccent, width: 2.0)),
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.zero,
-                                  borderSide: BorderSide(
-                                      color: Colors.purpleAccent, width: 2.0)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.zero,
-                                  borderSide: BorderSide(
-                                      color: Colors.purpleAccent, width: 2.0)),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.zero,
-                                borderSide:
-                                    BorderSide(color: Colors.black, width: 2.0),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Password cannot be empty';
-                              } else if (value.length < 6) {
-                                return 'Password must be greater than 6 character';
-                              } else if (value != _passwordController.text) {
-                                return 'Password does not match';
-                              } else
-                                return null;
-                            }),
-                      ),
+                      buildEmailTextFormField(),
+                      buildPasswordTextFormField(),
+                      buildRePasswordTextFormField(),
                       Container(
                         height: 43,
                         width: double.infinity,
@@ -126,9 +82,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         _emailController.text,
                                         _passwordController.text);
                                 if (res != null) {
+                                  showInSnackBar('You can now login', context);
                                   Navigator.pushNamed(context, loginScreen);
                                 }
                               } catch (e) {
+                                showInSnackBar(e.toString(), context);
                                 print(e);
                               }
                             }
@@ -173,6 +131,131 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildEmailTextFormField() {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 8, top: 6),
+      child: TextFormField(
+          controller: _emailController,
+          cursorColor: Colors.black,
+          decoration: InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+            hintText: 'example@email.com',
+            hintStyle: GoogleFonts.roboto(
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+            ),
+            labelText: 'Email',
+            labelStyle: GoogleFonts.roboto(fontSize: 16),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(
+                  color: Colors.purpleAccent,
+                  width: 2.0,
+                )),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
+            ),
+          ),
+          validator: validateEmail),
+    );
+  }
+
+  Widget buildPasswordTextFormField() {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 8, top: 6),
+      child: TextFormField(
+          controller: _passwordController,
+          cursorColor: Colors.black,
+          obscureText: true,
+          decoration: InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+            hintText: "A-Ba-b1-9@#\$%^&*",
+            hintStyle: GoogleFonts.roboto(
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+            ),
+            labelText: 'Password',
+            labelStyle: GoogleFonts.roboto(fontSize: 16),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Password cannot be empty';
+            } else if (value != _repasswordController.text) {
+              return 'Password does not match';
+            } else if (value.length < 6) {
+              return 'Password must be greater than 6 character';
+            } else
+              return null;
+          }),
+    );
+  }
+
+  Widget buildRePasswordTextFormField() {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 8, top: 6),
+      child: TextFormField(
+          controller: _repasswordController,
+          cursorColor: Colors.black,
+          obscureText: true,
+          decoration: InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+            hintText: "A-Ba-b1-9@#\$%^&*",
+            hintStyle: GoogleFonts.roboto(
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+            ),
+            labelText: 'Re-Enter Password',
+            labelStyle: GoogleFonts.roboto(fontSize: 16),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Password cannot be empty';
+            } else if (value != _passwordController.text) {
+              return 'Password does not match';
+            } else if (value.length < 6) {
+              return 'Password must be greater than 6 character';
+            } else
+              return null;
+          }),
     );
   }
 }
