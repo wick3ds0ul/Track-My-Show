@@ -15,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
   // Create a text controller. Later, use it to retrieve the
   // current value of the TextField.
@@ -36,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
-          new TextEditingController().clear();
         },
         child: Scaffold(
           body: SingleChildScrollView(
@@ -60,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: getProportionateScreenHeight(60),
                       ),
                       TextFormField(
+                        controller: _emailController,
                         autofocus: false,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -90,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: getProportionateScreenHeight(20),
                       ),
                       TextFormField(
+                        controller: _passwordController,
                         autofocus: false,
                         obscureText: true,
                         decoration: InputDecoration(
@@ -118,26 +120,43 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Forgot Password?",
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13),
-                            )),
+                          onPressed: () {
+                            Navigator.pushNamed(context, forgotPasswordScreen);
+                          },
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13),
+                          ),
+                        ),
                       ),
-
                       CustomButton(
                           name: 'LOGIN',
-                          onPressed: () {
+                          onPressed: () async {
                             FocusScope.of(context).unfocus();
                             if (_formKey.currentState.validate()) {
                               print("OK");
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst);
-                              Navigator.pushReplacementNamed(
-                                  context, homeScreen);
+                              print(_passwordController.text);
+                              print(_emailController.text);
+                              try {
+                                print(_passwordController.text);
+                                print(_emailController.text);
+                                dynamic res = await _authService
+                                    .signInWithEmailAndPassword(
+                                        _emailController.text,
+                                        _passwordController.text);
+                                FocusScope.of(context).unfocus();
+                                if (res != null) {
+                                  Navigator.of(context)
+                                      .popUntil((route) => route.isFirst);
+                                  Navigator.pushReplacementNamed(
+                                      context, homeScreen);
+                                }
+                              } catch (e) {
+                                print("Got Error:$e");
+                              }
                             }
                           },
                           color: Colors.redAccent),
@@ -148,10 +167,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       // SizedBox(
                       //   height: getProportionateScreenHeight(20),
                       // ),
-
-                      TextButton(
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
+                      InkWell(
+                        onTap: () {
                           Navigator.pushNamed(context, registerScreen);
                         },
                         child: Text(
@@ -179,6 +196,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: getProportionateScreenHeight(20),
                       ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(20),
+                      ),
                       Text('Login with'),
                       SizedBox(
                         height: getProportionateScreenHeight(30),
@@ -187,13 +207,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           buildSocialButtons(
-                              FontAwesomeIcons.facebook, Colors.blue, () {
-                            Api a = Api();
-                            a.getGenreList();
-                            a.getMovieInfo(14);
-                          }),
+                              FontAwesomeIcons.facebook, Colors.blue, () {}),
                           buildSocialButtons(
-                              FontAwesomeIcons.google, Colors.red, () {}),
+                              FontAwesomeIcons.google, Colors.red, () async {
+                            try {
+                              //TODO:Allow to login with different google account
+                              dynamic res = await _authService.googleSignIn();
+                              if (res != null) {
+                                Navigator.pushNamed(context, homeScreen);
+                              }
+                            } catch (e) {
+                              print("Got Error:$e");
+                            }
+                          }),
                           buildSocialButtons(
                               FontAwesomeIcons.spotify, Colors.green, () {}),
                         ],
@@ -211,6 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Container buildSocialButtons(IconData icon, Color color, Function f) {
+
     return Container(
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(

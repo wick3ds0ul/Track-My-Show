@@ -1,17 +1,58 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:track_my_show/models/user.dart';
 import 'database_service.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  Future googleSignIn() async {
+    try {
+      GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+      GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      UserCredential authResult = await _auth.signInWithCredential(credential);
+
+      User user = authResult.user;
+
+      print("User Name: ${user.displayName}");
+      print("User Email ${user.email}");
+
+      ///Convert user From Firebase to UserData Object
+      UserData userData = _makeUserDataFromAuthUser(user);
+
+      ///This holds default values for new users
+      await DatabaseService(uid: user.uid).updateUserData(userData);
+      return _userFromFirebaseUser(user);
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+      String errorMessage = firebaseErrors(e.code);
+      return Future.error(errorMessage);
+    }
+  }
+
+  //Google sign-out
+  void signOutGoogle() async {
+    await _googleSignIn.signOut();
+    print("User Sign Out");
+  }
 
   //Firebase User to App User
   AppUser _userFromFirebaseUser(User user) {
     return user != null ? AppUser(uid: user.uid) : null;
   }
 
+  // auth change user stream
   Stream<AppUser> get user {
     return _auth.authStateChanges().map(_userFromFirebaseUser);
+    //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
   //SignIn Anonymously
@@ -41,11 +82,14 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
-
-      ///Convert user From Firebase to UserData Object
+      //Send email verification
+      // await user.sendEmailVerification();
+      //TODO:Implement email verification
       UserData userData = _makeUserDataFromAuthUser(user);
       await DatabaseService(uid: user.uid).updateUserData(userData);
       return _userFromFirebaseUser(user);
+
+      ///Convert user From Firebase to UserData Object
     } on FirebaseAuthException catch (e) {
       print(e.toString());
       String errorMessage = firebaseErrors(e.code);
@@ -60,9 +104,10 @@ class AuthService {
           email: email, password: password);
       User user = result.user;
       return _userFromFirebaseUser(user);
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       print(e.toString());
-      return null;
+      String errorMessage = firebaseErrors(e.code);
+      return Future.error(errorMessage);
     }
   }
 
@@ -77,6 +122,33 @@ class AuthService {
     }
   }
 
+//TODO:Implement forgot/reset password
+  //Forgot password
+  Future<void> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+      String errorMessage = firebaseErrors(e.code);
+      return Future.error(errorMessage);
+    }
+  }
+
+  //TODO:Check if email is already registered
+
+  Future checkEmail(String email) async {
+    try {
+      dynamic res = await _auth.fetchSignInMethodsForEmail(email);
+      return res;
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+      String errorMessage = firebaseErrors(e.code);
+      return Future.error(errorMessage);
+    }
+  }
+
+//TODO:Implement verify email
+  //Verify email
   ///HELPER
   UserData _makeUserDataFromAuthUser(User user) {
     //IMP:DO NOT REMOVE THIS URL,this is the default image while signing up.
@@ -93,6 +165,8 @@ class AuthService {
     );
     return userData;
   }
+
+  //Sign in with google
 
   //Handle Errors
   String firebaseErrors(String errorCode) {

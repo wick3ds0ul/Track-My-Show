@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:track_my_show/Screens/forgot_password.dart';
 import 'package:track_my_show/Screens/homeScreen/home.dart';
 import 'package:track_my_show/Screens/wrapper.dart';
 import 'package:track_my_show/Screens/LoginScreen/login_screen.dart';
@@ -18,6 +19,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RegistrationScreen());
       case homeScreen:
         return MaterialPageRoute(builder: (_) => HomeScreen());
+      case forgotPasswordScreen:
+        return MaterialPageRoute(builder: (_) => ForgotPassword());
       default:
         return null;
     }
