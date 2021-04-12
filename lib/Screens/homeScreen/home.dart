@@ -56,20 +56,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 bottom: TabBar(
                   isScrollable: true,
                   tabs: [
-                    Tab(
-                      
-                      icon: Icon(Icons.featured_play_list_outlined),
-                      text: "Featured",
-                    ),
-                    Tab(
-                      icon: Icon(Icons.movie),
-                      text: "Action",
-                    ),
+                    // Tab(
+                    //   icon: Icon(Icons.featured_play_list_outlined),
+                    //   text: "Featured",
+                    // ),
+                    // Tab(
+                    //   icon: Icon(Icons.movie),
+                    //   text: "Action",
+                    // ),
+                    TabNames(name: "Action"),
+                    TabNames(name: "Thriller"),
                   ],
                 ),
               ),
               body: TabBarView(children: [
-                FeaturedTabContent(featuredMovies: featuredMovies),
+                FeatureTabContent(featuredMovies: featuredMovies),
                 ActionTabContent(actionMovies: actionMovies)
               ]),
               backgroundColor: Color(0xFFFFFFFF),
@@ -90,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class FeatureTabContent extends StatelessWidget {
-  const FeaturedTabContent({
+  const FeatureTabContent({
     Key key,
     @required this.featuredMovies,
   }) : super(key: key);
@@ -178,6 +179,39 @@ class ActionTabContent extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class TabNames extends StatelessWidget {
+  final String name;
+  const TabNames({Key key, this.name}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: Colors.red,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.red,
+            blurRadius: 2.5,
+          )
+        ],
+      ),
+      // width: MediaQuery.of(context).size.width / 2.5,
+      constraints: BoxConstraints(minWidth: 150),
+      alignment: Alignment.center,
+      margin: EdgeInsets.symmetric(
+        horizontal: 7,
+        vertical: 5.0,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      child: Text(
+        "${name}",
+        style: Theme.of(context).textTheme.headline.apply(color: Colors.white),
       ),
     );
   }
