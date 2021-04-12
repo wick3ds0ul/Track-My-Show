@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
-import 'file:///G:/Development/Projects/track_my_show/lib/widgets/common_widgets.dart';
+import '../../widgets/common_widgets.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override

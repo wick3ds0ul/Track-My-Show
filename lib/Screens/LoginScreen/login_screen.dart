@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/api.dart';
+import 'package:track_my_show/services/auth_service.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
 import '../../utils/constants.dart';
 import 'package:track_my_show/utils/size_config.dart';
@@ -237,7 +238,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Container buildSocialButtons(IconData icon, Color color, Function f) {
-
     return Container(
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
