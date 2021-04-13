@@ -1,11 +1,11 @@
-import 'package:track_my_show/models/MovieModels/movie_model.dart';
+import 'package:track_my_show/models/ShowModels/show_model.dart';
 
-class FeaturedMovieModel extends MovieModel {
+class PopularShowModel extends ShowModel {
   final String original_title, overview, poster_path, country, release_date;
   final int id, run_time;
   final double rating;
   final List genre;
-  FeaturedMovieModel(
+  PopularShowModel(
       {this.country,
       this.rating,
       this.genre,
@@ -15,9 +15,9 @@ class FeaturedMovieModel extends MovieModel {
       this.overview,
       this.poster_path,
       this.id});
-  factory FeaturedMovieModel.fromJson(Map<String, dynamic> json) {
-    return FeaturedMovieModel(
-        original_title: json['original_title'],
+  factory PopularShowModel.fromJson(Map<String, dynamic> json) {
+    return PopularShowModel(
+        original_title: json['original_name'],
         overview: json['overview'],
         poster_path: json['poster_path'],
         id: json['id'],
@@ -25,6 +25,6 @@ class FeaturedMovieModel extends MovieModel {
         release_date: json['release_date'],
         // run_time: json['runtime'],
         // genre: json['genres'],
-        rating: json['vote_average']);
+        rating: json['vote_average'].toDouble());
   }
 }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
-import 'package:track_my_show/models/MovieModels/movie_model.dart';
+import 'package:track_my_show/models/ShowModels/show_model.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/global.dart';
 
-class MovieItem extends StatelessWidget {
-  final MovieModel snapshot;
+class ShowItem extends StatelessWidget {
+  final ShowModel snapshot;
 
-  const MovieItem({
+  const ShowItem({
     Key key,
     this.snapshot,
   }) : super(key: key);
@@ -54,7 +53,6 @@ class MovieItem extends StatelessWidget {
                   color: Colors.black45,
                 ),
                 child: Text(
-                  // "${movieList[id]['title']}",
                   snapshot.original_title,
                   style: TextStyle(
                     color: Colors.white,

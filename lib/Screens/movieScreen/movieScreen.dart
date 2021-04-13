@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:track_my_show/models/action_movies_model.dart';
-import 'package:track_my_show/models/adventure_movies_model.dart';
-import 'package:track_my_show/models/animation_movie_model.dart';
-import 'package:track_my_show/models/featured_movie_model.dart';
-import 'package:track_my_show/models/genre_model.dart';
-import 'package:track_my_show/models/genre_movies_model.dart';
-import 'package:track_my_show/models/movie.dart';
-import 'package:track_my_show/services/api.dart';
+import 'package:track_my_show/models/MovieModels/action_movies_model.dart';
+import 'package:track_my_show/models/MovieModels/adventure_movies_model.dart';
+import 'package:track_my_show/models/MovieModels/animation_movie_model.dart';
+import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
+import 'package:track_my_show/models/MovieModels/genre_model.dart';
+import 'package:track_my_show/services/movies_api.dart';
 import 'package:track_my_show/widgets/custom_drawer.dart';
 import 'package:track_my_show/widgets/movie_item.dart';
-import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
-import '../../data/movie_data.dart';
 
 class MovieScreen extends StatefulWidget {
   @override
@@ -28,11 +23,11 @@ class _MovieScreenState extends State<MovieScreen> {
   Future<List<AdventureMovieModel>> adventureMovies;
   Future<List<AnimationMovieModel>> animationMovies;
 
-  Api _api;
+  MoviesApi _api;
   @override
   void initState() {
     super.initState();
-    _api = Api();
+    _api = MoviesApi();
     featuredMovies = _api.getFeaturedMovies();
     actionMovies = _api.getActionMovies();
     adventureMovies = _api.getAdventureMovies();

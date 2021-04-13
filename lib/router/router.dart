@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:track_my_show/Screens/details_screen.dart';
 import 'package:track_my_show/Screens/forgot_password.dart';
 import 'package:track_my_show/Screens/movieScreen/movieScreen.dart';
+import 'package:track_my_show/Screens/showScreen/show_screen.dart';
 import 'package:track_my_show/Screens/wrapper.dart';
 import 'package:track_my_show/Screens/LoginScreen/login_screen.dart';
 import 'package:track_my_show/Screens/registration/Registration_screen.dart';
@@ -20,6 +21,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RegistrationScreen());
       case movieScreen:
         return MaterialPageRoute(builder: (_) => MovieScreen());
+      case showScreen:
+        return MaterialPageRoute(builder: (_) => ShowScreen());
       case forgotPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgotPassword());
       case movieDetailsScreen:

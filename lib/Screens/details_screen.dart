@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:track_my_show/models/movie_model.dart';
-import 'package:track_my_show/services/api.dart';
+import 'package:track_my_show/models/MovieModels/movie_model.dart';
+import 'package:track_my_show/services/movies_api.dart';
 import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/widgets/movie_image.dart';
 
@@ -15,11 +15,11 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  Api _api;
+  MoviesApi _api;
   Future<MovieModel> movieModel;
   @override
   void initState() {
-    _api = Api();
+    _api = MoviesApi();
     movieModel = _api.getMovieInfo(widget.id);
     super.initState();
   }

@@ -1,4 +1,4 @@
-import 'package:track_my_show/models/movie_model.dart';
+import 'package:track_my_show/models/MovieModels/movie_model.dart';
 
 class ActionMovieModel extends MovieModel {
   final String original_title, overview, poster_path, country, release_date;
