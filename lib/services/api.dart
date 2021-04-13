@@ -102,11 +102,11 @@ class Api {
     Uri genreMovieUri = Uri.parse(
         '$url/discover/movie?api_key=$apiKey&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=$id&with_original_language=en');
     final response = await http.get(genreMovieUri);
+    print(response);
     print(response.body);
     if (response.statusCode == 200) {
       final parsed =
           json.decode(response.body)['results'].cast<Map<String, dynamic>>();
-      print(parsed);
       return parsed
           .map<AnimationMovieModel>(
               (json) => AnimationMovieModel.fromJson(json))
@@ -114,5 +114,62 @@ class Api {
     } else {
       throw Exception('Failed to load this genre\'s movie movies');
     }
+  }
+
+  //Search movies by Name
+
+  Future<List<SearchItem>> searchItems(String name) async {
+    //todo:Fix the URL,Need to implement search for 1.search/movie?query=name 2.search/?query=titanic 3.
+    //   http://api.themoviedb.org/3/search/multi?query=titanic&api_key=676a81313bcfbe018c137400e97d6a1a
+    Uri searchUrl =
+        Uri.parse('$url/search/multi?query=${name}&api_key=$apiKey');
+    final response = await http.get(searchUrl);
+    print(response);
+    print(response.body);
+    if (response.statusCode == 200) {
+      final parsed =
+          json.decode(response.body)['results'].cast<Map<String, dynamic>>();
+      return parsed
+          .map<SearchItem>((json) => SearchItem.fromJson(json))
+          .toList();
+    } else {
+      throw Exception('Failed to load this genre\'s movie movies');
+    }
+  }
+}
+
+class SearchItem extends MovieModel {
+  // final String original_title, overview, poster_path, country, release_date;
+  // final int id, run_time;
+  // final double rating;
+  // final List genre;
+  //
+  // SearchItem(
+  //     {this.country,
+  //     this.rating,
+  //     this.genre,
+  //     this.release_date,
+  //     this.run_time,
+  //     this.original_title,
+  //     this.overview,
+  //     this.poster_path,
+  //     this.id});
+
+  final String name, imageURL, desc, type;
+  SearchItem({this.name, this.imageURL, this.desc, this.type});
+
+  factory SearchItem.fromJson(Map<String, dynamic> json) {
+    return SearchItem(
+        name: json['original_title'] ?? json['original_name'],
+        // overview: json['overview'],
+        imageURL: json['poster_path'],
+        desc: json['overview']
+        // id: json['id'],
+        // country: json['production_companies'][0]['origin_country'],
+        // release_date: json['release_date'],
+        // run_time: json['runtime'],
+        // genre: json['genres'],
+        // rating: json['vote_average'].toDouble()
+        );
   }
 }

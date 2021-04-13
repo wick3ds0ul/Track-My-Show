@@ -25,6 +25,6 @@ class AnimationMovieModel extends MovieModel {
         release_date: json['release_date'],
         // run_time: json['runtime'],
         // genre: json['genres'],
-        rating: json['vote_average']);
+        rating: json['vote_average'].toDouble());
   }
 }

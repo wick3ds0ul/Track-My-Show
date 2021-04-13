@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:track_my_show/models/action_movies_model.dart';
 import 'package:track_my_show/models/adventure_movies_model.dart';
 import 'package:track_my_show/models/animation_movie_model.dart';
 import 'package:track_my_show/models/featured_movie_model.dart';
 import 'package:track_my_show/models/genre_model.dart';
-import 'package:track_my_show/models/genre_movies_model.dart';
-import 'package:track_my_show/models/movie.dart';
 import 'package:track_my_show/services/api.dart';
-import 'package:track_my_show/widgets/movie_item.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
+import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
 import '../../data/movie_data.dart';
+import 'ui/action.dart';
+import 'ui/adventure.dart';
+import 'ui/animation.dart';
+import 'ui/featured.dart';
+import 'ui/tabbar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -46,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: DefaultTabController(
             length: 4,
             child: Scaffold(
-              // drawer: ,
+              drawer: Drawer(),
               appBar: AppBar(
                 title: Text(
                   'Homepage',
@@ -59,20 +61,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                 ),
                 actions: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        color: Colors.black87,
+                      ),
+                      onPressed: () {
+                        showSearch(context: context, delegate: DataSearch());
+                      }),
                   TextButton(
-                      onPressed: () async {
-                        await _auth.signOutNormal().then((_) {
-                          print("Done");
-                          Navigator.pushReplacementNamed(context, loginScreen);
-                        }).catchError((error) {
-                          print(error);
-                        });
-                      },
-                      child: Text(
-                        'Logout',
-                        style: TextStyle(
-                            fontFamily: 'Comfortaa', color: Colors.blue),
-                      ))
+                    onPressed: () async {
+                      await _auth.signOutNormal().then((_) {
+                        print("Done");
+                        Navigator.pushReplacementNamed(context, loginScreen);
+                      }).catchError((error) {
+                        print(error);
+                      });
+                    },
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(
+                          fontFamily: 'Comfortaa', color: Colors.blue),
+                    ),
+                  ),
                 ],
                 bottom: TabBar(
                   indicatorColor: Color(0xFFFF2929),
@@ -116,227 +127,84 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class TabBarWidget extends StatelessWidget {
-  final String name;
-  TabBarWidget({Key key, this.name}) : super(key: key);
+class DataSearch extends SearchDelegate {
+  @override
+  Widget buildResults(BuildContext context) {
+    return FutureBuilder<List<SearchItem>>(
+      future: Api().searchItems(query),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data == null) {
+            return Center(child: Text('Could Not find Data'));
+          } else {
+            print(snapshot.data);
+            List<SearchItem> searchItems = snapshot.data;
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                // return Text(
+                //     '${searchItems[index].name}${searchItems[index].imageURL}${searchItems[index].desc}');
+                return Card(
+                  child: ListTile(
+                    leading: Image.network(
+                        getPosterImage(searchItems[index].imageURL)),
+                    title: Text('${searchItems[index].name}'),
+                    subtitle: Text(
+                      '${searchItems[index].desc}',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                );
+              },
+              itemCount: searchItems.length,
+            );
+          }
+        } else {
+          return CircularProgressIndicator(); // loading
+        }
+      },
+    );
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.red,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.red,
-            blurRadius: 2.5,
-          )
-        ],
-      ),
-      // width: MediaQuery.of(context).size.width / 2.5,
-      constraints: BoxConstraints(minWidth: 80),
-      alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(
-        horizontal: 1,
-        vertical: 5.0,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
-      child: FittedBox(
-        child: Text(
-          name,
-          style: TextStyle(
-            fontFamily: 'Comfortaa',
+  List<Widget> buildActions(BuildContext context) {
+    //Actions for AppBar
+    return [
+      //This will clear the text
+      IconButton(
+          icon: Icon(
+            Icons.clear,
           ),
+          onPressed: () {
+            query = "";
+          })
+    ];
+    // throw UnimplementedError();
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    //Leading icon on the left of AppBar
+    return IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation,
         ),
-      ),
-    );
+        onPressed: () {
+          close(context, null);
+          // Navigator.of(context).pop();
+        });
+    // throw UnimplementedError();
   }
-}
-
-class FeaturedTabContent extends StatelessWidget {
-  const FeaturedTabContent({
-    Key key,
-    @required this.featuredMovies,
-  }) : super(key: key);
-
-  final Future<List<FeaturedMovieModel>> featuredMovies;
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: FutureBuilder<List<FeaturedMovieModel>>(
-              future: featuredMovies,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return GridView.builder(
-                    itemBuilder: (ctx, id) {
-                      return MovieItem(
-                        snapshot: snapshot.data[id],
-                      );
-                    },
-                    itemCount: snapshot.data.length,
-                    padding: const EdgeInsets.all(5),
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 4 / 5,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5),
-                  );
-                } else {
-                  return Center(
-                    child: Text("Loading..."),
-                  );
-                }
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+  Widget buildSuggestions(BuildContext context) {
+    //show when someone searches for something
 
-class ActionTabContent extends StatelessWidget {
-  const ActionTabContent({
-    Key key,
-    @required this.actionMovies,
-  }) : super(key: key);
-
-  final Future<List<ActionMovieModel>> actionMovies;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: FutureBuilder<List<ActionMovieModel>>(
-              future: actionMovies,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return GridView.builder(
-                    itemBuilder: (ctx, id) {
-                      return MovieItem(
-                        snapshot: snapshot.data[id],
-                      );
-                    },
-                    itemCount: snapshot.data.length,
-                    padding: const EdgeInsets.all(5),
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 4 / 5,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5),
-                  );
-                } else {
-                  return Center(
-                    child: Text("Loading..."),
-                  );
-                }
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AdventureTabContent extends StatelessWidget {
-  const AdventureTabContent({
-    Key key,
-    @required this.adventureMovies,
-  }) : super(key: key);
-
-  final Future<List<AdventureMovieModel>> adventureMovies;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: FutureBuilder<List<AdventureMovieModel>>(
-              future: adventureMovies,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return GridView.builder(
-                    itemBuilder: (ctx, id) {
-                      return MovieItem(
-                        snapshot: snapshot.data[id],
-                      );
-                    },
-                    itemCount: snapshot.data.length,
-                    padding: const EdgeInsets.all(5),
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 4 / 5,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5),
-                  );
-                } else {
-                  return Center(
-                    child: Text("Loading..."),
-                  );
-                }
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AnimationTabContent extends StatelessWidget {
-  const AnimationTabContent({
-    Key key,
-    @required this.animationMovies,
-  }) : super(key: key);
-
-  final Future<List<AnimationMovieModel>> animationMovies;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: FutureBuilder<List<AnimationMovieModel>>(
-              future: animationMovies,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return GridView.builder(
-                    itemBuilder: (ctx, id) {
-                      return MovieItem(
-                        snapshot: snapshot.data[id],
-                      );
-                    },
-                    itemCount: snapshot.data.length,
-                    padding: const EdgeInsets.all(5),
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 4 / 5,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5),
-                  );
-                } else {
-                  return Center(
-                    child: Text("Loading..."),
-                  );
-                }
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+    return Container();
   }
 }
