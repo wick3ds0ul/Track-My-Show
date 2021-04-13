@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.of(context)
                                       .popUntil((route) => route.isFirst);
                                   Navigator.pushReplacementNamed(
-                                      context, homeScreen);
+                                      context, movieScreen);
                                 }
                               } catch (e) {
                                 showInSnackBar(e.toString(), context);
@@ -217,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               //TODO:Allow to login with different google account
                               dynamic res = await _authService.googleSignIn();
                               if (res != null) {
-                                Navigator.pushNamed(context, homeScreen);
+                                Navigator.pushNamed(context, movieScreen);
                               }
                             } catch (e) {
                               showInSnackBar(e.toString(), context);

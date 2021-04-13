@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_my_show/models/featured_movie_model.dart';
 import 'package:track_my_show/models/movie_model.dart';
+import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/global.dart';
 
 class MovieItem extends StatelessWidget {
@@ -14,12 +15,8 @@ class MovieItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (ctx) => null,
-          ),
-        );
+        Navigator.of(context)
+            .pushNamed(movieDetailsScreen, arguments: snapshot.id);
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,

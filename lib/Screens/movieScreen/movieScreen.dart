@@ -8,18 +8,19 @@ import 'package:track_my_show/models/genre_model.dart';
 import 'package:track_my_show/models/genre_movies_model.dart';
 import 'package:track_my_show/models/movie.dart';
 import 'package:track_my_show/services/api.dart';
+import 'package:track_my_show/widgets/custom_drawer.dart';
 import 'package:track_my_show/widgets/movie_item.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
 import '../../data/movie_data.dart';
 
-class HomeScreen extends StatefulWidget {
+class MovieScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MovieScreenState createState() => _MovieScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MovieScreenState extends State<MovieScreen> {
   final AuthService _auth = AuthService();
   Future<List<FeaturedMovieModel>> featuredMovies;
   Future<List<GenreModel>> genreList;
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: DefaultTabController(
             length: 4,
             child: Scaffold(
-              // drawer: ,
+              drawer: CustomDrawer(auth: _auth),
               appBar: AppBar(
                 title: Text(
                   'Homepage',
@@ -54,26 +55,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       TextStyle(fontFamily: 'Comfortaa', color: Colors.black),
                 ),
                 backgroundColor: Color(0xFFFFFFFF),
-                leading: Icon(
-                  Icons.home_outlined,
-                  color: Colors.black,
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () async {
-                        await _auth.signOutNormal().then((_) {
-                          print("Done");
-                          Navigator.pushReplacementNamed(context, loginScreen);
-                        }).catchError((error) {
-                          print(error);
-                        });
-                      },
-                      child: Text(
-                        'Logout',
-                        style: TextStyle(
-                            fontFamily: 'Comfortaa', color: Colors.blue),
-                      ))
-                ],
+                leading: Builder(builder: (BuildContext context) {
+                  return IconButton(
+                    icon: Icon(Icons.menu_open_rounded),
+                    color: Colors.black,
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    tooltip:
+                        MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  );
+                }),
                 bottom: TabBar(
                   indicatorColor: Color(0xFFFF2929),
                   isScrollable: true,
@@ -188,7 +180,7 @@ class FeaturedTabContent extends StatelessWidget {
                   );
                 } else {
                   return Center(
-                    child: Text("Loading..."),
+                    child: CircularProgressIndicator(),
                   );
                 }
               },
@@ -235,7 +227,7 @@ class ActionTabContent extends StatelessWidget {
                   );
                 } else {
                   return Center(
-                    child: Text("Loading..."),
+                    child: CircularProgressIndicator(),
                   );
                 }
               },
@@ -282,7 +274,7 @@ class AdventureTabContent extends StatelessWidget {
                   );
                 } else {
                   return Center(
-                    child: Text("Loading..."),
+                    child: CircularProgressIndicator(),
                   );
                 }
               },
@@ -329,7 +321,7 @@ class AnimationTabContent extends StatelessWidget {
                   );
                 } else {
                   return Center(
-                    child: Text("Loading..."),
+                    child: CircularProgressIndicator(),
                   );
                 }
               },

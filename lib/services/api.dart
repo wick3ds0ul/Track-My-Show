@@ -36,11 +36,11 @@ class Api {
   Future<List<FeaturedMovieModel>> getFeaturedMovies() async {
     Uri featuredMovieUri = Uri.parse('$url/trending/movie/day?api_key=$apiKey');
     final response = await http.get(featuredMovieUri);
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       final parsed =
           json.decode(response.body)['results'].cast<Map<String, dynamic>>();
-      print(parsed);
+      // print(parsed);
       return parsed
           .map<FeaturedMovieModel>((json) => FeaturedMovieModel.fromJson(json))
           .toList();
@@ -65,11 +65,11 @@ class Api {
     Uri genreMovieUri = Uri.parse(
         '$url/discover/movie?api_key=$apiKey&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=$id&with_original_language=en');
     final response = await http.get(genreMovieUri);
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       final parsed =
           json.decode(response.body)['results'].cast<Map<String, dynamic>>();
-      print(parsed);
+      // print(parsed);
       return parsed
           .map<ActionMovieModel>((json) => ActionMovieModel.fromJson(json))
           .toList();
@@ -83,11 +83,11 @@ class Api {
     Uri genreMovieUri = Uri.parse(
         '$url/discover/movie?api_key=$apiKey&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=$id&with_original_language=en');
     final response = await http.get(genreMovieUri);
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       final parsed =
           json.decode(response.body)['results'].cast<Map<String, dynamic>>();
-      print(parsed);
+      // print(parsed);
       return parsed
           .map<AdventureMovieModel>(
               (json) => AdventureMovieModel.fromJson(json))
@@ -102,11 +102,11 @@ class Api {
     Uri genreMovieUri = Uri.parse(
         '$url/discover/movie?api_key=$apiKey&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=$id&with_original_language=en');
     final response = await http.get(genreMovieUri);
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       final parsed =
           json.decode(response.body)['results'].cast<Map<String, dynamic>>();
-      print(parsed);
+      // print(parsed);
       return parsed
           .map<AnimationMovieModel>(
               (json) => AnimationMovieModel.fromJson(json))
