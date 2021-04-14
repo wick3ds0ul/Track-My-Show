@@ -57,6 +57,13 @@ class CustomDrawer extends StatelessWidget {
                 },
               ),
               AppBarWidget(
+                title: 'List',
+                icon: Icons.list,
+                routeF: () {
+                  Navigator.of(context).pushNamed(listScreen);
+                },
+              ),
+              AppBarWidget(
                 title: 'Logout',
                 icon: Icons.login,
                 routeF: () async {
@@ -67,7 +74,7 @@ class CustomDrawer extends StatelessWidget {
                     print(error);
                   });
                 },
-              )
+              ),
             ],
           ),
         ),
