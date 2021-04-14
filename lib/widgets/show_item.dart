@@ -15,7 +15,7 @@ class ShowItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .pushNamed(movieDetailsScreen, arguments: snapshot.id);
+            .pushNamed(showDetailsScreen, arguments: snapshot.id);
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,

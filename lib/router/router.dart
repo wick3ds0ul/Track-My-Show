@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:track_my_show/Screens/details_screen.dart';
+import 'package:track_my_show/Screens/movieScreen/movie_details_screen.dart';
 import 'package:track_my_show/Screens/forgot_password.dart';
 import 'package:track_my_show/Screens/movieScreen/movieScreen.dart';
+import 'package:track_my_show/Screens/showScreen/show_details_screen.dart';
 import 'package:track_my_show/Screens/showScreen/show_screen.dart';
 import 'package:track_my_show/Screens/wrapper.dart';
 import 'package:track_my_show/Screens/LoginScreen/login_screen.dart';
@@ -28,6 +29,11 @@ class RouteGenerator {
       case movieDetailsScreen:
         return MaterialPageRoute(
             builder: (_) => DetailsScreen(
+                  id: args,
+                ));
+      case showDetailsScreen:
+        return MaterialPageRoute(
+            builder: (_) => ShowDetailsScreen(
                   id: args,
                 ));
       default:
