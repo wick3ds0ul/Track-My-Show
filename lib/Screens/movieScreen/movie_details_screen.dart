@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:track_my_show/models/MovieModels/movie_model.dart';
-
 import 'package:track_my_show/services/movies_api.dart';
 import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/widgets/movie_image.dart';
+import 'package:track_my_show/models/user.dart';
+import 'package:provider/provider.dart';
+import 'package:track_my_show/models/user.dart';
 
 class DetailsScreen extends StatefulWidget {
   final int id;
@@ -34,10 +36,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
           future: movieModel,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              MovieModel movie = snapshot.data;
               return SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     MovieImage(
+                      movie: movie,
                       imgUrl: getPosterImage(snapshot.data.poster_path),
                     ),
                     SizedBox(

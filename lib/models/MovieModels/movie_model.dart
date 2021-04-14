@@ -44,6 +44,17 @@ class MovieModel {
         genre: json['genres'],
         rating: json['vote_average']);
   }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'run_time': run_time,
+        'rating': rating,
+        'genre': genre,
+        'original_title': original_title,
+        'overview': overview,
+        'poster_path': poster_path,
+        'country': country,
+        'release_date': release_date
+      };
 }
 
 class TV {

@@ -32,6 +32,11 @@ class RouteGenerator {
             builder: (_) => DetailsScreen(
                   id: args,
                 ));
+      case showDetailsScreen:
+        return MaterialPageRoute(
+            builder: (_) => ShowDetailsScreen(
+                  id: args,
+                ));
 
       default:
         return null;
