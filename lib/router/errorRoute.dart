@@ -10,7 +10,7 @@ class ErrorRoute extends StatelessWidget {
         child: Column(
           children: [
             Text('404.Page not found. Return to Sign In Page'),
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   Navigator.of(context).popUntil((route) => route.isFirst);
                   Navigator.pushReplacementNamed(context, loginScreen);

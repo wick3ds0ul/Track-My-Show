@@ -7,6 +7,7 @@ import 'package:track_my_show/Screens/showScreen/show_screen.dart';
 import 'package:track_my_show/Screens/wrapper.dart';
 import 'package:track_my_show/Screens/LoginScreen/login_screen.dart';
 import 'package:track_my_show/Screens/registration/Registration_screen.dart';
+import 'package:track_my_show/Screens/details_test.dart';
 import 'routenames.dart';
 
 class RouteGenerator {
@@ -36,6 +37,12 @@ class RouteGenerator {
             builder: (_) => ShowDetailsScreen(
                   id: args,
                 ));
+      case tvDetailScreen:
+        return MaterialPageRoute(
+            builder: (_) => TVDetailScreen(
+                  name: args,
+                ));
+
       default:
         return null;
     }
