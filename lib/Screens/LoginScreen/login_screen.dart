@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:track_my_show/router/routenames.dart';
-import 'package:track_my_show/services/api.dart';
 import 'package:track_my_show/services/auth_service.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
 import '../../utils/constants.dart';

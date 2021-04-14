@@ -4,23 +4,24 @@ import 'package:track_my_show/models/MovieModels/movie_model.dart';
 import 'package:track_my_show/services/api.dart';
 import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/widgets/movie_image.dart';
+import '../data/tv_genre.dart';
 
-class DetailsScreen extends StatefulWidget {
-  final int id;
+class TVDetailScreen extends StatefulWidget {
+  final String name;
 
-  const DetailsScreen({Key key, this.id}) : super(key: key);
+  TVDetailScreen({this.name});
 
   @override
-  _DetailsScreenState createState() => _DetailsScreenState();
+  _TVDetailScreenState createState() => _TVDetailScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _TVDetailScreenState extends State<TVDetailScreen> {
   Api _api;
-  Future<MovieModel> movieModel;
+  Future<TV> tvModel;
   @override
   void initState() {
     _api = Api();
-    movieModel = _api.getMovieInfo(widget.id);
+    tvModel = _api.getTVInfo(widget.name);
     super.initState();
   }
 
@@ -29,15 +30,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: FutureBuilder<MovieModel>(
-          future: movieModel,
+        body: FutureBuilder<TV>(
+          future: tvModel,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              TV show = snapshot.data;
+              List<String> genreNames = [];
+              for (int i = 0; i < show.genre.length; i++) {
+                print("Item:${show.genre[i]}");
+                String genre = getTVGenreName(show.genre[i].toString());
+                genreNames.add(genre);
+              }
+              print("Gnere Length:${show.genre.length}");
               return SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     MovieImage(
-                      imgUrl: getPosterImage(snapshot.data.poster_path),
+                      imgUrl: getPosterImage(show.poster_path),
                     ),
                     SizedBox(
                       height: 15,
@@ -47,8 +56,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            "${snapshot.data.original_title}",
-                            style: Theme.of(context).textTheme.headline4,
+                            "${show.original_title}",
+                            style: Theme.of(context).textTheme.headline,
                           ),
                           SizedBox(
                             height: 7.0,
@@ -56,11 +65,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           RichText(
                             text: TextSpan(
                               children: List.generate(
-                                snapshot.data.genre.length,
+                                genreNames.length,
                                 (i) {
-                                  return TextSpan(
-                                      text:
-                                          "${snapshot.data.genre[i]['name']}");
+                                  return TextSpan(text: "${genreNames[i]}");
                                 },
                               ),
                               style: Theme.of(context).textTheme.caption,
@@ -94,7 +101,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     style: Theme.of(context).textTheme.caption,
                                   ),
                                   Text(
-                                    "${DateTime.parse(snapshot.data.release_date).year}",
+                                    "${DateTime.parse(show.release_date).year}",
                                     style: Theme.of(context).textTheme.subhead,
                                   ),
                                 ],
@@ -106,7 +113,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     style: Theme.of(context).textTheme.caption,
                                   ),
                                   Text(
-                                    "${snapshot.data.country}",
+                                    "${show.country}",
                                     style: Theme.of(context).textTheme.subhead,
                                   ),
                                 ],
@@ -118,7 +125,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     style: Theme.of(context).textTheme.caption,
                                   ),
                                   Text(
-                                    "${snapshot.data.run_time}min",
+                                    "N/A \n min",
                                     style: Theme.of(context).textTheme.subhead,
                                   ),
                                 ],
@@ -143,6 +150,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ],
                 ),
               );
+              // return Text("${show.overview}${show.original_title}");
+            }
+            if (snapshot.hasError) {
+              return Text('Has Error${snapshot.hasError}');
             } else {
               return Center(
                 child: CircularProgressIndicator(),
@@ -154,5 +165,3 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 }
-
-//poster_imgUrl,original_title,genre,release_date,country,runtime,overview
