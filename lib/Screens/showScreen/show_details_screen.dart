@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:track_my_show/models/MovieModels/movie_model.dart';
-import 'package:track_my_show/services/api.dart';
+import 'package:track_my_show/models/ShowModels/show_model.dart';
 import 'package:track_my_show/services/global.dart';
+import 'package:track_my_show/services/shows_api.dart';
 import 'package:track_my_show/widgets/movie_image.dart';
 
-class DetailsScreen extends StatefulWidget {
+class ShowDetailsScreen extends StatefulWidget {
   final int id;
 
-  const DetailsScreen({Key key, this.id}) : super(key: key);
+  const ShowDetailsScreen({Key key, this.id}) : super(key: key);
 
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
-  Api _api;
-  Future<MovieModel> movieModel;
+class _DetailsScreenState extends State<ShowDetailsScreen> {
+  ShowsApi _api;
+  Future<ShowModel> showModel;
   @override
   void initState() {
-    _api = Api();
-    movieModel = _api.getMovieInfo(widget.id);
+    _api = ShowsApi();
+    showModel = _api.getShowInfo(widget.id);
     super.initState();
   }
 
@@ -29,8 +29,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: FutureBuilder<MovieModel>(
-          future: movieModel,
+        body: FutureBuilder<ShowModel>(
+          future: showModel,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return SingleChildScrollView(
@@ -48,7 +48,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         children: <Widget>[
                           Text(
                             "${snapshot.data.original_title}",
-                            style: Theme.of(context).textTheme.headline4,
+                            style: Theme.of(context).textTheme.headline,
                           ),
                           SizedBox(
                             height: 7.0,
@@ -60,7 +60,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 (i) {
                                   return TextSpan(
                                       text:
-                                          "${snapshot.data.genre[i]['name']}");
+                                          "${snapshot.data.genre[i]['name']} ");
                                 },
                               ),
                               style: Theme.of(context).textTheme.caption,
@@ -118,7 +118,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     style: Theme.of(context).textTheme.caption,
                                   ),
                                   Text(
-                                    "${snapshot.data.run_time}min",
+                                    "${snapshot.data.run_time} min",
                                     style: Theme.of(context).textTheme.subhead,
                                   ),
                                 ],
@@ -154,5 +154,3 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 }
-
-//poster_imgUrl,original_title,genre,release_date,country,runtime,overview

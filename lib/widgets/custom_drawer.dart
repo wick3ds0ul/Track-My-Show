@@ -52,7 +52,9 @@ class CustomDrawer extends StatelessWidget {
               AppBarWidget(
                 title: 'Shows',
                 icon: Icons.show_chart,
-                routeF: () {},
+                routeF: () {
+                  Navigator.of(context).pushNamed(showScreen);
+                },
               ),
               AppBarWidget(
                 title: 'Logout',

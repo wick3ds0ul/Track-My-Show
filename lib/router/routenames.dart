@@ -4,4 +4,6 @@ const String movieScreen = '/movieScreen';
 const String registerScreen = '/registerScreen';
 const String forgotPasswordScreen = 'forgotPasswordScreen';
 const String movieDetailsScreen = '/movieDetailsScreen';
+const String showScreen = '/showScreen';
+const String showDetailsScreen = '/showDetailsScreen';
 const String tvDetailScreen = '/showDetailScreen';

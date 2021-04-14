@@ -4,7 +4,11 @@ import 'package:track_my_show/models/MovieModels/adventure_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/animation_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/genre_model.dart';
-import 'package:track_my_show/services/api.dart';
+
+import 'package:track_my_show/services/movies_api.dart';
+import 'package:track_my_show/widgets/custom_drawer.dart';
+import 'package:track_my_show/widgets/movie_item.dart';
+// import 'package:track_my_show/services/api.dart';
 import 'package:track_my_show/widgets/custom_drawer.dart';
 import 'package:track_my_show/services/auth_service.dart';
 import 'package:track_my_show/models/MovieModels/search_item.dart';
@@ -30,11 +34,11 @@ class _MovieScreenState extends State<MovieScreen> {
   Future<List<AdventureMovieModel>> adventureMovies;
   Future<List<AnimationMovieModel>> animationMovies;
 
-  Api _api;
+  MoviesApi _api;
   @override
   void initState() {
     super.initState();
-    _api = Api();
+    _api = MoviesApi();
     featuredMovies = _api.getFeaturedMovies();
     actionMovies = _api.getActionMovies();
     adventureMovies = _api.getAdventureMovies();
@@ -122,7 +126,7 @@ class DataSearch extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     return FutureBuilder<List<SearchItem>>(
-      future: Api().searchItems(query),
+      future: MoviesApi().searchItems(query),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data == null) {
@@ -157,8 +161,9 @@ class DataSearch extends SearchDelegate {
                             print(
                                 "SEARCH API with ID:${searchItems[index].id}");
                             searchItems[index].media_type == 'tv'
-                                ? Navigator.pushNamed(context, tvDetailScreen,
-                                    arguments: searchItems[index].name)
+                                ? Navigator.of(context).pushNamed(
+                                    showDetailsScreen,
+                                    arguments: searchItems[index].id)
                                 : Navigator.pushNamed(
                                     context, movieDetailsScreen,
                                     arguments: searchItems[index].id);

@@ -4,12 +4,19 @@ import 'package:http/http.dart' as http;
 import 'package:track_my_show/models/MovieModels/action_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/adventure_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/animation_movie_model.dart';
+
+import 'package:track_my_show/models/MovieModels/genre_movies_model.dart';
+import 'package:track_my_show/models/MovieModels/genre_movies_model.dart';
+import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
+import 'package:track_my_show/models/MovieModels/genre_model.dart';
+import 'package:track_my_show/models/MovieModels/movie_model.dart';
+import 'package:track_my_show/models/ShowModels/popular_shows_model.dart';
 import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/genre_model.dart';
 import 'package:track_my_show/models/MovieModels/movie_model.dart';
 import 'package:track_my_show/models/MovieModels/search_item.dart';
 
-class Api {
+class MoviesApi {
   var httpClient = http.Client();
 
   static const url = "https://api.themoviedb.org/3";
@@ -39,7 +46,7 @@ class Api {
     if (response.statusCode == 200) {
       final parsed =
           json.decode(response.body)['results'].cast<Map<String, dynamic>>();
-      // print(parsed);
+      print(parsed);
       return parsed
           .map<FeaturedMovieModel>((json) => FeaturedMovieModel.fromJson(json))
           .toList();
