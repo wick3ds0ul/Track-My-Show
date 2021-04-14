@@ -160,8 +160,9 @@ class DataSearch extends SearchDelegate {
                             print(
                                 "SEARCH API with ID:${searchItems[index].id}");
                             searchItems[index].media_type == 'tv'
-                                ? Navigator.pushNamed(context, tvDetailScreen,
-                                    arguments: searchItems[index].name)
+                                ? Navigator.of(context).pushNamed(
+                                    showDetailsScreen,
+                                    arguments: searchItems[index].id)
                                 : Navigator.pushNamed(
                                     context, movieDetailsScreen,
                                     arguments: searchItems[index].id);
