@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:track_my_show/Screens/listScreen/list.dart';
 import 'package:track_my_show/Screens/movieScreen/movie_details_screen.dart';
 import 'package:track_my_show/Screens/forgot_password.dart';
 import 'package:track_my_show/Screens/movieScreen/movieScreen.dart';
@@ -37,7 +38,8 @@ class RouteGenerator {
             builder: (_) => ShowDetailsScreen(
                   id: args,
                 ));
-
+      case listScreen:
+        return MaterialPageRoute(builder: (_) => MyList());
       default:
         return null;
     }

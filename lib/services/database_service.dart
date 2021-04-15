@@ -29,6 +29,7 @@ class DatabaseService {
     );
   }
 
+  //Add a new Movie
   Future addMovie(MovieModel movie) async {
     return await showCollection
         .doc(uid)
@@ -49,7 +50,47 @@ class DatabaseService {
     );
   }
 
-  Stream<DocumentSnapshot> get movies {
-    return showCollection.doc(uid).collection('movies').doc().snapshots();
+  //Delete Movie
+  Future deleteMovie(String id) async {
+    await showCollection.doc(uid).collection('movies').doc(id).delete();
+  }
+
+  //Helper
+  List<MovieModel> _movieSnapshot(QuerySnapshot querySnapshot) {
+    return querySnapshot.docs.map((doc) {
+      return MovieModel(
+          original_title: doc.data()['original_title'],
+          overview: doc.data()['overview'],
+          poster_path: doc.data()['poster_path'],
+          id: doc.data()['id'],
+          country: doc.data()['country'],
+          release_date: doc.data()['release_date'],
+          run_time: doc.data()['run_time'],
+          genre: doc.data()['genre'],
+          rating: doc.data()['rating'].toDouble());
+    }).toList();
+  }
+
+//Read Movie in realtime
+  Stream<List<MovieModel>> get movies {
+    return showCollection
+        .doc(uid)
+        .collection('movies')
+        .snapshots()
+        .map(_movieSnapshot);
+  }
+
+  //Check if movie present in collection
+
+  Future<bool> checkMoviePresent(String id) async {
+    final item =
+        await showCollection.doc(uid).collection('movies').doc(id).get();
+    if (item.exists) {
+      print("Item here");
+      return true;
+    } else {
+      print("Item not here");
+      return false;
+    }
   }
 }

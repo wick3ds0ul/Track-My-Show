@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:track_my_show/models/user.dart';
 import 'package:track_my_show/services/database_service.dart';
 import 'package:track_my_show/services/firebase_errors.dart';
+import 'package:track_my_show/widgets/common_widgets.dart';
 
 class MovieImage extends StatelessWidget {
   final String imgUrl;
@@ -76,16 +77,27 @@ class MovieImage extends StatelessWidget {
                   iconSize: 40,
                   onPressed: () async {
                     print(movie);
-                    try {
-                      await _databaseService.addMovie(movie);
-                    } catch (e) {
-                      print(e.toString());
+                    bool check = await _databaseService
+                        .checkMoviePresent(movie.id.toString());
+                    //item already present
+                    if (check) {
+                      showInSnackBar("Movie Already Added", context);
+                    } else {
+                      try {
+                        await _databaseService.addMovie(movie);
+                        showInSnackBar("Movie Added", context);
+                      } catch (e) {
+                        print(e.toString());
+                        showInSnackBar(e.toString(), context);
+                      }
                     }
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.share),
-                  onPressed: () {},
+                  onPressed: () {
+                    _databaseService.checkMoviePresent(movie.id.toString());
+                  },
                 ),
               ],
             ),
