@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/movie_model.dart';
 import 'package:track_my_show/router/routenames.dart';

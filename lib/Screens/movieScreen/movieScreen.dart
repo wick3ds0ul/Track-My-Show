@@ -4,6 +4,7 @@ import 'package:track_my_show/models/MovieModels/adventure_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/animation_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/genre_model.dart';
+
 import 'package:track_my_show/services/movies_api.dart';
 import 'package:track_my_show/widgets/custom_drawer.dart';
 import 'package:track_my_show/widgets/movie_item.dart';

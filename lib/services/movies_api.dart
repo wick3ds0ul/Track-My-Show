@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:track_my_show/models/MovieModels/action_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/adventure_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/animation_movie_model.dart';
+
 import 'package:track_my_show/models/MovieModels/genre_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/genre_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
