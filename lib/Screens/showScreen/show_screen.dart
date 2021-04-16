@@ -9,6 +9,7 @@ import 'package:track_my_show/services/shows_api.dart';
 import 'package:track_my_show/widgets/custom_drawer.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
 import 'package:track_my_show/widgets/show_item.dart';
+import 'package:track_my_show/Screens/movieScreen/movieScreen.dart';
 
 class ShowScreen extends StatefulWidget {
   @override
