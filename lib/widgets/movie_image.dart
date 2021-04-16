@@ -10,7 +10,7 @@ import 'package:track_my_show/widgets/common_widgets.dart';
 class MovieImage extends StatelessWidget {
   final String imgUrl;
   final MovieModel movie;
-  const MovieImage({Key key, @required this.imgUrl, @required this.movie})
+  const MovieImage({Key key, @required this.imgUrl, this.movie})
       : super(key: key);
   @override
   @override
@@ -64,43 +64,51 @@ class MovieImage extends StatelessWidget {
           ),
           Positioned(
             height: 25,
-            bottom: 0,
-            left: 5,
-            right: 5,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.add),
-                  color: Colors.green,
-                  splashColor: Colors.greenAccent,
-                  iconSize: 40,
-                  onPressed: () async {
-                    print(movie);
-                    bool check = await _databaseService
-                        .checkMoviePresent(movie.id.toString());
-                    //item already present
-                    if (check) {
-                      showInSnackBar("Movie Already Added", context);
-                    } else {
-                      try {
-                        await _databaseService.addMovie(movie);
-                        showInSnackBar("Movie Added", context);
-                      } catch (e) {
-                        print(e.toString());
-                        showInSnackBar(e.toString(), context);
-                      }
+            bottom: 30,
+            // left: 20,
+            right: 150,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              height: 50,
+              child: IconButton(
+                icon: Icon(Icons.add),
+                color: Colors.green,
+                splashColor: Colors.greenAccent,
+                iconSize: 40,
+                onPressed: () async {
+                  print(movie);
+                  bool check = await _databaseService
+                      .checkMoviePresent(movie.id.toString());
+                  //item already present
+                  if (check) {
+                    showInSnackBar("Movie Already Added", context);
+                  } else {
+                    try {
+                      await _databaseService.addMovie(movie);
+                      showInSnackBar("Movie Added", context);
+                    } catch (e) {
+                      print(e.toString());
+                      showInSnackBar(e.toString(), context);
                     }
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.share),
-                  onPressed: () {
-                    _databaseService.checkMoviePresent(movie.id.toString());
-                  },
-                ),
-              ],
+                  }
+                },
+              ),
             ),
+            // child: Row(
+
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: <Widget>[
+
+            //     IconButton(
+            //       icon: Icon(Icons.share),
+            //       onPressed: () {
+            //         _databaseService.checkMoviePresent(movie.id.toString());
+            //       },
+            //     ),
+            //   ],
+            // ),
           )
         ],
       ),

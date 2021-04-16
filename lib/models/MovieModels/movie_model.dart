@@ -1,8 +1,14 @@
 class MovieModel {
-  final String original_title, overview, poster_path, country, release_date;
+  final String original_title,
+      overview,
+      poster_path,
+      country,
+      release_date,
+      content_type;
   final int id, run_time;
   final double rating;
   final List genre;
+
   MovieModel(
       {this.country,
       this.rating,
@@ -12,6 +18,7 @@ class MovieModel {
       this.original_title,
       this.overview,
       this.poster_path,
+      this.content_type,
       this.id});
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     print("JSON DATA");
