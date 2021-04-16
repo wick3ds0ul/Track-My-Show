@@ -38,13 +38,8 @@ class RouteGenerator {
             builder: (_) => ShowDetailsScreen(
                   id: args,
                 ));
-      case tvDetailScreen:
-        return MaterialPageRoute(
-            builder: (_) => TVDetailScreen(
-                  name: args,
-                ));
       case listScreen:
-        return MaterialPageRoute(builder: (_) => List());
+        return MaterialPageRoute(builder: (_) => MyList());
       default:
         return null;
     }

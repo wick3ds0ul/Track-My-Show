@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:track_my_show/models/user.dart';
 import 'database_service.dart';
+import 'firebase_errors.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -169,6 +170,7 @@ class AuthService {
   //Sign in with google
 
   //Handle Errors
+  //
   String firebaseErrors(String errorCode) {
     String message;
     switch (errorCode) {
@@ -253,5 +255,4 @@ class AuthService {
 
     return message;
   }
-  //
 }

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:track_my_show/models/MovieModels/search_item.dart';
 import 'package:track_my_show/models/ShowModels/popular_shows_model.dart';
+import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
+import 'package:track_my_show/services/global.dart';
+import 'package:track_my_show/services/movies_api.dart';
 import 'package:track_my_show/services/shows_api.dart';
 import 'package:track_my_show/widgets/custom_drawer.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
@@ -32,6 +36,13 @@ class _ShowScreenState extends State<ShowScreen> {
           child: DefaultTabController(
             length: 1,
             child: Scaffold(
+              floatingActionButton: FloatingActionButton(
+                backgroundColor: Colors.redAccent,
+                child: Icon(Icons.search),
+                onPressed: () {
+                  showSearch(context: context, delegate: DataSearch());
+                },
+              ),
               drawer: CustomDrawer(auth: _auth),
               appBar: AppBar(
                 title: Text(
@@ -152,9 +163,8 @@ class PopularTabContent extends StatelessWidget {
                         mainAxisSpacing: 5),
                   );
                 } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return Center(child: CircularProgressIndicator()); // loading
+
                 }
               },
             ),
@@ -162,5 +172,102 @@ class PopularTabContent extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class DataSearch extends SearchDelegate {
+  @override
+  Widget buildResults(BuildContext context) {
+    return FutureBuilder<List<SearchItem>>(
+      future: MoviesApi().searchItems(query),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data == null) {
+            return Center(child: Text('Enter a valid query.'));
+          } else {
+            // print(snapshot.data);
+            List<SearchItem> searchItems = snapshot.data;
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                return searchItems[index].checkNullValues()
+                    ? SizedBox.shrink()
+                    : Card(
+                        child: ListTile(
+                          leading: Image.network(
+                            getPosterImage(searchItems[index].imageURL),
+                            fit: BoxFit.cover,
+                          ),
+                          title: Text('${searchItems[index].name}'),
+                          subtitle: Text(
+                            '${searchItems[index].overview}',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          trailing: Text(
+                            '${searchItems[index].media_type}'.toUpperCase(),
+                          ),
+                          onTap: () {
+                            print(
+                                "SEARCH API with ID:${searchItems[index].id}");
+                            searchItems[index].media_type == 'tv'
+                                ? Navigator.of(context).pushNamed(
+                                    showDetailsScreen,
+                                    arguments: searchItems[index].id)
+                                : Navigator.pushNamed(
+                                    context, movieDetailsScreen,
+                                    arguments: searchItems[index].id);
+                          },
+                        ),
+                      );
+              },
+              itemCount: searchItems.length,
+            );
+          }
+        } else {
+          return Center(child: CircularProgressIndicator()); // loading
+        }
+      },
+    );
+  }
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    //Actions for AppBar
+    return [
+      //This will clear the text
+      IconButton(
+          icon: Icon(
+            Icons.clear,
+          ),
+          onPressed: () {
+            query = "";
+          })
+    ];
+    // throw UnimplementedError();
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    //Leading icon on the left of AppBar
+    return IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation,
+        ),
+        onPressed: () {
+          close(context, null);
+          // Navigator.of(context).pop();
+        });
+    // throw UnimplementedError();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    //show when someone searches for something
+    return Container();
   }
 }

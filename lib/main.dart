@@ -19,14 +19,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<AppUser>.value(
-      // initialData: null,
       value: AuthService().user,
       initialData: null,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Track My Show',
         theme: themeData,
-        initialRoute: movieScreen,
+        initialRoute: wrapper,
         onGenerateRoute: RouteGenerator.generateRoute,
         onUnknownRoute: (settings) {
           return MaterialPageRoute(builder: (ctx) => ErrorRoute());
