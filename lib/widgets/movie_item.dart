@@ -4,9 +4,10 @@ import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/movie_model.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/global.dart';
+import 'package:track_my_show/models/basic_model.dart';
 
 class MovieItem extends StatelessWidget {
-  final MovieModel snapshot;
+  final BasicModel snapshot;
 
   const MovieItem({
     Key key,
@@ -16,8 +17,11 @@ class MovieItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .pushNamed(movieDetailsScreen, arguments: snapshot.id);
+        snapshot.content_type == "movie"
+            ? Navigator.of(context)
+                .pushNamed(movieDetailsScreen, arguments: snapshot.id)
+            : Navigator.of(context)
+                .pushNamed(showDetailsScreen, arguments: snapshot.id);
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,

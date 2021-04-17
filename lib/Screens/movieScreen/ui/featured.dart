@@ -37,7 +37,7 @@ class FeaturedTabContent extends StatelessWidget {
                   );
                 } else {
                   return Center(
-                    child: Text("Loading..."),
+                    child: CircularProgressIndicator(),
                   );
                 }
               },

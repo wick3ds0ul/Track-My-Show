@@ -1,4 +1,6 @@
-class MovieModel {
+import '../basic_model.dart';
+
+class MovieModel extends BasicModel {
   final String original_title,
       overview,
       poster_path,
@@ -49,6 +51,7 @@ class MovieModel {
         release_date: json['release_date'],
         run_time: json['runtime'],
         genre: json['genres'],
+        content_type: "movie",
         rating: json['vote_average']);
   }
   Map<String, dynamic> toJson() => {

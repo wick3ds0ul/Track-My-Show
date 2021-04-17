@@ -33,10 +33,12 @@ class _DetailsScreenState extends State<ShowDetailsScreen> {
           future: showModel,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              ShowModel show = snapshot.data;
               return SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     MovieImage(
+                      show: show,
                       imgUrl: getPosterImage(snapshot.data.poster_path),
                     ),
                     SizedBox(
