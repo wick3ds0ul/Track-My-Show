@@ -31,5 +31,5 @@ The main objective of doing this project is Learning and working with: 1.[Flutte
 1. Push to the branch
    `git push origin your-new-branch-name`
 1. Create a new Pull Request
-1. To rename a branch git 
-   `branch -m new-name` within the sane branch
+1. To rename a branch  
+   `git branch -m new-name` within the sane branch
