@@ -21,7 +21,6 @@ class MovieImage extends StatelessWidget {
     print(user.uid);
     DatabaseService _databaseService = DatabaseService(uid: user.uid);
     return Container(
-      color: Colors.blueAccent,
       child: Stack(
         children: [
           Positioned(
@@ -65,74 +64,77 @@ class MovieImage extends StatelessWidget {
             ),
           ),
           Positioned(
-            height: 25,
-            bottom: 30,
+            height: 40,
+            bottom: 0,
             // left: 20,
-            right: 150,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              height: 50,
-              child: IconButton(
-                icon: Icon(Icons.add),
-                color: Colors.green,
-                splashColor: Colors.greenAccent,
-                iconSize: 40,
-                onPressed: () async {
-                  if (movie != null) {
-                    print("Movie is not null");
-                    print(movie);
-                    bool check = await _databaseService
-                        .checkMoviePresent(movie.id.toString());
-                    //item already present
-                    if (check) {
-                      showInSnackBar("Movie Already Added", context);
-                    } else {
-                      try {
-                        await _databaseService.addMovie(movie);
-                        showInSnackBar("Movie Added", context);
-                      } catch (e) {
-                        print(e.toString());
-                        showInSnackBar(e.toString(), context);
-                      }
+            right: 155,
+            child: InkWell(
+              onTap: () async {
+                if (movie != null) {
+                  print("Movie is not null");
+                  print(movie);
+                  bool check = await _databaseService
+                      .checkMoviePresent(movie.id.toString());
+                  //item already present
+                  if (check) {
+                    showInSnackBar("Movie Already Added", context);
+                  } else {
+                    try {
+                      await _databaseService.addMovie(movie);
+                      showInSnackBar("Movie Added", context);
+                    } catch (e) {
+                      print(e.toString());
+                      showInSnackBar(e.toString(), context);
                     }
                   }
-                  if (show != null) {
-                    print("Show is not null");
-                    print(show);
-                    bool check = await _databaseService
-                        .checkShowPresent(show.id.toString());
-                    //item already present
-                    if (check) {
-                      showInSnackBar("Show Already Added", context);
-                    } else {
-                      try {
-                        await _databaseService.addShow(show);
-                        showInSnackBar("Show Added", context);
-                      } catch (e) {
-                        print(e.toString());
-                        showInSnackBar(e.toString(), context);
-                      }
+                }
+                if (show != null) {
+                  print("Show is not null");
+                  print(show);
+                  bool check = await _databaseService
+                      .checkShowPresent(show.id.toString());
+                  //item already present
+                  if (check) {
+                    showInSnackBar("Show Already Added", context);
+                  } else {
+                    try {
+                      await _databaseService.addShow(show);
+                      showInSnackBar("Show Added", context);
+                    } catch (e) {
+                      print(e.toString());
+                      showInSnackBar(e.toString(), context);
                     }
                   }
-                },
+                }
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.black54),
+                height: 50,
+                child: Icon(
+                  Icons.add,
+                  color: Color(0xFFFF0000),
+                  size: 40,
+                ),
+
+                // onPressed:
               ),
             ),
-            // child: Row(
+          ),
+          // child: Row(
 
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: <Widget>[
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: <Widget>[
 
-            //     IconButton(
-            //       icon: Icon(Icons.share),
-            //       onPressed: () {
-            //         _databaseService.checkMoviePresent(movie.id.toString());
-            //       },
-            //     ),
-            //   ],
-            // ),
-          )
+          //     IconButton(
+          //       icon: Icon(Icons.share),
+          //       onPressed: () {
+          //         _databaseService.checkMoviePresent(movie.id.toString());
+          //       },
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );

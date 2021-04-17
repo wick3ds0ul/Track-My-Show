@@ -17,7 +17,7 @@ class ShowsApi {
     if (response.statusCode == 200) {
       final parsed =
           json.decode(response.body)['results'].cast<Map<String, dynamic>>();
-      print(parsed);
+      // print(parsed);
       return parsed
           .map<PopularShowModel>((json) => PopularShowModel.fromJson(json))
           .toList();

@@ -50,13 +50,13 @@ class ShowItem extends StatelessWidget {
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15),
                   ),
-                  color: Colors.black45,
+                  color: Colors.black.withOpacity(.7),
                 ),
                 child: Text(
                   snapshot.original_title,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 23,
+                    fontSize: 20,
                   ),
                   softWrap: true,
                   maxLines: 2,

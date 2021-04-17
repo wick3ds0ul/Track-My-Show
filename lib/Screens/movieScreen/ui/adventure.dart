@@ -16,7 +16,7 @@ class AdventureTabContent extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.87,
             child: FutureBuilder<List<AdventureMovieModel>>(
               future: adventureMovies,
               builder: (context, snapshot) {

@@ -41,7 +41,7 @@ class _MyListState extends State<MyList> {
                       return StreamBuilder<List<ShowModel>>(
                           stream: _databaseService.shows,
                           builder: (context, snapshot2) {
-                            if (snapshot1.hasData || snapshot2.hasData) {
+                            if (snapshot1.hasData && snapshot2.hasData) {
                               List<MovieModel> movies = snapshot1.data;
                               List<ShowModel> shows = snapshot2.data;
                               final List<BasicModel> items = [

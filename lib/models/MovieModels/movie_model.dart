@@ -6,7 +6,7 @@ class MovieModel extends BasicModel {
       poster_path,
       country,
       release_date,
-      content_type;
+      content_type = "movie";
   final int id, run_time;
   final double rating;
   final List genre;
@@ -20,22 +20,22 @@ class MovieModel extends BasicModel {
       this.original_title,
       this.overview,
       this.poster_path,
-      this.content_type,
+      // this.content_type,
       this.id});
   factory MovieModel.fromJson(Map<String, dynamic> json) {
-    print("JSON DATA");
-    print(json);
-    print('original_title: ${json['original_title'] ?? json['name']} ');
-    print('imageURL:${json['poster_path'] ?? json['backdrop_path']}');
-    print('overview:${json['overview']}');
-    // print(' ${json['poster_path'] ?? json['backdrop_path']}');
-    print('id:${json['id']}');
-    // print('country:${json['origin_country'][0] ?? "N/A"}');
-    print('release_date:${json['release_date']}');
-    print('Genres:${json['genres']}');
-    print('rating:${json['vote_average'].toDouble()}');
+    // print("JSON DATA");
+    // print(json);
+    // print('original_title: ${json['original_title'] ?? json['name']} ');
+    // print('imageURL:${json['poster_path'] ?? json['backdrop_path']}');
+    // print('overview:${json['overview']}');
+    // // print(' ${json['poster_path'] ?? json['backdrop_path']}');
+    // print('id:${json['id']}');
+    // // print('country:${json['origin_country'][0] ?? "N/A"}');
+    // print('release_date:${json['release_date']}');
+    // print('Genres:${json['genres']}');
+    // print('rating:${json['vote_average'].toDouble()}');
     var country = json['production_countries'];
-    print("Country:${country}");
+    // print("Country:${country}");
     if (country.length == 0) {
       country = "N/A";
     } else {
@@ -51,7 +51,7 @@ class MovieModel extends BasicModel {
         release_date: json['release_date'],
         run_time: json['runtime'],
         genre: json['genres'],
-        content_type: "movie",
+        // content_type: "movie",
         rating: json['vote_average']);
   }
   Map<String, dynamic> toJson() => {
@@ -82,19 +82,19 @@ class TV {
       this.poster_path,
       this.id});
   factory TV.fromJson(Map<String, dynamic> json) {
-    print("JSON DATA");
-    print(json);
-    print('original_title: ${json['original_name'] ?? json['name']} ');
-    print('imageURL:${json['poster_path'] ?? json['backdrop_path']}');
-    print('overview:${json['overview']}');
-    // print(' ${json['poster_path'] ?? json['backdrop_path']}');
-    print('id:${json['id']}');
-    // print('country:${json['origin_country'][0] ?? "N/A"}');
-    print('release_date:${json['first_air_date']}');
-    print('Genres:${json['genre_ids']}');
+    // print("JSON DATA");
+    // print(json);
+    // print('original_title: ${json['original_name'] ?? json['name']} ');
+    // print('imageURL:${json['poster_path'] ?? json['backdrop_path']}');
+    // print('overview:${json['overview']}');
+    // // print(' ${json['poster_path'] ?? json['backdrop_path']}');
+    // print('id:${json['id']}');
+    // // print('country:${json['origin_country'][0] ?? "N/A"}');
+    // print('release_date:${json['first_air_date']}');
+    // print('Genres:${json['genre_ids']}');
     print('rating:${json['vote_average'].toDouble()}');
     var country = json['origin_country'];
-    print("Country:${country}");
+    // print("Country:${country}");
     if (country.length == 0) {
       country = "N/A";
     } else {

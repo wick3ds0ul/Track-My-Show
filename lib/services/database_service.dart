@@ -70,7 +70,7 @@ class DatabaseService {
           release_date: doc.data()['release_date'],
           run_time: doc.data()['run_time'],
           genre: doc.data()['genre'],
-          content_type: doc.data()['content_type'],
+          // content_type: doc.data()['content_type'],
           rating: doc.data()['rating'].toDouble());
     }).toList();
   }
@@ -137,7 +137,7 @@ class DatabaseService {
           release_date: doc.data()['release_date'],
           run_time: doc.data()['run_time'],
           genre: doc.data()['genre'],
-          content_type: doc.data()['content_type'],
+          // content_type: doc.data()['content_type'],
           rating: doc.data()['rating'].toDouble());
     }).toList();
   }

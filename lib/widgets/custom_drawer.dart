@@ -23,15 +23,15 @@ class CustomDrawer extends StatelessWidget {
                   "Track\nMy\nShow",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    shadows: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: const Offset(.9, 3.0),
-                          blurRadius: 1.0),
-                    ],
+                    // shadows: [
+                    //   BoxShadow(
+                    //       color: Colors.black.withOpacity(0.1),
+                    //       offset: const Offset(.5, 1.0),
+                    //       blurRadius: 1.0),
+                    // ],
                     fontFamily: 'comfortaa',
                     fontSize: 20,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.normal,
                     color: Colors.red,
                   ),
                 ),

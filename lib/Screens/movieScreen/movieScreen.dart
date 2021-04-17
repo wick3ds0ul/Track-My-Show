@@ -63,8 +63,9 @@ class _MovieScreenState extends State<MovieScreen> {
               ),
               drawer: CustomDrawer(auth: _auth),
               appBar: AppBar(
+                toolbarHeight: 70,
                 title: Text(
-                  'Homepage',
+                  'Movies',
                   style:
                       TextStyle(fontFamily: 'Comfortaa', color: Colors.black),
                 ),

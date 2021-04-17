@@ -16,7 +16,7 @@ class ActionTabContent extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.87,
             child: FutureBuilder<List<ActionMovieModel>>(
               future: actionMovies,
               builder: (context, snapshot) {

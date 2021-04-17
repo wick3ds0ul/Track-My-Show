@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:track_my_show/Screens/movieScreen/ui/tabbar.dart';
 import 'package:track_my_show/models/MovieModels/search_item.dart';
 import 'package:track_my_show/models/ShowModels/popular_shows_model.dart';
 import 'package:track_my_show/router/routenames.dart';
@@ -46,10 +47,14 @@ class _ShowScreenState extends State<ShowScreen> {
               ),
               drawer: CustomDrawer(auth: _auth),
               appBar: AppBar(
-                title: Text(
-                  'Shows',
-                  style:
-                      TextStyle(fontFamily: 'Comfortaa', color: Colors.black),
+                toolbarHeight: 60,
+                title: Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(
+                    'Shows',
+                    style:
+                        TextStyle(fontFamily: 'Comfortaa', color: Colors.black),
+                  ),
                 ),
                 backgroundColor: Color(0xFFFFFFFF),
                 leading: Builder(builder: (BuildContext context) {
@@ -93,43 +98,6 @@ class _ShowScreenState extends State<ShowScreen> {
   }
 }
 
-class TabBarWidget extends StatelessWidget {
-  final String name;
-  TabBarWidget({Key key, this.name}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.red,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.red,
-            blurRadius: 2.5,
-          )
-        ],
-      ),
-      // width: MediaQuery.of(context).size.width / 2.5,
-      constraints: BoxConstraints(minWidth: 80),
-      alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(
-        horizontal: 1,
-        vertical: 5.0,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
-      child: FittedBox(
-        child: Text(
-          name,
-          style: TextStyle(
-            fontFamily: 'Comfortaa',
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class PopularTabContent extends StatelessWidget {
   const PopularTabContent({
     Key key,
@@ -144,7 +112,7 @@ class PopularTabContent extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.87,
             child: FutureBuilder<List<PopularShowModel>>(
               future: popularShows,
               builder: (context, snapshot) {
@@ -248,7 +216,7 @@ class DataSearch extends SearchDelegate {
             query = "";
           })
     ];
-    // throw UnimplementedError();
+    // throw UnimplementedError(); height: MediaQuery.of(context).size.height * 0.87,
   }
 
   @override
