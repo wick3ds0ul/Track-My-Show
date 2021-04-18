@@ -22,7 +22,6 @@ class _ShowScreenState extends State<ShowScreen> {
   Future<List<PopularShowModel>> popularShows;
 
   ShowsApi _api;
-
   @override
   void initState() {
     // TODO: implement initState

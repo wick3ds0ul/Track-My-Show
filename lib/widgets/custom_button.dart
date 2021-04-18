@@ -16,7 +16,10 @@ class CustomButton extends StatelessWidget {
         child: Container(
           child: MaterialButton(
             color: color,
-            child: new Text(name, style: kButtonTextStyle),
+            child: new Text(
+              name,
+              style: kButtonTextStyle,
+            ),
             onPressed: onPressed,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

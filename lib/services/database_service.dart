@@ -48,7 +48,8 @@ class DatabaseService {
         'poster_path': movie.poster_path,
         'country': movie.country,
         'release_date': movie.release_date,
-        'content_type': movie.content_type
+        'content_type': movie.content_type,
+        'status': movie.status
       },
     );
   }
@@ -71,6 +72,7 @@ class DatabaseService {
           run_time: doc.data()['run_time'],
           genre: doc.data()['genre'],
           // content_type: doc.data()['content_type'],
+          status: doc.data()['status'],
           rating: doc.data()['rating'].toDouble());
     }).toList();
   }
@@ -115,7 +117,8 @@ class DatabaseService {
         'poster_path': show.poster_path,
         'country': show.country,
         'release_date': show.release_date,
-        'content_type': show.content_type
+        'content_type': show.content_type,
+        'status': show.status
       },
     );
   }
@@ -138,6 +141,7 @@ class DatabaseService {
           run_time: doc.data()['run_time'],
           genre: doc.data()['genre'],
           // content_type: doc.data()['content_type'],
+          status: doc.data()['status'],
           rating: doc.data()['rating'].toDouble());
     }).toList();
   }

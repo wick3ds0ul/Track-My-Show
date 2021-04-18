@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
@@ -38,11 +39,15 @@ class MovieItem extends StatelessWidget {
             Positioned.fill(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
-                child: Image.network(
-                  // movieList[id]['img'],
-                  getPosterImage(snapshot.poster_path),
-                  fit: BoxFit.cover,
+                child: CachedNetworkImage(
+                  imageUrl: getPosterImage(snapshot.poster_path),
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
+                // child: Image.network(
+                //   // movieList[id]['img'],
+                //   getPosterImage(snapshot.poster_path),
+                //   fit: BoxFit.cover,
               ),
             ),
             Positioned(

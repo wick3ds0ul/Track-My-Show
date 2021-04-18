@@ -19,6 +19,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
+
+  //show password
+  bool _isHidden = true;
   // Create a text controller. Later, use it to retrieve the
   // current value of the TextField.
   final _emailController = TextEditingController();
@@ -31,6 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 
   @override
@@ -96,8 +105,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _passwordController,
                         autofocus: false,
-                        obscureText: true,
+                        obscureText: _isHidden,
                         decoration: InputDecoration(
+                          suffixIcon: InkWell(
+                            onTap: _togglePasswordView,
+                            child: Icon(
+                              _isHidden
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              size: 23,
+                            ),
+                          ),
                           isDense: true,
                           contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
                           labelText: 'Password',

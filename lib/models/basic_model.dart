@@ -5,6 +5,7 @@ class BasicModel {
       country,
       release_date,
       content_type;
+  String status;
   final int id, run_time;
   final double rating;
   final List genre;
@@ -18,5 +19,6 @@ class BasicModel {
       this.overview,
       this.poster_path,
       this.content_type,
-      this.id});
+      this.id,
+      this.status});
 }

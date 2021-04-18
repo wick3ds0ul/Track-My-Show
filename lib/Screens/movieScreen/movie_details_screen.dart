@@ -20,6 +20,7 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   MoviesApi _api;
   Future<MovieModel> movieModel;
+  String _chosenValue;
   @override
   void initState() {
     _api = MoviesApi();
@@ -129,6 +130,45 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 ],
                               ),
                             ],
+                          ),
+                          SizedBox(height: 13.0),
+                          Container(
+                            // TODO stylized the dropdown button
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 0),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 2, color: Color(0xFF858484))),
+                            child: DropdownButton(
+                              value: (_chosenValue == null)
+                                  ? 'Watching'
+                                  : _chosenValue,
+                              items: <String>[
+                                'Watching',
+                                'Completed',
+                                'OnHold',
+                                'Want to Watch',
+                                'Dropped' //movies ke liye thoda alag hoga
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String value) {
+                                setState(() {
+                                  _chosenValue = value;
+                                });
+                                snapshot.data.status = value;
+                              },
+                              elevation: 5,
+                              icon: Icon(
+                                Icons.arrow_drop_down_sharp,
+                                color: Colors.blue,
+                              ),
+                              iconSize: 42,
+                              focusColor: Color(0xFFF08080),
+                            ),
                           ),
                           SizedBox(height: 13.0),
                           Text(

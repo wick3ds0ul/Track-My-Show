@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
+import 'package:track_my_show/utils/constants.dart';
+import 'package:track_my_show/utils/size_config.dart';
 import 'package:track_my_show/widgets/common_widgets.dart';
 import '../LoginScreen/form_validation.dart';
 
@@ -12,6 +14,9 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
+  //show password
+  bool _isHidden = true;
+
   // Create a text controller. Later, use it to retrieve the
   // current value of the TextField.
   final _emailController = TextEditingController();
@@ -19,6 +24,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _repasswordController = TextEditingController();
 
   final AuthService _auth = AuthService();
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
+  }
 
   @override
   void dispose() {
@@ -47,15 +57,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   padding: EdgeInsets.only(top: 50, bottom: 15, left: 15),
                   child: Text('SignUp',
                       style: TextStyle(
-                          fontFamily: 'Comfortaa',
-                          fontSize: 35,
-                          fontWeight: FontWeight.w500,
-                          shadows: [
-                            Shadow(
-                                color: Colors.black.withOpacity(0.3),
-                                offset: Offset(0, 5),
-                                blurRadius: 7)
-                          ]))),
+                        fontFamily: 'Comfortaa',
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
+                        // shadows: [
+                        //   Shadow(
+                        //       color: Colors.black.withOpacity(0.3),
+                        //       offset: Offset(0, 5),
+                        //       blurRadius: 7)
+                        // ]
+                      ))),
               Form(
                 key: _formKey,
                 child: Padding(
@@ -91,38 +102,63 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               }
                             }
                           },
-                          child: Text("NEXT",
-                              style: GoogleFonts.roboto(
-                                  textStyle: TextStyle(fontSize: 13),
-                                  fontWeight: FontWeight.bold)),
+                          child: Text("NEXT", style: kButtonTextStyle
+                              // GoogleFonts.roboto(
+                              //     textStyle: TextStyle(fontSize: 13),
+                              //     fontWeight: FontWeight.bold)
+                              ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 15),
-                        alignment: Alignment.bottomLeft,
-                        child: TextButton.icon(
-                            style: TextButton.styleFrom(
-                                backgroundColor: Colors.black.withOpacity(0.7),
-                                onSurface: Colors.grey,
-                                primary: Colors.white),
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst);
-                              Navigator.pushReplacementNamed(
-                                  context, loginScreen);
-                            },
-                            icon: Icon(
-                              Icons.arrow_back_ios_rounded,
-                              color: Colors.white,
-                            ),
-                            label: Text(
-                              'Go Back',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontFamily: 'comfortaa',
-                                  fontSize: 15),
-                            )),
-                      )
+                      SizedBox(
+                        height: getProportionateScreenHeight(40),
+                      ),
+                      Text('Already have an account?'),
+                      // SizedBox(
+                      //   height: getProportionateScreenHeight(20),
+                      // ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                          Navigator.pushReplacementNamed(context, loginScreen);
+                        },
+                        child: Text(
+                          'Sign In',
+                          style: GoogleFonts.roboto(
+                            fontSize: 20,
+                            // decoration: TextDecoration.underline,
+                            // backgroundColor: Color.fromARGB(10, 255, 10, 56),
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      // Container(
+                      //   padding: EdgeInsets.only(top: 15),
+                      //   alignment: Alignment.bottomLeft,
+                      //   child: TextButton.icon(
+                      //       style: TextButton.styleFrom(
+                      //           backgroundColor: Colors.black.withOpacity(0.7),
+                      //           onSurface: Colors.grey,
+                      //           primary: Colors.white),
+                      //       onPressed: () {
+                      //         Navigator.of(context)
+                      //             .popUntil((route) => route.isFirst);
+                      //         Navigator.pushReplacementNamed(
+                      //             context, loginScreen);
+                      //       },
+                      //       icon: Icon(
+                      //         Icons.arrow_back_ios_rounded,
+                      //         color: Colors.white,
+                      //       ),
+                      //       label: Text(
+                      //         'Go Back',
+                      //         style: TextStyle(
+                      //             fontWeight: FontWeight.w800,
+                      //             fontFamily: 'comfortaa',
+                      //             fontSize: 15),
+                      //       )),
+                      // )
                     ],
                   ),
                 ),
@@ -179,6 +215,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           cursorColor: Colors.black,
           obscureText: true,
           decoration: InputDecoration(
+            suffixIcon: InkWell(
+              onTap: _togglePasswordView,
+              child: Icon(
+                _isHidden ? Icons.visibility : Icons.visibility_off,
+              ),
+            ),
             isDense: true,
             contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
             hintText: "A-Ba-b1-9@#\$%^&*",
@@ -223,6 +265,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           cursorColor: Colors.black,
           obscureText: true,
           decoration: InputDecoration(
+            suffixIcon: InkWell(
+              onTap: _togglePasswordView,
+              child: Icon(
+                _isHidden ? Icons.visibility : Icons.visibility_off,
+              ),
+            ),
             isDense: true,
             contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
             hintText: "A-Ba-b1-9@#\$%^&*",

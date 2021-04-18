@@ -7,6 +7,8 @@ class ShowModel extends BasicModel {
       country,
       release_date,
       content_type = "tv";
+  String status = "want to watch";
+
   final int id, run_time;
   final double rating;
   final List genre;
@@ -19,7 +21,7 @@ class ShowModel extends BasicModel {
       this.original_title,
       this.overview,
       this.poster_path,
-      // this.content_type,
+      this.status,
       this.id});
   factory ShowModel.fromJson(Map<String, dynamic> json) {
     return ShowModel(
@@ -31,7 +33,6 @@ class ShowModel extends BasicModel {
         release_date: json['first_air_date'],
         run_time: json['runtime'],
         genre: json['genres'],
-        // content_type: "tv",
         rating: json['vote_average'].toDouble());
   }
 }

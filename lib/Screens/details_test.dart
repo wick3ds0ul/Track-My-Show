@@ -6,6 +6,7 @@ import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/widgets/movie_image.dart';
 import '../data/tv_genre.dart';
 
+//TODO:Trash
 class TVDetailScreen extends StatefulWidget {
   final String name;
 

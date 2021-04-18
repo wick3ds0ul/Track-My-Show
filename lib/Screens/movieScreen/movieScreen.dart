@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:track_my_show/models/MovieModels/action_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/adventure_movies_model.dart';
@@ -58,7 +59,10 @@ class _MovieScreenState extends State<MovieScreen> {
                 backgroundColor: Colors.redAccent,
                 child: Icon(Icons.search),
                 onPressed: () {
-                  showSearch(context: context, delegate: DataSearch());
+                  showSearch(
+                    context: context,
+                    delegate: DataSearch(),
+                  );
                 },
               ),
               drawer: CustomDrawer(auth: _auth),
@@ -133,17 +137,23 @@ class DataSearch extends SearchDelegate {
           if (snapshot.data == null) {
             return Center(child: Text('Enter a valid query.'));
           } else {
-            // print(snapshot.data);
+            // print(snapshot.data);ha
             List<SearchItem> searchItems = snapshot.data;
             return ListView.builder(
               itemBuilder: (context, index) {
                 return searchItems[index].checkNullValues()
                     ? SizedBox.shrink()
                     : Card(
+                        //galat isme daala kya
                         child: ListTile(
-                          leading: Image.network(
-                            getPosterImage(searchItems[index].imageURL),
+                          leading: CachedNetworkImage(
+                            imageUrl:
+                                getPosterImage(searchItems[index].imageURL),
                             fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
                           title: Text('${searchItems[index].name}'),
                           subtitle: Text(
