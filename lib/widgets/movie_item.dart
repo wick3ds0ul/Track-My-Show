@@ -40,8 +40,13 @@ class MovieItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: CachedNetworkImage(
-                  imageUrl: getPosterImage(snapshot.poster_path),
-                  placeholder: (context, url) => CircularProgressIndicator(),
+                  filterQuality: FilterQuality.none,
+                  imageUrl: getTileImage(snapshot.poster_path),
+                  // imageUrl: getPosterImage(snapshot.poster_path),
+                  fit: BoxFit.cover,
+                  // placeholder: (context, url) => Container(
+                  //   child: Center(child: CircularProgressIndicator()),
+                  // ),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
                 // child: Image.network(

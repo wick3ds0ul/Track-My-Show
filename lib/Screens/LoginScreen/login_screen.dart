@@ -268,9 +268,9 @@ class _LoginScreenState extends State<LoginScreen> {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.09),
-                blurRadius: 10.0,
-                spreadRadius: 2,
-                offset: Offset(0, 6),
+                blurRadius: 4.0,
+                spreadRadius: 1,
+                offset: Offset(0, 1),
               )
             ]),
         child: IconButton(

@@ -147,8 +147,7 @@ class DataSearch extends SearchDelegate {
                         //galat isme daala kya
                         child: ListTile(
                           leading: CachedNetworkImage(
-                            imageUrl:
-                                getPosterImage(searchItems[index].imageURL),
+                            imageUrl: getTileImage(searchItems[index].imageURL),
                             fit: BoxFit.cover,
                             placeholder: (context, url) =>
                                 CircularProgressIndicator(),

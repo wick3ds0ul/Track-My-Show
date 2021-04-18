@@ -134,7 +134,6 @@ class AuthService {
       return Future.error(errorMessage);
     }
   }
-
   //TODO:Check if email is already registered
 
   Future checkEmail(String email) async {
