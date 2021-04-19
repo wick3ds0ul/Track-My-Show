@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:track_my_show/models/MovieModels/movie_model.dart';
+import 'package:track_my_show/services/database_service.dart';
 import 'package:track_my_show/services/movies_api.dart';
 import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/widgets/movie_image.dart';
@@ -8,42 +9,37 @@ import 'package:track_my_show/models/user.dart';
 import 'package:provider/provider.dart';
 import 'package:track_my_show/models/user.dart';
 
-class DetailsScreen extends StatefulWidget {
-  final int id;
-
-  const DetailsScreen({Key key, this.id}) : super(key: key);
+class MovieDetailsScreen extends StatefulWidget {
+  final Map<String, Object> args;
+  const MovieDetailsScreen({Key key, this.args}) : super(key: key);
 
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _DetailsScreenState extends State<MovieDetailsScreen> {
   MoviesApi _api;
-  Future<MovieModel> movieModel;
+  Future<MovieModel> movieModel, movieModelPresent;
+  DatabaseService _databaseService;
+
   // String _chosenValue;
   @override
   void initState() {
-    _api = MoviesApi();
-    // Future<bool> isMoviePresentInFirebaseDB =
-    //     _databaseService.checkMoviePresent(snapshot.id);
-    // if (isMoviePresentInFirebaseDB) {
-    //   MovieModel movie =await _databaseService.getMovieByID(snapshot.id);
-    // }
-    movieModel = _api.getMovieInfo(widget.id);
     super.initState();
+    _api = MoviesApi();
+    movieModel = _api.getMovieInfo(widget.args['snapid']);
+    _databaseService = DatabaseService(uid: widget.args['uid']);
+    movieModelPresent = _databaseService.getMovieByID(widget.args['snapid']);
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<AppUser>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body:
-            //isMoviePresentInFirebaseDB?
-            //Future for DB goes here
-            //calling fro api:
-            FutureBuilder<MovieModel>(
-          future: movieModel,
+        body: FutureBuilder<MovieModel>(
+          future: (!widget.args['isPresent']) ? movieModel : movieModelPresent,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               MovieModel movie = snapshot.data;
@@ -53,6 +49,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     MovieImage(
                       movie: movie,
                       imgUrl: getPosterImage(snapshot.data.poster_path),
+                      isPresent: widget.args['isPresent'],
                     ),
                     SizedBox(
                       height: 15,
@@ -149,6 +146,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 border: Border.all(
                                     width: 2, color: Color(0xFF858484))),
                             child: DropdownButton(
+                              //staus either from DB or default from class
                               value: snapshot.data.status,
                               items: <String>[
                                 'Watching',
@@ -156,17 +154,34 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 'OnHold',
                                 'Want to Watch',
                                 'Dropped'
-                              ].map<DropdownMenuItem<String>>((String value) {
+                              ].map<DropdownMenuItem<String>>(
+                                  (String selectedValue) {
                                 return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
+                                  value: selectedValue,
+                                  child: Text(selectedValue),
                                 );
                               }).toList(),
-                              onChanged: (String value) {
+                              onChanged: (String value) async {
                                 setState(() {
                                   snapshot.data.status = value;
                                 });
-                                // snapshot.data.status = value;
+                                MovieModel movie = snapshot.data;
+                                if (widget.args['isPresent']) {
+                                  print(snapshot.data.status);
+                                  try {
+                                    // Future res =
+                                    await _databaseService.updateMovie(
+                                        movie.id.toString(), movie.status);
+                                    //   TODO:2 writes.Fix to 1 write using update.
+                                    // await _databaseService.deleteMovie(
+                                    //     snapshot.data.id.toString());
+                                    // await _databaseService
+                                    //     .addMovie(snapshot.data);
+                                    // print(res);
+                                  } catch (e) {
+                                    print(e.toString());
+                                  }
+                                }
                               },
                               elevation: 5,
                               icon: Icon(
@@ -206,5 +221,3 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 }
-
-//poster_imgUrl,original_title,genre,release_date,country,runtime,overview

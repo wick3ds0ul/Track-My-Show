@@ -54,25 +54,19 @@ class DatabaseService {
     );
   }
 
-  Future updateMovie(MovieModel movie) async {
-    return await showCollection
-        .doc(uid)
-        .collection('movies')
-        .doc('${movie.id}')
-        .update(
-      {
-        'id': movie.id,
-        'run_time': movie.run_time,
-        'rating': movie.rating,
-        'genre': movie.genre,
-        'original_title': movie.original_title,
-        'overview': movie.overview,
-        'poster_path': movie.poster_path,
-        'country': movie.country,
-        'release_date': movie.release_date,
-        'content_type': movie.content_type,
-        'status': movie.status
-      },
+  Future updateMovie(String id, String status) async {
+    // if (movie != null) {
+    //   print(movie);
+    // } else {
+    //   print("No mvoie");
+    // }
+    if (id != null) {
+      print("Inside Update Function:${id}");
+    } else {
+      print("No id");
+    }
+    await showCollection.doc(uid).collection('movies').doc(id).update(
+      {'status': status},
     );
   }
 
@@ -100,9 +94,12 @@ class DatabaseService {
   }
 
 //Get a single Movie
-  Future<MovieModel> getMovieByID(String id) async {
-    DocumentSnapshot snapshot =
-        await showCollection.doc(uid).collection('movies').doc(id).get();
+  Future<MovieModel> getMovieByID(int id) async {
+    DocumentSnapshot snapshot = await showCollection
+        .doc(uid)
+        .collection('movies')
+        .doc(id.toString())
+        .get();
     MovieModel movie = MovieModel(
         original_title: snapshot.data()['original_title'],
         overview: snapshot.data()['overview'],
@@ -115,6 +112,7 @@ class DatabaseService {
         // content_type: doc.data()['content_type'],
         status: snapshot.data()['status'],
         rating: snapshot.data()['rating'].toDouble());
+    print(movie.status);
     return movie;
   }
 
@@ -141,9 +139,12 @@ class DatabaseService {
     }
   }
 
-  Future<bool> checkMoviePresent(String id) async {
-    final item =
-        await showCollection.doc(uid).collection('movies').doc(id).get();
+  Future<bool> checkMoviePresent(int id) async {
+    final item = await showCollection
+        .doc(uid)
+        .collection('movies')
+        .doc(id.toString())
+        .get();
     if (item.exists) {
       print("Item here");
       return true;

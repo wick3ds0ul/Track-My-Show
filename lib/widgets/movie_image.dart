@@ -8,13 +8,20 @@ import 'package:track_my_show/services/database_service.dart';
 import 'package:track_my_show/services/firebase_errors.dart';
 import 'package:track_my_show/widgets/common_widgets.dart';
 
-class MovieImage extends StatelessWidget {
+class MovieImage extends StatefulWidget {
   final String imgUrl;
   final MovieModel movie;
   final ShowModel show;
-  const MovieImage({Key key, @required this.imgUrl, this.movie, this.show})
+  bool isPresent;
+  MovieImage(
+      {Key key, @required this.imgUrl, this.movie, this.show, this.isPresent})
       : super(key: key);
+
   @override
+  _MovieImageState createState() => _MovieImageState();
+}
+
+class _MovieImageState extends State<MovieImage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<AppUser>(context);
@@ -33,7 +40,7 @@ class MovieImage extends StatelessWidget {
               child: ClipPath(
                 clipper: CustomClip(),
                 child: Image.network(
-                  "$imgUrl",
+                  "${widget.imgUrl}",
                   fit: BoxFit.cover,
                 ),
               )),
@@ -73,40 +80,28 @@ class MovieImage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: InkWell(
               onTap: () async {
-                if (movie != null) {
-                  print("Movie is not null");
-                  print(movie);
-                  bool check = await _databaseService
-                      .checkMoviePresent(movie.id.toString());
-                  //item already present
-                  if (check) {
-                    showInSnackBar("Movie Already Added", context);
-                  } else {
-                    try {
-                      await _databaseService.addMovie(movie);
-                      showInSnackBar("Movie Added", context);
-                    } catch (e) {
-                      print(e.toString());
-                      showInSnackBar(e.toString(), context);
-                    }
+                if (widget.isPresent) {
+                  try {
+                    await _databaseService
+                        .deleteMovie(widget.movie.id.toString());
+                    showInSnackBar("Movie Deleted", context);
+                    setState(() {
+                      widget.isPresent = !widget.isPresent;
+                    });
+                  } catch (e) {
+                    print(e.toString());
+                    showInSnackBar(e.toString(), context);
                   }
-                }
-                if (show != null) {
-                  print("Show is not null");
-                  print(show);
-                  bool check = await _databaseService
-                      .checkShowPresent(show.id.toString());
-                  //item already present
-                  if (check) {
-                    showInSnackBar("Show Already Added", context);
-                  } else {
-                    try {
-                      await _databaseService.addShow(show);
-                      showInSnackBar("Show Added", context);
-                    } catch (e) {
-                      print(e.toString());
-                      showInSnackBar(e.toString(), context);
-                    }
+                } else {
+                  try {
+                    await _databaseService.addMovie(widget.movie);
+                    showInSnackBar("Movie Added", context);
+                    setState(() {
+                      widget.isPresent = !widget.isPresent;
+                    });
+                  } catch (e) {
+                    print(e.toString());
+                    showInSnackBar(e.toString(), context);
                   }
                 }
               },
@@ -123,7 +118,7 @@ class MovieImage extends StatelessWidget {
                 ),
                 padding: EdgeInsets.all(15.0),
                 child: Icon(
-                  Icons.add,
+                  (widget.isPresent) ? Icons.delete : Icons.add,
                   color: Colors.red,
                 ),
               ),
@@ -208,3 +203,42 @@ class CustomClip extends CustomClipper<Path> {
 //     ),
 //   ],
 // ),
+
+//add button only
+//
+//                if (movie != null) {
+//   print("Movie is not null");
+//   print(movie);
+//   bool check =
+//       await _databaseService.checkMoviePresent(movie.id);
+//   //item already present
+//   if (check) {
+//     showInSnackBar("Movie Already Added", context);
+//   } else {
+//     try {
+//       await _databaseService.addMovie(movie);
+//       showInSnackBar("Movie Added", context);
+//     } catch (e) {
+//       print(e.toString());
+//       showInSnackBar(e.toString(), context);
+//     }
+//   }
+// }
+// if (show != null) {
+//   print("Show is not null");
+//   print(show);
+//   bool check = await _databaseService
+//       .checkShowPresent(show.id.toString());
+//   //item already present
+//   if (check) {
+//     showInSnackBar("Show Already Added", context);
+//   } else {
+//     try {
+//       await _databaseService.addShow(show);
+//       showInSnackBar("Show Added", context);
+//     } catch (e) {
+//       print(e.toString());
+//       showInSnackBar(e.toString(), context);
+//     }
+//   }
+// }

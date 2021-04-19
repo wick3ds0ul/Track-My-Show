@@ -24,10 +24,15 @@ class MovieItem extends StatelessWidget {
     DatabaseService _databaseService = DatabaseService(uid: user.uid);
 
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (snapshot.content_type == "movie") {
-          Navigator.of(context)
-              .pushNamed(movieDetailsScreen, arguments: snapshot.id);
+          bool isMoviePresentInFirebaseDB =
+              await _databaseService.checkMoviePresent(snapshot.id);
+          Navigator.of(context).pushNamed(movieDetailsScreen, arguments: {
+            'snapid': snapshot.id,
+            'uid': user.uid,
+            'isPresent': isMoviePresentInFirebaseDB
+          });
         } else {
           Navigator.of(context)
               .pushNamed(showDetailsScreen, arguments: snapshot.id);

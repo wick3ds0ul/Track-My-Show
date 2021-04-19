@@ -30,8 +30,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ForgotPassword());
       case movieDetailsScreen:
         return MaterialPageRoute(
-            builder: (_) => DetailsScreen(
-                  id: args,
+            builder: (_) => MovieDetailsScreen(
+                  args: args,
                 ));
       case showDetailsScreen:
         return MaterialPageRoute(
