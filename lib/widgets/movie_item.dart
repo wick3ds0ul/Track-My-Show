@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/movie_model.dart';
+import 'package:track_my_show/models/user.dart';
 import 'package:track_my_show/router/routenames.dart';
+import 'package:track_my_show/services/database_service.dart';
 import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/models/basic_model.dart';
 
@@ -16,13 +19,19 @@ class MovieItem extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<AppUser>(context);
+    print(user.uid);
+    DatabaseService _databaseService = DatabaseService(uid: user.uid);
+
     return GestureDetector(
       onTap: () {
-        snapshot.content_type == "movie"
-            ? Navigator.of(context)
-                .pushNamed(movieDetailsScreen, arguments: snapshot.id)
-            : Navigator.of(context)
-                .pushNamed(showDetailsScreen, arguments: snapshot.id);
+        if (snapshot.content_type == "movie") {
+          Navigator.of(context)
+              .pushNamed(movieDetailsScreen, arguments: snapshot.id);
+        } else {
+          Navigator.of(context)
+              .pushNamed(showDetailsScreen, arguments: snapshot.id);
+        }
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,

@@ -7,7 +7,7 @@ class MovieModel extends BasicModel {
       country,
       release_date,
       content_type = "movie";
-  String status = "want to watch";
+  String status;
   final int id, run_time;
   final double rating;
   final List genre;
@@ -22,7 +22,6 @@ class MovieModel extends BasicModel {
       this.overview,
       this.status,
       this.poster_path,
-      // this.content_type,
       this.id});
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     // print("JSON DATA");

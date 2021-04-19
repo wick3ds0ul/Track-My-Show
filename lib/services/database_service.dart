@@ -54,6 +54,28 @@ class DatabaseService {
     );
   }
 
+  Future updateMovie(MovieModel movie) async {
+    return await showCollection
+        .doc(uid)
+        .collection('movies')
+        .doc('${movie.id}')
+        .update(
+      {
+        'id': movie.id,
+        'run_time': movie.run_time,
+        'rating': movie.rating,
+        'genre': movie.genre,
+        'original_title': movie.original_title,
+        'overview': movie.overview,
+        'poster_path': movie.poster_path,
+        'country': movie.country,
+        'release_date': movie.release_date,
+        'content_type': movie.content_type,
+        'status': movie.status
+      },
+    );
+  }
+
   //Delete Movie
   Future deleteMovie(String id) async {
     await showCollection.doc(uid).collection('movies').doc(id).delete();
@@ -77,6 +99,25 @@ class DatabaseService {
     }).toList();
   }
 
+//Get a single Movie
+  Future<MovieModel> getMovieByID(String id) async {
+    DocumentSnapshot snapshot =
+        await showCollection.doc(uid).collection('movies').doc(id).get();
+    MovieModel movie = MovieModel(
+        original_title: snapshot.data()['original_title'],
+        overview: snapshot.data()['overview'],
+        poster_path: snapshot.data()['poster_path'],
+        id: snapshot.data()['id'],
+        country: snapshot.data()['country'],
+        release_date: snapshot.data()['release_date'],
+        run_time: snapshot.data()['run_time'],
+        genre: snapshot.data()['genre'],
+        // content_type: doc.data()['content_type'],
+        status: snapshot.data()['status'],
+        rating: snapshot.data()['rating'].toDouble());
+    return movie;
+  }
+
 //Read Movie in realtime
   Stream<List<MovieModel>> get movies {
     return showCollection
@@ -86,7 +127,19 @@ class DatabaseService {
         .map(_movieSnapshot);
   }
 
-  //Check if movie present in collection
+  //check status
+
+  Future<bool> checkMovieStatus(String id) async {
+    final item =
+        await showCollection.doc(uid).collection('movies').doc(id).get();
+    if (item.exists) {
+      print("Item here");
+      return true;
+    } else {
+      print("Item not here");
+      return false;
+    }
+  }
 
   Future<bool> checkMoviePresent(String id) async {
     final item =

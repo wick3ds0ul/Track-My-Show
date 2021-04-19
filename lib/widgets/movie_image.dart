@@ -21,16 +21,22 @@ class MovieImage extends StatelessWidget {
     print(user.uid);
     DatabaseService _databaseService = DatabaseService(uid: user.uid);
     return Container(
+      padding: EdgeInsets.only(bottom: 3.0),
+      height: MediaQuery.of(context).size.height / 1.6,
       child: Stack(
         children: [
           Positioned(
+              bottom: 25,
+              left: 0,
+              right: 0,
+              top: 0,
               child: ClipPath(
-            clipper: CustomClip(),
-            child: Image.network(
-              "$imgUrl",
-              fit: BoxFit.cover,
-            ),
-          )),
+                clipper: CustomClip(),
+                child: Image.network(
+                  "$imgUrl",
+                  fit: BoxFit.cover,
+                ),
+              )),
           Positioned(
             right: 0,
             left: 0,
@@ -63,11 +69,8 @@ class MovieImage extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            height: 40,
-            bottom: 0,
-            // left: 20,
-            right: 155,
+          Align(
+            alignment: Alignment.bottomCenter,
             child: InkWell(
               onTap: () async {
                 if (movie != null) {
@@ -109,32 +112,23 @@ class MovieImage extends StatelessWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.black54),
-                height: 50,
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black45,
+                        blurRadius: 3.0,
+                        offset: Offset(0, 1)),
+                  ],
+                ),
+                padding: EdgeInsets.all(15.0),
                 child: Icon(
                   Icons.add,
-                  color: Color(0xFFFF0000),
-                  size: 40,
+                  color: Colors.red,
                 ),
-
-                // onPressed:
               ),
             ),
           ),
-          // child: Row(
-
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: <Widget>[
-
-          //     IconButton(
-          //       icon: Icon(Icons.share),
-          //       onPressed: () {
-          //         _databaseService.checkMoviePresent(movie.id.toString());
-          //       },
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );
@@ -157,3 +151,60 @@ class CustomClip extends CustomClipper<Path> {
     return true;
   }
 }
+
+// Align(
+//   alignment: Alignment.bottomCenter,
+//   // height: 40,
+//   // bottom: 0,
+//   // // left: 20,
+//   // right: 167,
+//   child: InkWell(
+//     onTap: ,
+//     child: Container(
+//       decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(20),
+//           color: Colors.black54),
+//       height: 50,
+//       child: Icon(
+//         Icons.add,
+//         color: Color(0xFFFFFFFF),
+//         size: 40,
+//       ),
+
+//       // onPressed:
+//     ),
+//   ),
+// ),
+//   // bottom: 0,
+//   // // left: 20,
+//   // right: 167,
+//   child: InkWell(
+//     onTap: ,
+//     child: Container(
+//       decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(20),
+//           color: Colors.black54),
+//       height: 50,
+//       child: Icon(
+//         Icons.add,
+//         color: Color(0xFFFFFFFF),
+//         size: 40,
+//       ),
+
+//       // onPressed:
+//     ),
+//   ),
+// ),
+// child: Row(
+
+//   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//   children: <Widget>[
+
+//     IconButton(
+//       icon: Icon(Icons.share),
+//       onPressed: () {
+//         _databaseService.checkMoviePresent(movie.id.toString());
+//       },
+//     ),
+//   ],
+// ),

@@ -7,7 +7,7 @@ class ShowModel extends BasicModel {
       country,
       release_date,
       content_type = "tv";
-  String status = "want to watch";
+  String status = "Want to Watch";
 
   final int id, run_time;
   final double rating;

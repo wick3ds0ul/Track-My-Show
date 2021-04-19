@@ -20,10 +20,15 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   MoviesApi _api;
   Future<MovieModel> movieModel;
-  String _chosenValue;
+  // String _chosenValue;
   @override
   void initState() {
     _api = MoviesApi();
+    // Future<bool> isMoviePresentInFirebaseDB =
+    //     _databaseService.checkMoviePresent(snapshot.id);
+    // if (isMoviePresentInFirebaseDB) {
+    //   MovieModel movie =await _databaseService.getMovieByID(snapshot.id);
+    // }
     movieModel = _api.getMovieInfo(widget.id);
     super.initState();
   }
@@ -33,7 +38,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: FutureBuilder<MovieModel>(
+        body:
+            //isMoviePresentInFirebaseDB?
+            //Future for DB goes here
+            //calling fro api:
+            FutureBuilder<MovieModel>(
           future: movieModel,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -140,15 +149,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 border: Border.all(
                                     width: 2, color: Color(0xFF858484))),
                             child: DropdownButton(
-                              value: (_chosenValue == null)
-                                  ? 'Watching'
-                                  : _chosenValue,
+                              value: snapshot.data.status,
                               items: <String>[
                                 'Watching',
                                 'Completed',
                                 'OnHold',
                                 'Want to Watch',
-                                'Dropped' //movies ke liye thoda alag hoga
+                                'Dropped'
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -157,9 +164,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               }).toList(),
                               onChanged: (String value) {
                                 setState(() {
-                                  _chosenValue = value;
+                                  snapshot.data.status = value;
                                 });
-                                snapshot.data.status = value;
+                                // snapshot.data.status = value;
                               },
                               elevation: 5,
                               icon: Icon(
