@@ -1,14 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:track_my_show/models/MovieModels/movie_model.dart';
 import 'package:track_my_show/models/ShowModels/show_model.dart';
 import 'package:track_my_show/models/basic_model.dart';
 import 'package:track_my_show/models/user.dart';
-import 'package:track_my_show/router/routenames.dart';
-import 'package:track_my_show/utils/size_config.dart';
 import '../../services/database_service.dart';
-import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/widgets/movie_item.dart';
 
 class MyList extends StatefulWidget {
@@ -24,7 +20,7 @@ class _MyListState extends State<MyList> {
     DatabaseService _databaseService = DatabaseService(uid: user.uid);
     return Scaffold(
         appBar: AppBar(
-          title: Text('My Library'),
+          title: const Text('My Library'),
           actions: [
             IconButton(icon: Icon(Icons.more_vert_outlined), onPressed: () {})
           ],
@@ -57,7 +53,7 @@ class _MyListState extends State<MyList> {
                                 itemCount: items.length,
                                 padding: const EdgeInsets.all(5),
                                 gridDelegate:
-                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                    const SliverGridDelegateWithMaxCrossAxisExtent(
                                         maxCrossAxisExtent: 200,
                                         childAspectRatio: 4 / 5,
                                         crossAxisSpacing: 5,
@@ -66,7 +62,8 @@ class _MyListState extends State<MyList> {
 
                               // return Text("Got data");
                             } else {
-                              return Center(child: CircularProgressIndicator());
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             }
                           });
                     }),

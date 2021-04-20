@@ -30,7 +30,7 @@ class TabBarWidget extends StatelessWidget {
       child: FittedBox(
         child: Text(
           name,
-          style: TextStyle(fontFamily: 'comfortaa', color: Colors.red),
+          style: const TextStyle(fontFamily: 'comfortaa', color: Colors.red),
         ),
       ),
     );

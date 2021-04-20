@@ -12,7 +12,7 @@ Widget buildEmailTextFormField(TextEditingController controller) {
         cursorColor: Colors.black,
         decoration: InputDecoration(
           isDense: true,
-          contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+          contentPadding: const EdgeInsets.fromLTRB(13, 13, 10, 13),
           hintText: 'example@email.com',
           hintStyle: GoogleFonts.roboto(
             fontSize: 20,
@@ -20,21 +20,23 @@ Widget buildEmailTextFormField(TextEditingController controller) {
           ),
           labelText: 'Email',
           labelStyle: GoogleFonts.roboto(fontSize: 16),
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          errorBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+          errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: Colors.purpleAccent,
                 width: 2.0,
               )),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          enabledBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+          enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.zero,
-            borderSide: BorderSide(color: Colors.black, width: 2.0),
+            borderSide: const BorderSide(color: Colors.black, width: 2.0),
           ),
         ),
         validator: validateEmail),
@@ -53,7 +55,7 @@ Widget buildPasswordTextFormField(TextEditingController controller) {
         obscureText: true,
         decoration: InputDecoration(
           isDense: true,
-          contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+          contentPadding: const EdgeInsets.fromLTRB(13, 13, 10, 13),
           hintText: "A-Ba-b1-9@#\$%^&*",
           hintStyle: GoogleFonts.roboto(
             fontSize: 20,
@@ -61,18 +63,21 @@ Widget buildPasswordTextFormField(TextEditingController controller) {
           ),
           labelText: 'Password',
           labelStyle: GoogleFonts.roboto(fontSize: 16),
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          errorBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+          errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          focusedBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+          focusedBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          enabledBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+          enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.zero,
-            borderSide: BorderSide(color: Colors.black, width: 2.0),
+            borderSide: const BorderSide(color: Colors.black, width: 2.0),
           ),
         ),
         validator: validatePassword),
@@ -89,7 +94,7 @@ Widget buildRePasswordTextFormField(TextEditingController controller) {
         obscureText: true,
         decoration: InputDecoration(
           isDense: true,
-          contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+          contentPadding: const EdgeInsets.fromLTRB(13, 13, 10, 13),
           hintText: "A-Ba-b1-9@#\$%^&*",
           hintStyle: GoogleFonts.roboto(
             fontSize: 20,
@@ -99,16 +104,19 @@ Widget buildRePasswordTextFormField(TextEditingController controller) {
           labelStyle: GoogleFonts.roboto(fontSize: 16),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          errorBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+          errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          focusedBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+          focusedBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-          enabledBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+          enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.zero,
-            borderSide: BorderSide(color: Colors.black, width: 2.0),
+            borderSide: const BorderSide(color: Colors.black, width: 2.0),
           ),
         ),
         validator: validatePassword),

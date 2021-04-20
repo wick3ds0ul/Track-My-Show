@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:track_my_show/router/routenames.dart';
-
 import 'package:track_my_show/services/auth_service.dart';
 import 'package:track_my_show/utils/size_config.dart';
 import 'package:track_my_show/widgets/common_widgets.dart';
 import 'package:track_my_show/widgets/custom_button.dart';
+import 'package:track_my_show/widgets/signin_prompt.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -53,31 +52,40 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         },
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: 50, bottom: 15, left: 15, right: 15),
+            padding:
+                const EdgeInsets.only(top: 50, bottom: 15, left: 15, right: 15),
             child: Form(
               key: _formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(top: 50, bottom: 15, left: 15),
-                    child: Text(
-                      'Forgot Password',
+                    padding: EdgeInsets.only(top: 50, bottom: 10, left: 15),
+                    child: const Text(
+                      'Forgot Password?',
                       style: TextStyle(
                           fontFamily: 'Comfortaa',
-                          fontSize: 35,
+                          fontSize: 30,
                           fontWeight: FontWeight.w500,
                           shadows: [
-                            Shadow(
-                                color: Colors.black.withOpacity(0.3),
-                                offset: Offset(0, 5),
-                                blurRadius: 7)
+                            // Shadow(
+                            //     color: Colors.black.withOpacity(0.3),
+                            //     offset: Offset(0, 5),
+                            //     blurRadius: 7)
                           ]),
                     ),
                   ),
+                  const Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: const Text(
+                        'Enter your registered email address so that we can send a password reset link to that email id'),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(20),
+                  ),
                   buildEmailTextFormField(_emailController),
                   SizedBox(
-                    height: getProportionateScreenHeight(50),
+                    height: getProportionateScreenHeight(20),
                   ),
                   CustomButton(
                     name: 'Get Confirmation Email',
@@ -89,7 +97,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           //Check if email already exist
                           List<String> res =
                               await _auth.checkEmail(_emailController.text);
-                          print(res.toString());
+                          // print(res.toString());
                           if (res != null) {
                             await _auth.resetPassword(_emailController.text);
                             showInSnackBar(
@@ -101,31 +109,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       }
                     },
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 15),
-                    alignment: Alignment.bottomLeft,
-                    child: TextButton.icon(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.black.withOpacity(0.7),
-                            onSurface: Colors.grey,
-                            primary: Colors.white),
-                        onPressed: () {
-                          Navigator.of(context)
-                              .popUntil((route) => route.isFirst);
-                          Navigator.pushReplacementNamed(context, loginScreen);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios_rounded,
-                          color: Colors.white,
-                        ),
-                        label: Text(
-                          'Go Back',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'comfortaa',
-                              fontSize: 15),
-                        )),
-                  )
+                  SignInPrompt(context, 'Done resetting your password?'),
                 ],
               ),
             ),

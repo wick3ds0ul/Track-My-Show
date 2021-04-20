@@ -22,7 +22,6 @@ class _DetailsScreenState extends State<MovieDetailsScreen> {
   Future<MovieModel> movieModel, movieModelPresent;
   DatabaseService _databaseService;
 
-  // String _chosenValue;
   @override
   void initState() {
     super.initState();
@@ -51,18 +50,18 @@ class _DetailsScreenState extends State<MovieDetailsScreen> {
                       imgUrl: getPosterImage(snapshot.data.poster_path),
                       isPresent: widget.args['isPresent'],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Column(
                         children: <Widget>[
                           Text(
                             "${snapshot.data.original_title}",
                             style: Theme.of(context).textTheme.headline4,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 7.0,
                           ),
                           RichText(
@@ -78,14 +77,15 @@ class _DetailsScreenState extends State<MovieDetailsScreen> {
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ),
-                          SizedBox(height: 9.0),
+                          const SizedBox(height: 9.0),
                           RatingBar.builder(
                             initialRating: snapshot.data.rating,
                             // initialRating: 3,
                             direction: Axis.horizontal,
                             allowHalfRating: true,
                             itemCount: 10,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                            itemPadding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
                             itemBuilder: (context, _) => Icon(
                               Icons.star,
                               color: Colors.amber,
@@ -95,7 +95,7 @@ class _DetailsScreenState extends State<MovieDetailsScreen> {
                               print(rating);
                             },
                           ),
-                          SizedBox(height: 13.0),
+                          const SizedBox(height: 13.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -140,15 +140,15 @@ class _DetailsScreenState extends State<MovieDetailsScreen> {
                           SizedBox(height: 13.0),
                           Container(
                             // TODO stylized the dropdown button
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 0),
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                    width: 2, color: Color(0xFF858484))),
+                                    width: 2, color: const Color(0xFF858484))),
                             child: DropdownButton(
                               //staus either from DB or default from class
-                              value: snapshot.data.status,
-                              items: <String>[
+                              value: snapshot.data.status ?? 'Want to Watch',
+                              items: const <String>[
                                 'Watching',
                                 'Completed',
                                 'OnHold',
@@ -169,30 +169,22 @@ class _DetailsScreenState extends State<MovieDetailsScreen> {
                                 if (widget.args['isPresent']) {
                                   print(snapshot.data.status);
                                   try {
-                                    // Future res =
-                                    await _databaseService.updateMovie(
-                                        movie.id.toString(), movie.status);
-                                    //   TODO:2 writes.Fix to 1 write using update.
-                                    // await _databaseService.deleteMovie(
-                                    //     snapshot.data.id.toString());
-                                    // await _databaseService
-                                    //     .addMovie(snapshot.data);
-                                    // print(res);
+                                    await _databaseService.updateMovie(movie);
                                   } catch (e) {
                                     print(e.toString());
                                   }
                                 }
                               },
                               elevation: 5,
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.arrow_drop_down_sharp,
                                 color: Colors.blue,
                               ),
                               iconSize: 42,
-                              focusColor: Color(0xFFF08080),
+                              focusColor: const Color(0xFFF08080),
                             ),
                           ),
-                          SizedBox(height: 13.0),
+                          const SizedBox(height: 13.0),
                           Text(
                             "${snapshot.data.overview}",
                             textAlign: TextAlign.center,
@@ -201,18 +193,18 @@ class _DetailsScreenState extends State<MovieDetailsScreen> {
                                 .body1
                                 .apply(fontSizeFactor: 1.2),
                           ),
-                          SizedBox(height: 13.0),
+                          const SizedBox(height: 13.0),
                         ],
                       ),
                     ),
                     // MyScreenshots(),
-                    SizedBox(height: 13.0),
+                    const SizedBox(height: 13.0),
                   ],
                 ),
               );
             } else {
-              return Center(
-                child: CircularProgressIndicator(),
+              return const Center(
+                child: const CircularProgressIndicator(),
               );
             }
           },

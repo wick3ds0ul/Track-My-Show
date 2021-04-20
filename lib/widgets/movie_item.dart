@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
-import 'package:track_my_show/models/MovieModels/movie_model.dart';
+import 'package:track_my_show/Screens/showScreen/show_details_screen.dart';
 import 'package:track_my_show/models/user.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/database_service.dart';
@@ -34,13 +32,21 @@ class MovieItem extends StatelessWidget {
             'isPresent': isMoviePresentInFirebaseDB
           });
         } else {
-          Navigator.of(context)
-              .pushNamed(showDetailsScreen, arguments: snapshot.id);
+          bool isShowPresentInFirebaseDB =
+              await _databaseService.checkShowPresent(snapshot.id);
+          Map<String, Object> data = {
+            'snapid': snapshot.id,
+            'uid': user.uid,
+            'isPresent': isShowPresentInFirebaseDB
+          };
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return ShowDetailsScreen(args: data);
+          }));
         }
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,
-        margin: EdgeInsets.all(5.0),
+        margin: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.0),
           boxShadow: [
@@ -56,17 +62,9 @@ class MovieItem extends StatelessWidget {
                 child: CachedNetworkImage(
                   filterQuality: FilterQuality.none,
                   imageUrl: getTileImage(snapshot.poster_path),
-                  // imageUrl: getPosterImage(snapshot.poster_path),
                   fit: BoxFit.cover,
-                  // placeholder: (context, url) => Container(
-                  //   child: Center(child: CircularProgressIndicator()),
-                  // ),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
-                // child: Image.network(
-                //   // movieList[id]['img'],
-                //   getPosterImage(snapshot.poster_path),
-                //   fit: BoxFit.cover,
               ),
             ),
             Positioned(
@@ -74,7 +72,7 @@ class MovieItem extends StatelessWidget {
               left: 0,
               right: 0,
               child: Container(
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(15.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(15),
@@ -83,10 +81,8 @@ class MovieItem extends StatelessWidget {
                   color: Colors.black.withOpacity(0.7),
                 ),
                 child: Text(
-                  // "${movieList[id]['title']}",
                   snapshot.original_title,
-                  style: TextStyle(
-                    // fontFamily: 'Comfortaa',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                   ),
@@ -102,35 +98,3 @@ class MovieItem extends StatelessWidget {
     );
   }
 }
-
-//   final String id;
-//   final String title;
-
-//   MovieItem({this.id, this.title});
-
-//   getDetails(BuildContext context) {}
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: () {
-//         getDetails(context);
-//       },
-//       borderRadius: BorderRadius.circular(15),
-//       child: Container(
-//         padding: EdgeInsets.all(15),
-//         child: Text(
-//           title,
-//           style: Theme.of(context).textTheme.headline6,
-//         ),
-//         decoration: BoxDecoration(
-//           gradient: LinearGradient(
-//               colors: [Color(0x48938FCA), Colors.blue],
-//               begin: Alignment.topLeft,
-//               end: Alignment.topRight),
-//           borderRadius: BorderRadius.only(
-//               topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-//         ),
-//       ),
-//     );
-//   }
-// }

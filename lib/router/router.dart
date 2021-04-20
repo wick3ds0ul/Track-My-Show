@@ -29,15 +29,18 @@ class RouteGenerator {
       case forgotPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgotPassword());
       case movieDetailsScreen:
+        print("args : $args");
         return MaterialPageRoute(
             builder: (_) => MovieDetailsScreen(
                   args: args,
                 ));
       case showDetailsScreen:
+        print("args : $args");
         return MaterialPageRoute(
-            builder: (_) => ShowDetailsScreen(
-                  id: args,
-                ));
+          builder: (_) => ShowDetailsScreen(
+            args: args,
+          ),
+        );
       case listScreen:
         return MaterialPageRoute(builder: (_) => MyList());
       default:

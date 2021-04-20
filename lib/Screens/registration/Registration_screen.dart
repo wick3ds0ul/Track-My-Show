@@ -5,6 +5,7 @@ import 'package:track_my_show/services/auth_service.dart';
 import 'package:track_my_show/utils/constants.dart';
 import 'package:track_my_show/utils/size_config.dart';
 import 'package:track_my_show/widgets/common_widgets.dart';
+import 'package:track_my_show/widgets/signin_prompt.dart';
 import '../LoginScreen/form_validation.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -55,7 +56,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             children: [
               Container(
                   padding: EdgeInsets.only(top: 50, bottom: 15, left: 15),
-                  child: Text('SignUp',
+                  child: const Text('SignUp',
                       style: TextStyle(
                         fontFamily: 'Comfortaa',
                         fontSize: 30,
@@ -84,8 +85,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             primary: Colors.redAccent,
                           ),
                           onPressed: () async {
-                            print(_emailController.text);
-                            print(_passwordController.text);
+                            // print(_emailController.text);
+                            // print(_passwordController.text);
                             if (_formKey.currentState.validate()) {
                               try {
                                 dynamic res =
@@ -102,63 +103,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               }
                             }
                           },
-                          child: Text("NEXT", style: kButtonTextStyle
-                              // GoogleFonts.roboto(
-                              //     textStyle: TextStyle(fontSize: 13),
-                              //     fontWeight: FontWeight.bold)
-                              ),
+                          child: Text("NEXT", style: kButtonTextStyle),
                         ),
                       ),
-                      SizedBox(
-                        height: getProportionateScreenHeight(40),
-                      ),
-                      Text('Already have an account?'),
-                      // SizedBox(
-                      //   height: getProportionateScreenHeight(20),
-                      // ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context)
-                              .popUntil((route) => route.isFirst);
-                          Navigator.pushReplacementNamed(context, loginScreen);
-                        },
-                        child: Text(
-                          'Sign In',
-                          style: GoogleFonts.roboto(
-                            fontSize: 20,
-                            // decoration: TextDecoration.underline,
-                            // backgroundColor: Color.fromARGB(10, 255, 10, 56),
-                            color: Colors.redAccent,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      // Container(
-                      //   padding: EdgeInsets.only(top: 15),
-                      //   alignment: Alignment.bottomLeft,
-                      //   child: TextButton.icon(
-                      //       style: TextButton.styleFrom(
-                      //           backgroundColor: Colors.black.withOpacity(0.7),
-                      //           onSurface: Colors.grey,
-                      //           primary: Colors.white),
-                      //       onPressed: () {
-                      //         Navigator.of(context)
-                      //             .popUntil((route) => route.isFirst);
-                      //         Navigator.pushReplacementNamed(
-                      //             context, loginScreen);
-                      //       },
-                      //       icon: Icon(
-                      //         Icons.arrow_back_ios_rounded,
-                      //         color: Colors.white,
-                      //       ),
-                      //       label: Text(
-                      //         'Go Back',
-                      //         style: TextStyle(
-                      //             fontWeight: FontWeight.w800,
-                      //             fontFamily: 'comfortaa',
-                      //             fontSize: 15),
-                      //       )),
-                      // )
+                      SignInPrompt(context, 'Already have an account?'),
                     ],
                   ),
                 ),
@@ -186,19 +134,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             labelText: 'Email',
             labelStyle: GoogleFonts.roboto(fontSize: 16),
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
                 borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-            errorBorder: OutlineInputBorder(
+            errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Colors.purpleAccent,
                   width: 2.0,
                 )),
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-            enabledBorder: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            enabledBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
               borderSide: BorderSide(color: Colors.black, width: 2.0),
             ),
@@ -272,7 +221,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ),
             isDense: true,
-            contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+            contentPadding: const EdgeInsets.fromLTRB(13, 13, 10, 13),
             hintText: "A-Ba-b1-9@#\$%^&*",
             hintStyle: GoogleFonts.roboto(
               fontSize: 20,
@@ -280,18 +229,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             labelText: 'Re-Enter Password',
             labelStyle: GoogleFonts.roboto(fontSize: 16),
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-            errorBorder: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-            focusedBorder: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: Colors.purpleAccent, width: 2.0)),
-            enabledBorder: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(color: Colors.purpleAccent, width: 2.0)),
+            enabledBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.zero,
-              borderSide: BorderSide(color: Colors.black, width: 2.0),
+              borderSide: const BorderSide(color: Colors.black, width: 2.0),
             ),
           ),
           validator: (value) {

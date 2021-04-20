@@ -54,20 +54,17 @@ class DatabaseService {
     );
   }
 
-  Future updateMovie(String id, String status) async {
-    // if (movie != null) {
-    //   print(movie);
-    // } else {
-    //   print("No mvoie");
-    // }
-    if (id != null) {
-      print("Inside Update Function:${id}");
-    } else {
-      print("No id");
-    }
-    await showCollection.doc(uid).collection('movies').doc(id).update(
-      {'status': status},
+  Future updateMovie(MovieModel movieModel) async {
+    //Check if movie already present in Firebase.
+    //'${movie.id}'
+    await showCollection
+        .doc(uid)
+        .collection('movies')
+        .doc(movieModel.id.toString())
+        .update(
+      {'status': movieModel.status},
     );
+    //elese add a new entry with status
   }
 
   //Delete Movie
@@ -177,6 +174,42 @@ class DatabaseService {
     );
   }
 
+  //Get a single Movie
+  Future<ShowModel> getShowByID(int id) async {
+    DocumentSnapshot snapshot = await showCollection
+        .doc(uid)
+        .collection('shows')
+        .doc(id.toString())
+        .get();
+    ShowModel show = ShowModel(
+        original_title: snapshot.data()['original_title'],
+        overview: snapshot.data()['overview'],
+        poster_path: snapshot.data()['poster_path'],
+        id: snapshot.data()['id'],
+        country: snapshot.data()['country'],
+        release_date: snapshot.data()['release_date'],
+        run_time: snapshot.data()['run_time'],
+        genre: snapshot.data()['genre'],
+        // content_type: doc.data()['content_type'],
+        status: snapshot.data()['status'],
+        rating: snapshot.data()['rating'].toDouble());
+    print(show.status);
+    return show;
+  }
+
+  Future updateShow(ShowModel showModel) async {
+    //Check if movie already present in Firebase.
+    //'${movie.id}'
+    await showCollection
+        .doc(uid)
+        .collection('shows')
+        .doc(showModel.id.toString())
+        .update(
+      {'status': showModel.status},
+    );
+    //elese add a new entry with status
+  }
+
   //Delete Movie
   Future deleteShow(String id) async {
     await showCollection.doc(uid).collection('shows').doc(id).delete();
@@ -211,9 +244,12 @@ class DatabaseService {
 
   //Check if movie present in collection
 
-  Future<bool> checkShowPresent(String id) async {
-    final item =
-        await showCollection.doc(uid).collection('shows').doc(id).get();
+  Future<bool> checkShowPresent(int id) async {
+    final item = await showCollection
+        .doc(uid)
+        .collection('shows')
+        .doc(id.toString())
+        .get();
     if (item.exists) {
       print("Item here");
       return true;

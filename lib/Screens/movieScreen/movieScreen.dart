@@ -1,26 +1,19 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:track_my_show/models/MovieModels/action_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/adventure_movies_model.dart';
 import 'package:track_my_show/models/MovieModels/animation_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/featured_movie_model.dart';
 import 'package:track_my_show/models/MovieModels/genre_model.dart';
-
 import 'package:track_my_show/services/movies_api.dart';
 import 'package:track_my_show/widgets/custom_drawer.dart';
-import 'package:track_my_show/widgets/movie_item.dart';
-// import 'package:track_my_show/services/api.dart';
-import 'package:track_my_show/widgets/custom_drawer.dart';
+import 'package:track_my_show/widgets/data_search.dart';
 import 'package:track_my_show/services/auth_service.dart';
-import 'package:track_my_show/models/MovieModels/search_item.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
 import 'ui/action.dart';
 import 'ui/adventure.dart';
 import 'ui/animation.dart';
 import 'ui/featured.dart';
 import 'ui/tabbar.dart';
-import 'package:track_my_show/services/global.dart';
-import 'package:track_my_show/router/routenames.dart';
 
 class MovieScreen extends StatefulWidget {
   @override
@@ -73,10 +66,10 @@ class _MovieScreenState extends State<MovieScreen> {
                   style:
                       TextStyle(fontFamily: 'Comfortaa', color: Colors.black),
                 ),
-                backgroundColor: Color(0xFFFFFFFF),
+                backgroundColor: const Color(0xFFFFFFFF),
                 leading: Builder(builder: (BuildContext context) {
                   return IconButton(
-                    icon: Icon(Icons.menu_open_rounded),
+                    icon: const Icon(Icons.menu_open_rounded),
                     color: Colors.black,
                     onPressed: () {
                       Scaffold.of(context).openDrawer();
@@ -86,7 +79,7 @@ class _MovieScreenState extends State<MovieScreen> {
                   );
                 }),
                 bottom: TabBar(
-                  indicatorColor: Color(0xFFFF2929),
+                  indicatorColor: const Color(0xFFFF2929),
                   isScrollable: true,
                   tabs: [
                     TabBarWidget(
@@ -110,7 +103,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 AdventureTabContent(adventureMovies: adventureMovies),
                 AnimationTabContent(animationMovies: animationMovies),
               ]),
-              backgroundColor: Color(0xFFFFFFFF),
+              backgroundColor: const Color(0xFFFFFFFF),
             ),
           ),
         ),
@@ -124,107 +117,5 @@ class _MovieScreenState extends State<MovieScreen> {
               return ExitModlal();
             }) ??
         false;
-  }
-}
-
-class DataSearch extends SearchDelegate {
-  @override
-  Widget buildResults(BuildContext context) {
-    return FutureBuilder<List<SearchItem>>(
-      future: MoviesApi().searchItems(query),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data == null) {
-            return Center(child: Text('Enter a valid query.'));
-          } else {
-            // print(snapshot.data);ha
-            List<SearchItem> searchItems = snapshot.data;
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                return searchItems[index].checkNullValues()
-                    ? SizedBox.shrink()
-                    : Card(
-                        //galat isme daala kya
-                        child: ListTile(
-                          leading: CachedNetworkImage(
-                            imageUrl: getTileImage(searchItems[index].imageURL),
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                          title: Text('${searchItems[index].name}'),
-                          subtitle: Text(
-                            '${searchItems[index].overview}',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          trailing: Text(
-                            '${searchItems[index].media_type}'.toUpperCase(),
-                          ),
-                          onTap: () {
-                            print(
-                                "SEARCH API with ID:${searchItems[index].id}");
-                            searchItems[index].media_type == 'tv'
-                                ? Navigator.of(context).pushNamed(
-                                    showDetailsScreen,
-                                    arguments: searchItems[index].id)
-                                : Navigator.pushNamed(
-                                    context, movieDetailsScreen,
-                                    arguments: searchItems[index].id);
-                          },
-                        ),
-                      );
-              },
-              itemCount: searchItems.length,
-            );
-          }
-        } else {
-          return Center(child: CircularProgressIndicator()); // loading
-        }
-      },
-    );
-  }
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    //Actions for AppBar
-    return [
-      //This will clear the text
-      IconButton(
-          icon: Icon(
-            Icons.clear,
-          ),
-          onPressed: () {
-            query = "";
-          })
-    ];
-    // throw UnimplementedError();
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    //Leading icon on the left of AppBar
-    return IconButton(
-        icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_arrow,
-          progress: transitionAnimation,
-        ),
-        onPressed: () {
-          close(context, null);
-          // Navigator.of(context).pop();
-        });
-    // throw UnimplementedError();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    //show when someone searches for something
-    return Container();
   }
 }

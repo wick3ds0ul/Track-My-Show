@@ -29,15 +29,16 @@ class FeaturedTabContent extends StatelessWidget {
                     },
                     itemCount: snapshot.data.length,
                     padding: const EdgeInsets.all(5),
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 4 / 5,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5),
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            childAspectRatio: 4 / 5,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5),
                   );
                 } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
+                  return const Center(
+                    child: const CircularProgressIndicator(),
                   );
                 }
               },

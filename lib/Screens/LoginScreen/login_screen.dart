@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
           body: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Center(
                 child: Form(
                   key: _formKey,
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: getProportionateScreenHeight(60),
                       ),
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 30,
                         backgroundImage: NetworkImage(
                             'https://i.pinimg.com/originals/c1/65/1f/c1651f598d212acdfe551f103548e495.png'),
@@ -93,8 +93,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderSide: const BorderSide(
                                   color: Colors.redAccent, width: 2.0)),
                           enabledBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 2.0),
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2.0),
                           ),
                         ),
                         validator: validateEmail,
@@ -117,23 +117,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           isDense: true,
-                          contentPadding: EdgeInsets.fromLTRB(13, 13, 10, 13),
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(13, 13, 10, 13),
                           labelText: 'Password',
                           labelStyle: kLabelStyle,
                           hintText: 'Your Password',
                           hintStyle: kHintTextStyle,
                           border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.redAccent, width: 2.0)),
+                          errorBorder: const OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Colors.redAccent, width: 2.0)),
-                          errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
+                          focusedBorder: const OutlineInputBorder(
+                              borderSide: const BorderSide(
                                   color: Colors.redAccent, width: 2.0)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.redAccent, width: 2.0)),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 2.0),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2.0),
                           ),
                         ),
                         validator: validatePassword,
@@ -144,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             Navigator.pushNamed(context, forgotPasswordScreen);
                           },
-                          child: Text(
+                          child: const Text(
                             "Forgot Password?",
                             style: TextStyle(
                                 color: Colors.black54,
@@ -158,12 +159,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () async {
                             FocusScope.of(context).unfocus();
                             if (_formKey.currentState.validate()) {
-                              print("OK");
-                              print(_passwordController.text);
-                              print(_emailController.text);
+                              // print("OK");
+                              // print(_passwordController.text);
+                              // print(_emailController.text);
                               try {
-                                print(_passwordController.text);
-                                print(_emailController.text);
+                                // print(_passwordController.text);
+                                // print(_emailController.text);
                                 dynamic res = await _authService
                                     .signInWithEmailAndPassword(
                                         _emailController.text,
@@ -185,10 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: getProportionateScreenHeight(40),
                       ),
-                      Text('Don\'t have an account?'),
-                      // SizedBox(
-                      //   height: getProportionateScreenHeight(20),
-                      // ),
+                      const Text('Don\'t have an account?'),
                       InkWell(
                         onTap: () {
                           Navigator.pushNamed(context, registerScreen);
@@ -197,14 +195,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Sign Up',
                           style: GoogleFonts.roboto(
                             fontSize: 20,
-                            // decoration: TextDecoration.underline,
-                            // backgroundColor: Color.fromARGB(10, 255, 10, 56),
                             color: Colors.redAccent,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
-
                       SizedBox(
                         height: getProportionateScreenHeight(20),
                       ),
@@ -261,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Container buildSocialButtons(IconData icon, Color color, Function f) {
     return Container(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(color: Colors.white12),
@@ -275,7 +270,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ]),
         child: IconButton(
           alignment: Alignment.center,
-          padding: EdgeInsets.only(bottom: 5),
+          padding: const EdgeInsets.only(bottom: 5),
           iconSize: 50,
           color: color,
           // Use the FaIcon Widget + FontAwesomeIcons class for the IconData

@@ -6,29 +6,28 @@ import 'package:provider/provider.dart';
 import 'package:track_my_show/services/database_service.dart';
 import 'package:track_my_show/widgets/common_widgets.dart';
 
-// ignore: must_be_immutable
-class MovieImage extends StatefulWidget {
+class ShowImage extends StatefulWidget {
   final String imgUrl;
   final MovieModel movie;
   final ShowModel show;
 
   bool isPresent;
-  MovieImage(
+  ShowImage(
       {Key key, @required this.imgUrl, this.movie, this.show, this.isPresent})
       : super(key: key);
 
   @override
-  _MovieImageState createState() => _MovieImageState();
+  _ShowImageState createState() => _ShowImageState();
 }
 
-class _MovieImageState extends State<MovieImage> {
+class _ShowImageState extends State<ShowImage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<AppUser>(context);
     print(user.uid);
     DatabaseService _databaseService = DatabaseService(uid: user.uid);
     return Container(
-      padding: const EdgeInsets.only(bottom: 3.0),
+      padding: EdgeInsets.only(bottom: 3.0),
       height: MediaQuery.of(context).size.height / 1.6,
       child: Stack(
         children: [
@@ -53,12 +52,12 @@ class _MovieImageState extends State<MovieImage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () {
                       Navigator.pop(context);
                     },
                   ),
-                  const Text(
+                  Text(
                     "TrackMyShow",
                     style: TextStyle(
                         color: Colors.white,
@@ -83,8 +82,8 @@ class _MovieImageState extends State<MovieImage> {
                 if (widget.isPresent) {
                   try {
                     await _databaseService
-                        .deleteMovie(widget.movie.id.toString());
-                    showInSnackBar("Movie Deleted", context);
+                        .deleteShow(widget.show.id.toString());
+                    showInSnackBar("Show Deleted", context);
                     setState(() {
                       widget.isPresent = !widget.isPresent;
                     });
@@ -94,8 +93,8 @@ class _MovieImageState extends State<MovieImage> {
                   }
                 } else {
                   try {
-                    await _databaseService.addMovie(widget.movie);
-                    showInSnackBar("Movie Added", context);
+                    await _databaseService.addShow(widget.show);
+                    showInSnackBar("Show Added", context);
                     setState(() {
                       widget.isPresent = !widget.isPresent;
                     });
@@ -110,13 +109,13 @@ class _MovieImageState extends State<MovieImage> {
                   shape: BoxShape.circle,
                   color: Colors.white,
                   boxShadow: [
-                    const BoxShadow(
+                    BoxShadow(
                         color: Colors.black45,
                         blurRadius: 3.0,
                         offset: Offset(0, 1)),
                   ],
                 ),
-                padding: const EdgeInsets.all(15.0),
+                padding: EdgeInsets.all(15.0),
                 child: Icon(
                   (widget.isPresent) ? Icons.delete : Icons.add,
                   color: Colors.red,
@@ -146,3 +145,99 @@ class CustomClip extends CustomClipper<Path> {
     return true;
   }
 }
+
+// Align(
+//   alignment: Alignment.bottomCenter,
+//   // height: 40,
+//   // bottom: 0,
+//   // // left: 20,
+//   // right: 167,
+//   child: InkWell(
+//     onTap: ,
+//     child: Container(
+//       decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(20),
+//           color: Colors.black54),
+//       height: 50,
+//       child: Icon(
+//         Icons.add,
+//         color: Color(0xFFFFFFFF),
+//         size: 40,
+//       ),
+
+//       // onPressed:
+//     ),
+//   ),
+// ),
+//   // bottom: 0,
+//   // // left: 20,
+//   // right: 167,
+//   child: InkWell(
+//     onTap: ,
+//     child: Container(
+//       decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(20),
+//           color: Colors.black54),
+//       height: 50,
+//       child: Icon(
+//         Icons.add,
+//         color: Color(0xFFFFFFFF),
+//         size: 40,
+//       ),
+
+//       // onPressed:
+//     ),
+//   ),
+// ),
+// child: Row(
+
+//   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//   children: <Widget>[
+
+//     IconButton(
+//       icon: Icon(Icons.share),
+//       onPressed: () {
+//         _databaseService.checkMoviePresent(movie.id.toString());
+//       },
+//     ),
+//   ],
+// ),
+
+//add button only
+//
+//                if (movie != null) {
+//   print("Movie is not null");
+//   print(movie);
+//   bool check =
+//       await _databaseService.checkMoviePresent(movie.id);
+//   //item already present
+//   if (check) {
+//     showInSnackBar("Movie Already Added", context);
+//   } else {
+//     try {
+//       await _databaseService.addMovie(movie);
+//       showInSnackBar("Movie Added", context);
+//     } catch (e) {
+//       print(e.toString());
+//       showInSnackBar(e.toString(), context);
+//     }
+//   }
+// }
+// if (show != null) {
+//   print("Show is not null");
+//   print(show);
+//   bool check = await _databaseService
+//       .checkShowPresent(show.id.toString());
+//   //item already present
+//   if (check) {
+//     showInSnackBar("Show Already Added", context);
+//   } else {
+//     try {
+//       await _databaseService.addShow(show);
+//       showInSnackBar("Show Added", context);
+//     } catch (e) {
+//       print(e.toString());
+//       showInSnackBar(e.toString(), context);
+//     }
+//   }
+// }

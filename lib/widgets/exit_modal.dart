@@ -8,7 +8,7 @@ class ExitModlal extends StatelessWidget {
       child: Card(
         elevation: 5,
         child: Container(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             top: 10,
             left: 10,
             right: 10,
@@ -19,7 +19,7 @@ class ExitModlal extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Text(
+                child: const Text(
                   "Do you want to exit?",
                   style: TextStyle(
                       fontSize: 20,

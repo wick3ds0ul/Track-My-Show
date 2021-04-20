@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:track_my_show/models/ShowModels/show_model.dart';
+import 'package:track_my_show/services/database_service.dart';
 import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/services/shows_api.dart';
-import 'package:track_my_show/widgets/movie_image.dart';
+import 'package:track_my_show/widgets/show_image.dart';
 
 class ShowDetailsScreen extends StatefulWidget {
-  final int id;
+  final Map<String, Object> args;
 
-  const ShowDetailsScreen({Key key, this.id}) : super(key: key);
+  const ShowDetailsScreen({Key key, this.args}) : super(key: key);
 
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
@@ -16,12 +17,15 @@ class ShowDetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<ShowDetailsScreen> {
   ShowsApi _api;
-  Future<ShowModel> showModel;
+  Future<ShowModel> showModel, showModelPresent;
+  DatabaseService _databaseService;
   @override
   void initState() {
-    _api = ShowsApi();
-    showModel = _api.getShowInfo(widget.id);
     super.initState();
+    _api = ShowsApi();
+    showModel = _api.getShowInfo(widget.args['snapid']);
+    _databaseService = DatabaseService(uid: widget.args['uid']);
+    showModelPresent = _databaseService.getShowByID(widget.args['snapid']);
   }
 
   @override
@@ -30,16 +34,17 @@ class _DetailsScreenState extends State<ShowDetailsScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: FutureBuilder<ShowModel>(
-          future: showModel,
+          future: (!widget.args['isPresent']) ? showModel : showModelPresent,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               ShowModel show = snapshot.data;
               return SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    MovieImage(
+                    ShowImage(
                       show: show,
                       imgUrl: getPosterImage(snapshot.data.poster_path),
+                      isPresent: widget.args['isPresent'],
                     ),
                     SizedBox(
                       height: 15,
@@ -50,7 +55,7 @@ class _DetailsScreenState extends State<ShowDetailsScreen> {
                         children: <Widget>[
                           Text(
                             "${snapshot.data.original_title}",
-                            style: Theme.of(context).textTheme.headline,
+                            style: Theme.of(context).textTheme.headline4,
                           ),
                           SizedBox(
                             height: 7.0,
@@ -126,6 +131,53 @@ class _DetailsScreenState extends State<ShowDetailsScreen> {
                                 ],
                               ),
                             ],
+                          ),
+                          SizedBox(height: 13.0),
+                          Container(
+                            // TODO stylized the dropdown button
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 0),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 2, color: Color(0xFF858484))),
+                            child: DropdownButton(
+                              //staus either from DB or default from class
+                              value: snapshot.data.status,
+                              items: <String>[
+                                'Watching',
+                                'Completed',
+                                'OnHold',
+                                'Want to Watch',
+                                'Dropped'
+                              ].map<DropdownMenuItem<String>>(
+                                  (String selectedValue) {
+                                return DropdownMenuItem<String>(
+                                  value: selectedValue,
+                                  child: Text(selectedValue),
+                                );
+                              }).toList(),
+                              onChanged: (String value) async {
+                                setState(() {
+                                  snapshot.data.status = value;
+                                });
+                                ShowModel show = snapshot.data;
+                                if (widget.args['isPresent']) {
+                                  print(snapshot.data.status);
+                                  try {
+                                    await _databaseService.updateShow(show);
+                                  } catch (e) {
+                                    print(e.toString());
+                                  }
+                                }
+                              },
+                              elevation: 5,
+                              icon: Icon(
+                                Icons.arrow_drop_down_sharp,
+                                color: Colors.blue,
+                              ),
+                              iconSize: 42,
+                              focusColor: Color(0xFFF08080),
+                            ),
                           ),
                           SizedBox(height: 13.0),
                           Text(

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:track_my_show/Screens/movieScreen/ui/tabbar.dart';
-import 'package:track_my_show/models/MovieModels/search_item.dart';
 import 'package:track_my_show/models/ShowModels/popular_shows_model.dart';
-import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
-import 'package:track_my_show/services/global.dart';
-import 'package:track_my_show/services/movies_api.dart';
 import 'package:track_my_show/services/shows_api.dart';
 import 'package:track_my_show/widgets/custom_drawer.dart';
+import 'package:track_my_show/widgets/data_search.dart';
 import 'package:track_my_show/widgets/exit_modal.dart';
-import 'package:track_my_show/widgets/show_item.dart';
-import 'package:track_my_show/Screens/movieScreen/movieScreen.dart';
+import 'package:track_my_show/widgets/movie_item.dart';
 
 class ShowScreen extends StatefulWidget {
   @override
@@ -24,7 +20,6 @@ class _ShowScreenState extends State<ShowScreen> {
   ShowsApi _api;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _api = ShowsApi();
     popularShows = _api.getPopularShows();
@@ -48,17 +43,17 @@ class _ShowScreenState extends State<ShowScreen> {
               appBar: AppBar(
                 toolbarHeight: 60,
                 title: Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: const Text(
                     'Shows',
-                    style:
-                        TextStyle(fontFamily: 'Comfortaa', color: Colors.black),
+                    style: const TextStyle(
+                        fontFamily: 'Comfortaa', color: Colors.black),
                   ),
                 ),
-                backgroundColor: Color(0xFFFFFFFF),
+                backgroundColor: const Color(0xFFFFFFFF),
                 leading: Builder(builder: (BuildContext context) {
                   return IconButton(
-                    icon: Icon(Icons.menu_open_rounded),
+                    icon: const Icon(Icons.menu_open_rounded),
                     color: Colors.black,
                     onPressed: () {
                       Scaffold.of(context).openDrawer();
@@ -80,7 +75,7 @@ class _ShowScreenState extends State<ShowScreen> {
               body: TabBarView(children: [
                 PopularTabContent(popularShows: popularShows),
               ]),
-              backgroundColor: Color(0xFFFFFFFF),
+              backgroundColor: const Color(0xFFFFFFFF),
             ),
           ),
         ),
@@ -118,20 +113,22 @@ class PopularTabContent extends StatelessWidget {
                 if (snapshot.hasData) {
                   return GridView.builder(
                     itemBuilder: (ctx, id) {
-                      return ShowItem(
+                      return MovieItem(
                         snapshot: snapshot.data[id],
                       );
                     },
                     itemCount: snapshot.data.length,
                     padding: const EdgeInsets.all(5),
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 4 / 5,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5),
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            childAspectRatio: 4 / 5,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5),
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator()); // loading
+                  return const Center(
+                      child: CircularProgressIndicator()); // loading
 
                 }
               },
@@ -140,102 +137,5 @@ class PopularTabContent extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class DataSearch extends SearchDelegate {
-  @override
-  Widget buildResults(BuildContext context) {
-    return FutureBuilder<List<SearchItem>>(
-      future: MoviesApi().searchItems(query),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data == null) {
-            return Center(child: Text('Enter a valid query.'));
-          } else {
-            // print(snapshot.data);
-            List<SearchItem> searchItems = snapshot.data;
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                return searchItems[index].checkNullValues()
-                    ? SizedBox.shrink()
-                    : Card(
-                        child: ListTile(
-                          leading: Image.network(
-                            getPosterImage(searchItems[index].imageURL),
-                            fit: BoxFit.cover,
-                          ),
-                          title: Text('${searchItems[index].name}'),
-                          subtitle: Text(
-                            '${searchItems[index].overview}',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          trailing: Text(
-                            '${searchItems[index].media_type}'.toUpperCase(),
-                          ),
-                          onTap: () {
-                            print(
-                                "SEARCH API with ID:${searchItems[index].id}");
-                            searchItems[index].media_type == 'tv'
-                                ? Navigator.of(context).pushNamed(
-                                    showDetailsScreen,
-                                    arguments: searchItems[index].id)
-                                : Navigator.pushNamed(
-                                    context, movieDetailsScreen,
-                                    arguments: searchItems[index].id);
-                          },
-                        ),
-                      );
-              },
-              itemCount: searchItems.length,
-            );
-          }
-        } else {
-          return Center(child: CircularProgressIndicator()); // loading
-        }
-      },
-    );
-  }
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    //Actions for AppBar
-    return [
-      //This will clear the text
-      IconButton(
-          icon: Icon(
-            Icons.clear,
-          ),
-          onPressed: () {
-            query = "";
-          })
-    ];
-    // throw UnimplementedError(); height: MediaQuery.of(context).size.height * 0.87,
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    //Leading icon on the left of AppBar
-    return IconButton(
-        icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_arrow,
-          progress: transitionAnimation,
-        ),
-        onPressed: () {
-          close(context, null);
-          // Navigator.of(context).pop();
-        });
-    // throw UnimplementedError();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    //show when someone searches for something
-    return Container();
   }
 }

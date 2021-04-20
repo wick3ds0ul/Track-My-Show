@@ -1,5 +1,3 @@
-// import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:track_my_show/router/routenames.dart';
 import 'package:track_my_show/services/auth_service.dart';
@@ -13,22 +11,16 @@ class CustomDrawer extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.3,
       child: Drawer(
         child: Container(
-          // color: Color(0xFFF0EAEA),
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(top: 12, bottom: 5, left: 5, right: 5),
+                padding: const EdgeInsets.only(
+                    top: 12, bottom: 5, left: 5, right: 5),
                 child: Text(
                   "Track\nMy\nShow",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    // shadows: [
-                    //   BoxShadow(
-                    //       color: Colors.black.withOpacity(0.1),
-                    //       offset: const Offset(.5, 1.0),
-                    //       blurRadius: 1.0),
-                    // ],
                     fontFamily: 'comfortaa',
                     fontSize: 20,
                     fontWeight: FontWeight.normal,
@@ -36,16 +28,10 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              // Divider(
-              //   thickness: 1.0,
-              // ),
               AppBarWidget(
                 title: 'Movies',
                 icon: Icons.movie,
                 routeF: () {
-                  // print(ModalRoute.of(context).settings.name);
-                  // if (ModalRoute.of(context).settings.name == homeScreen) {
-                  // } else
                   Navigator.of(context).pushNamed(movieScreen);
                 },
               ),
@@ -112,7 +98,7 @@ class AppBarWidget extends StatelessWidget {
                 ),
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.black,
                       fontFamily: 'comfortaa',
                       fontWeight: FontWeight.w600),
