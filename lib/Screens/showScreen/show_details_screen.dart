@@ -4,7 +4,7 @@ import 'package:track_my_show/models/ShowModels/show_model.dart';
 import 'package:track_my_show/services/database_service.dart';
 import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/services/shows_api.dart';
-import 'package:track_my_show/widgets/show_image.dart';
+import 'package:track_my_show/unusedWidgets/show_image.dart';
 
 class ShowDetailsScreen extends StatefulWidget {
   final Map<String, Object> args;

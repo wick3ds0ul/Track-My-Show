@@ -115,7 +115,7 @@ class _ShowImageState extends State<ShowImage> {
                         offset: Offset(0, 1)),
                   ],
                 ),
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Icon(
                   (widget.isPresent) ? Icons.delete : Icons.add,
                   color: Colors.red,
@@ -145,99 +145,3 @@ class CustomClip extends CustomClipper<Path> {
     return true;
   }
 }
-
-// Align(
-//   alignment: Alignment.bottomCenter,
-//   // height: 40,
-//   // bottom: 0,
-//   // // left: 20,
-//   // right: 167,
-//   child: InkWell(
-//     onTap: ,
-//     child: Container(
-//       decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(20),
-//           color: Colors.black54),
-//       height: 50,
-//       child: Icon(
-//         Icons.add,
-//         color: Color(0xFFFFFFFF),
-//         size: 40,
-//       ),
-
-//       // onPressed:
-//     ),
-//   ),
-// ),
-//   // bottom: 0,
-//   // // left: 20,
-//   // right: 167,
-//   child: InkWell(
-//     onTap: ,
-//     child: Container(
-//       decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(20),
-//           color: Colors.black54),
-//       height: 50,
-//       child: Icon(
-//         Icons.add,
-//         color: Color(0xFFFFFFFF),
-//         size: 40,
-//       ),
-
-//       // onPressed:
-//     ),
-//   ),
-// ),
-// child: Row(
-
-//   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//   children: <Widget>[
-
-//     IconButton(
-//       icon: Icon(Icons.share),
-//       onPressed: () {
-//         _databaseService.checkMoviePresent(movie.id.toString());
-//       },
-//     ),
-//   ],
-// ),
-
-//add button only
-//
-//                if (movie != null) {
-//   print("Movie is not null");
-//   print(movie);
-//   bool check =
-//       await _databaseService.checkMoviePresent(movie.id);
-//   //item already present
-//   if (check) {
-//     showInSnackBar("Movie Already Added", context);
-//   } else {
-//     try {
-//       await _databaseService.addMovie(movie);
-//       showInSnackBar("Movie Added", context);
-//     } catch (e) {
-//       print(e.toString());
-//       showInSnackBar(e.toString(), context);
-//     }
-//   }
-// }
-// if (show != null) {
-//   print("Show is not null");
-//   print(show);
-//   bool check = await _databaseService
-//       .checkShowPresent(show.id.toString());
-//   //item already present
-//   if (check) {
-//     showInSnackBar("Show Already Added", context);
-//   } else {
-//     try {
-//       await _databaseService.addShow(show);
-//       showInSnackBar("Show Added", context);
-//     } catch (e) {
-//       print(e.toString());
-//       showInSnackBar(e.toString(), context);
-//     }
-//   }
-// }

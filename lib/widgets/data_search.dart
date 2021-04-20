@@ -65,10 +65,8 @@ class DataSearch extends SearchDelegate {
                                 'uid': user.uid,
                                 'isPresent': isShowPresentInFirebaseDB
                               };
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return ShowDetailsScreen(args: data);
-                              }));
+                              Navigator.of(context).pushNamed(showDetailsScreen,
+                                  arguments: data);
                             }
                           },
                         ),
