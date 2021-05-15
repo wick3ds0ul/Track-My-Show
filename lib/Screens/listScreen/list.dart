@@ -11,12 +11,16 @@ import '../../services/database_service.dart';
 import 'package:track_my_show/services/global.dart';
 import 'package:track_my_show/widgets/movie_item.dart';
 
+enum SortingChoices { sortByName, SortByRating }
+
 class MyList extends StatefulWidget {
   @override
   _MyListState createState() => _MyListState();
 }
 
 class _MyListState extends State<MyList> {
+  //Sorting
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<AppUser>(context);

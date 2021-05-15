@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:track_my_show/Screens/animeScreen/anime_screen.dart';
 import 'package:track_my_show/Screens/listScreen/list.dart';
 import 'package:track_my_show/Screens/movieScreen/movie_details_screen.dart';
 import 'package:track_my_show/Screens/forgot_password.dart';
@@ -26,6 +27,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MovieScreen());
       case showScreen:
         return MaterialPageRoute(builder: (_) => ShowScreen());
+      case animeScreen:
+        return MaterialPageRoute(builder: (_) => AnimeScreen());
       case forgotPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgotPassword());
       case movieDetailsScreen:

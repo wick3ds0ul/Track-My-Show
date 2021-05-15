@@ -57,12 +57,20 @@ class CustomDrawer extends StatelessWidget {
                 },
               ),
               AppBarWidget(
+                title: 'Anime',
+                icon: Icons.list,
+                routeF: () {
+                  Navigator.of(context).pushNamed(animeScreen);
+                },
+              ),
+              AppBarWidget(
                 title: 'List',
                 icon: Icons.list,
                 routeF: () {
                   Navigator.of(context).pushNamed(listScreen);
                 },
               ),
+
               AppBarWidget(
                 title: 'Logout',
                 icon: Icons.login,
