@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:track_my_show/Screens/animeScreen/anime_item.dart';
 import 'package:track_my_show/services/anime_api.dart';
 import 'package:track_my_show/widgets/custom_drawer.dart';
 import 'package:track_my_show/services/shows_api.dart';
@@ -117,21 +118,20 @@ class TrendingTabContent extends StatelessWidget {
                   return Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasData) {
-                  // return GridView.builder(
-                  //   itemBuilder: (ctx, id) {
-                  //     return ShowItem(
-                  //       snapshot: snapshot.data[id],
-                  //     );
-                  //   },
-                  //   itemCount: snapshot.data.length,
-                  //   padding: const EdgeInsets.all(5),
-                  //   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  //       maxCrossAxisExtent: 200,
-                  //       childAspectRatio: 4 / 5,
-                  //       crossAxisSpacing: 5,
-                  //       mainAxisSpacing: 5),
-                  // );
-                  print(snapshot.data);
+                  return GridView.builder(
+                    itemBuilder: (ctx, index) {
+                      return AnimeItem(
+                        animeModel: snapshot.data[index],
+                      );
+                    },
+                    itemCount: snapshot.data.length,
+                    padding: const EdgeInsets.all(5),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 4 / 5,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5),
+                  );
                   return Text("Got Data");
                 } else {
                   return Center(child: Text("Something went wrong")); // loading

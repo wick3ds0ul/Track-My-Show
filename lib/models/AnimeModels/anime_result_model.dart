@@ -1,15 +1,13 @@
 import 'anime_model.dart';
 
 class AnimeResultModel {
-  List<AnimeModel> data;
-
-  AnimeResultModel({this.data});
-
+  List<AnimeModel> anime;
+  AnimeResultModel({this.anime});
   AnimeResultModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<AnimeModel>();
+      anime = new List<AnimeModel>();
       json['data'].forEach((v) {
-        data.add(new AnimeModel.fromJson(v));
+        anime.add(new AnimeModel.fromJson(v));
       });
     }
   }
